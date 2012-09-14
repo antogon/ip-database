@@ -12,7 +12,6 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20120913185744) do
-
   create_table "networks", :force => true do |t|
     t.integer  "network_no",                        :null => false
     t.integer  "netmask",                           :null => false
