@@ -11,19 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120913205056) do
+ActiveRecord::Schema.define(:version => 20120914201310) do
 
   create_table "ip_addresses", :force => true do |t|
-    t.string   "contact",                           :null => false
-    t.string   "location",                          :null => false
-    t.integer  "device_type",                       :null => false
+    t.string   "contact",                                        :null => false
+    t.string   "location",                                       :null => false
+    t.integer  "device_type",                                    :null => false
     t.integer  "network_parent"
     t.text     "desc"
-    t.boolean  "is_static_dhcp", :default => false, :null => false
-    t.boolean  "has_dns_assoc",  :default => false, :null => false
+    t.boolean  "is_static_dhcp",              :default => false, :null => false
+    t.boolean  "has_dns_assoc",               :default => false, :null => false
     t.string   "mac_address"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.integer  "ip_v4"
+    t.integer  "ip_v6_1",        :limit => 8
+    t.integer  "ip_v6_2",        :limit => 8
   end
 
   create_table "networks", :force => true do |t|
