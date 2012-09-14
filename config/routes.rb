@@ -1,5 +1,6 @@
 IpDatabase::Application.routes.draw do
 
+  resources :networks
   resources :ip_addresses
 
 	root :to => 'application#index'
