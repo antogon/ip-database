@@ -1,0 +1,21 @@
+<h1>Listing dhcp_ranges</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @dhcp_ranges.each do |dhcp_range| %>
+  <tr>
+    <td><%= link_to 'Show', dhcp_range %></td>
+    <td><%= link_to 'Edit', edit_dhcp_range_path(dhcp_range) %></td>
+    <td><%= link_to 'Destroy', dhcp_range, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Dhcp range', new_dhcp_range_path %>
