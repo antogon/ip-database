@@ -1,5 +1,7 @@
 IpDatabase::Application.routes.draw do
 
+  resources :dns_device_assocs
+
   resources :dhcp_ranges
 
   resources :device_types

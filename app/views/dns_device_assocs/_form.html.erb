@@ -1,0 +1,17 @@
+<%= form_for(@dns_device_assoc) do |f| %>
+  <% if @dns_device_assoc.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dns_device_assoc.errors.count, "error") %> prohibited this dns_device_assoc from being saved:</h2>
+
+      <ul>
+      <% @dns_device_assoc.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
