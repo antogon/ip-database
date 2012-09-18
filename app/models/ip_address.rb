@@ -9,4 +9,13 @@ class IPAddress < ActiveRecord::Base
 	def ip_v4
 		IP.new(['v4',read_attribute(:ip_v4)]).to_s
 	end
+
+	def ip_v6= new_ip
+		ip = IP.new(new_ip)
+		write_attribute(:ip_v6, ip.to_i)
+	end
+	
+	def ip_v6
+		IP.new(['v6',read_attribute(:ip_v6)]).to_s
+	end
 end
