@@ -1,5 +1,7 @@
 IpDatabase::Application.routes.draw do
 
+  resources :device_types
+
   resources :networks
   resources :ip_addresses
 
