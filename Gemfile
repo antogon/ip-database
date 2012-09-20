@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.8'
 gem 'mysql2'
 gem 'ruby-ip'
+gem 'rb-readline'
+gem 'therubyracer'
 
 # Gems used only for assets and not required
 # in production environments by default.
