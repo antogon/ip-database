@@ -7,6 +7,7 @@ gem 'rb-readline'
 gem 'therubyracer'
 gem 'devise', '~> 2.0.0'
 gem 'net-ldap', '~> 0.2.2'
+gem 'devise_ldap_authenticatable'
 
 
 # Gems used only for assets and not required
