@@ -2,8 +2,8 @@
 
 	<%= form_for(:user, :url => new_user_session_path, :class => "form-inline") do |f| %>
 		<legend>Sign in</legend>
- 		<label><%= f.label :email %></label><br />
- 		<%= f.email_field :email %>
+ 		<label><%= f.label :name %></label><br />
+ 		<%= f.text_field :name %>
 
  		<label><%= f.label :password %></label><br />
  		<%= f.password_field :password %>
