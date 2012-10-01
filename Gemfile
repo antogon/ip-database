@@ -5,6 +5,8 @@ gem 'mysql2'
 gem 'ruby-ip'
 gem 'rb-readline'
 gem 'therubyracer'
+gem 'devise'
+gem 'net-ldap'
 
 # Gems used only for assets and not required
 # in production environments by default.

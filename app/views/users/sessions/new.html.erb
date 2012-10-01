@@ -1,0 +1,15 @@
+<div class="span4 offset3 content-blurb shadow">
+
+	<%= form_for(:user, :url => new_user_session_path, :class => "form-inline") do |f| %>
+		<legend>Sign in</legend>
+ 		<label><%= f.label :email %></label><br />
+ 		<%= f.email_field :email %>
+
+ 		<label><%= f.label :password %></label><br />
+ 		<%= f.password_field :password %>
+
+ 		<div class="submit"><%= f.submit "Sign in" %></div>
+	<% end %>
+
+	<%= render "links" %>
+</div>

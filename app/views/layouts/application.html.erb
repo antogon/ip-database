@@ -17,11 +17,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-   			<%= link_to 'IP-Database', url_for(:action => 'index'), {:class => 'brand'} %>
+   			<%= link_to 'IP-Database', url_for(:action => 'index', :controller => '/application'), {:class => 'brand'} %>
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li>
-  						<%= link_to 'Home', url_for(:action => 'index') %>
+  						<%= link_to 'Home', url_for(:action => 'index', :controller => '/application') %>
             </li>
           </ul>
         </div>
@@ -31,6 +31,9 @@
 	<div class="container content-bg shadow">
 		<div class="row">
 			<div class="span8 offset 2">
+			<br/><br/>
+			<p class="notice"><%= notice %></p>
+			       <p class="alert"><%= alert %></p>
 				<%= yield %>
 			</div>
 		</div>
