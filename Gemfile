@@ -7,6 +7,7 @@ gem 'rb-readline'
 gem 'therubyracer'
 gem 'net-ldap'
 gem 'devise'
+gem 'debugger'
 
 # Gems used only for assets and not required
 # in production environments by default.
