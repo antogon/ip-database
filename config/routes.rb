@@ -1,5 +1,7 @@
 IpDatabase::Application.routes.draw do
 
+  devise_for :users
+
   resources :dns_device_assocs
 
   resources :dhcp_ranges
