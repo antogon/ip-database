@@ -4,14 +4,13 @@ Warden::Strategies.add(:hybrid_override) do
       end
  
       def authenticate!
-				debugger
-				if !:params['user'].nil?
+				if params['user'].present?
 					ldap = Net::LDAP.new
 					ldap.host = '130.127.255.249' # IP for 'ldap.clemson.edu'
 					ldap.port = 389
-					ldap.auth :params['user']['username'], :params['user']['password']
+					ldap.auth params['user']['username'], params['user']['password']
 					if ldap.bind
-						success! :params['user']
+						success! params['user']
 					else
 						fail! "It's a sad day in Crazytown."
 					end
