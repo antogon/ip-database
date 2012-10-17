@@ -1,5 +1,6 @@
-class IPAddress < ActiveRecord::Base
+class IpAddress < ActiveRecord::Base
 	belongs_to :network, :foreign_key => 'network_parent'
+	has_one :device_type, :foreign_key => 'id'
 	has_many :dns_devices, :class_name => 'DnsDeviceAssoc', :foreign_key => 'ip_id'
 
 	def ip_v4= new_ip

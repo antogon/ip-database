@@ -1,5 +1,71 @@
 <p id="notice"><%= notice %></p>
 
-
 <%= link_to 'Edit', edit_ip_address_path(@ip_address) %> |
 <%= link_to 'Back', ip_addresses_path %>
+<br/>
+<table>
+	<tr>
+		<td>ID:</td>
+		<td><%= @ip_address.id -%></td>
+	</tr>
+	<tr>
+		<td>IPv4 Address:</td>
+		<td><%= @ip_address.ip_v4 -%></td>
+	</tr>
+	<tr>
+		<td>IPv6 Address:</td>
+		<td><%= @ip_address.ip_v6 -%></td>
+	</tr>
+	<tr>
+		<td>Contact Name:</td>
+		<td><%= @ip_address.contact -%></td>
+	</tr>
+	<tr>
+		<td>Location:</td>
+		<td><%= @ip_address.location -%></td>
+	</tr>
+	<tr>
+		<td>Device Type:</td>
+		<td><%= @ip_address.device_type.name -%></td>
+	</tr>
+	<tr>
+		<td>Parent Network:</td>
+		<td><%= link_to @ip_address.network.name, networks_path(@ip_address.network) -%></td>
+	</tr>
+	<tr>
+		<td>Parent Network:</td>
+		<td><%= link_to @ip_address.network.name, networks_path(@ip_address.network) -%></td>
+	</tr>
+	<tr>
+		<td>Description:</td>
+		<td><%= @ip_address.desc -%></td>
+	</tr>
+	<tr>
+		<td>Mac Address:</td>
+		<td><%= @ip_address.mac_address -%></td>
+	</tr>
+	<tr>
+		<td>Created At:</td>
+		<td><%= @ip_address.created_at -%></td>
+	</tr>
+	<tr>
+		<td>Updated At:</td>
+		<td><%= @ip_address.updated_at -%></td>
+	</tr>
+	<tr>
+		<td>Static DHCP:</td>
+		<td><%= (@ip_address.is_static_dhcp)?"Yes":"No" -%></td>
+	</tr>
+	<tr>
+		<td>Associated DNS Devices:</td>
+		<td>
+			<% if @ip_address.dns_devices != [] -%>
+				<% @ip_address.dns_devices.each do |d| %>
+					<%= link_to d.name, dns_device_assocs_path(d) -%><br/>
+				<% end %>
+			<% else %>
+				<%= "None" -%>
+			<% end %>
+		</td>
+	</tr>
+</table>
