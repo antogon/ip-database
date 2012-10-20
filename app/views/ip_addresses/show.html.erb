@@ -29,7 +29,13 @@
 		</tr>
 		<tr>
 			<td>Parent Network:</td>
-			<td><%= link_to @ip_address.network.name, network_path(@ip_address.network) -%></td>
+			<td>
+				<%- if @ip_address.has_parent? -%>
+					<%= link_to @ip_address.network.name, network_path(@ip_address.network) -%>
+				<%- else -%>
+					This IP is orphaned.
+				<%- end -%>
+			</td>
 		</tr>
 		<tr>
 			<td>Description:</td>
