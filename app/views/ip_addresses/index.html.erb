@@ -1,21 +1,47 @@
-<h1>Listing ip_addresses</h1>
+<div class="span10 content-blurb shadow">
 
-<table>
+<h1>Listing of the IP Addresses</h1>
+
+<table class="table table-striped table-bordered table-hover table-condensed">
+	<thead>
   <tr>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Contact Name</th>
+    <th>Location</th>
+    <th>Device Type</th>
+    <th>Parent Network</th>
+    <th>Is Static DHCP</td>
+    <th>DNS Association</th>
+    <th>IP Address</th>
+    <th>Options</th>
   </tr>
-
+	</thead>
+<tbody>
 <% @ip_addresses.each do |ip_address| %>
-  <tr>
-    <td><%= link_to 'Show', ip_address %></td>
-    <td><%= link_to 'Edit', edit_ip_address_path(ip_address) %></td>
-    <td><%= link_to 'Destroy', ip_address, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+    <tr>
+      <td> <%= ip_address.contact %> </td>
+      <td> <%= ip_address.location %> </td>
+      <td> <%= ip_address.device_type %></td>
+      <td> <%= ip_address.network_parent %></td>
+      <td> <%= ip_address.is_static_dhcp %></td>
+      <td> <%= ip_address.has_dns_assoc %></td>
+      <td>
+  	<%- if ip_address.ip_v4? -%>
+                <%= ip_address.ip_v4 -%>
+        <%- elsif ip_address.ip_v6? -%>
+                <%= ip_address.ip_v6 -%>
+        <%- end -%>
+      </td>
+      <td>
+	<%= link_to 'Show', ip_address %> |
+    	<%= link_to 'Edit', edit_ip_address_path(ip_address) %> |
+    	<%= link_to 'Destroy', ip_address, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </td>
+   </tr>
 <% end %>
+	</tbody>
 </table>
 
 <br />
 
 <%= link_to 'New Ip address', new_ip_address_path %>
+</div>
