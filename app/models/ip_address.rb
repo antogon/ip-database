@@ -4,11 +4,13 @@ class IpAddress < ActiveRecord::Base
 	has_many :dns_devices, :class_name => 'DnsDeviceAssoc', :foreign_key => 'ip_id'
 
 	def ip_v4?
-		read_attribute(:ip_v6)==0
+		i = read_attribute(:ip_v6)
+		i==0 || i.nil?
 	end
 
 	def ip_v6?
-		read_attribute(:ip_v4)==0
+		i = read_attribute(:ip_v4)
+		i==0 || i.nil?
 	end
 
 	def ip_v4= new_ip
