@@ -32,6 +32,6 @@ class IpAddress < ActiveRecord::Base
 	end
 	
 	def ip_v6
-		IP.new(['v6',read_attribute(:ip_v6).to_i.to_s(16)])
+		IP.new(['v6',read_attribute(:ip_v6).to_i.to_s(16)]).to_s
 	end
 end
