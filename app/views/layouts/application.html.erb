@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IpDatabase</title>
+  <title>IP-Database</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -20,8 +20,17 @@
    			<%= link_to 'IP-Database', url_for(:action => 'index'), {:class => 'brand'} %>
         <div class="nav-collapse collapse">
           <ul class="nav">
-            <li>
-  						<%= link_to 'Home', url_for(:action => 'index') %>
+            <li class="<%= (params[:controller]=="ip_addresses")?"active":""-%>">
+  						<%= link_to 'IP Addresses', url_for(:controller => 'ip_addresses', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="device_types")?"active":""-%>">
+  						<%= link_to 'Device Types', url_for(:controller => 'device_types', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="networks")?"active":""-%>">
+  						<%= link_to 'Networks', url_for(:controller => 'networks', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="dhcp_ranges")?"active":""-%>">
+  						<%= link_to 'DHCP Ranges', url_for(:controller => 'dhcp_ranges', :action => 'index')%>
             </li>
           </ul>
         </div>
