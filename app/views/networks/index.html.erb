@@ -1,21 +1,56 @@
-<h1>Listing networks</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @networks.each do |network| %>
-  <tr>
-    <td><%= link_to 'Show', network %></td>
-    <td><%= link_to 'Edit', edit_network_path(network) %></td>
-    <td><%= link_to 'Destroy', network, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Network', new_network_path %>
+<p id="notice"><%= notice %></p>
+<div class="span10 content-blurb shadow">
+	<h3 class="content-header">
+	Listing Networks
+	</h3>
+	<hr>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+		<thead>
+			<tr>
+				<td>ID</td>
+				<td>Network Number</td>
+				<td>Netmask</td>
+				<td>Name</td>
+				<td>Router Name</td>
+				<td>Is VLAN?</td>
+				<td>Is HSRP?</td>
+				<td>Parent Network</td>
+				<td>Options</td>
+			</tr>
+		</thead>
+		<tbody>
+			<% @networks.each do |network| %>
+			<tr>
+					<td><%= network.id -%></td>
+					<td>
+						<%- net_ip = network.network_ip -%>
+						<%- if net_ip.ip_v4? -%>
+							<%= net_ip.ip_v4 -%>
+						<%- elsif net_ip.ip_v6? -%>
+							<%= net_ip.ip_v6 -%>
+						<%- end -%>
+					</td>
+					<td>
+						<%- net_ip = network.netmask_ip -%>
+						<%- if net_ip.ip_v4? -%>
+							<%= net_ip.ip_v4 -%>
+						<%- elsif net_ip.ip_v6? -%>
+							<%= net_ip.ip_v6 -%>
+						<%- end -%>
+					</td>
+					<td><%= network.name -%></td>
+					<td><%= network.router_name -%></td>
+					<td><%= network.is_vrf -%></td>
+					<td><%= network.is_hsrp -%></td>
+					<td><%= (network.network_parent.nil?)?"This network is orphaned.":network.network_parent -%></td>
+					<td>
+ 		   			<%= link_to 'Show', network %> | 
+ 	  	 			<%= link_to 'Edit', edit_network_path(network) %> | 
+ 	   				<%= link_to 'Destroy', network, method: :delete, data: { confirm: 'Are you sure?' } %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= link_to 'New Network', new_network_path %>
+</div>
