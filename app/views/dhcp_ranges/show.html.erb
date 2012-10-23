@@ -1,5 +1,18 @@
 <p id="notice"><%= notice %></p>
+<div class="span10 content-blurb shadow">
 
+	<%= link_to 'Edit', edit_dhcp_range_path(@dhcp_range) %> |
+	<%= link_to 'Back', dhcp_ranges_path %>
 
-<%= link_to 'Edit', edit_dhcp_range_path(@dhcp_range) %> |
-<%= link_to 'Back', dhcp_ranges_path %>
+<hr>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tr>
+<td>Start IP address:</td>
+<td><%= @dhcp_range.start_ip -%></td>
+</tr>
+<tr>
+<td>End IP address:</td>
+<td><%= @dhcp_range.end_ip -%></td>
+</tr>
+</table>
+</div>
