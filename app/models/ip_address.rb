@@ -7,6 +7,14 @@ class IpAddress < ActiveRecord::Base
 		!self.network.nil?
 	end
 
+	def ip_str
+		if ip_v4?
+			ip_v4
+		elsif ip_v6?
+			ip_v6
+		end
+	end
+
 	def ip_v4?
 		i = read_attribute(:ip_v6)
 		i==0 || i.nil?

@@ -1,0 +1,21 @@
+<% url = IpDatabase::Application.routes.url_helpers %>
+$(document).ready(function(){
+	$('#index-table').dataTable({
+			"bServerSide": true,
+			//"sServerMethod": "GET",
+			"sAjaxSource": "<%= url.url_for :controller => 'ip_addresses', :action => 'dataTable', :only_path => true %>",
+			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
+	      oSettings.jqXHR = $.ajax( {
+				 dataType: 'json',
+         type: "POST", 
+ 	   		 headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+ 	       url: sSource,
+ 	       data: aoData,
+ 	       success: fnCallback
+ 	      } );
+ 	    },
+			"aoColumnDefs": [
+				{ "bSearchable": false, "aTargets": [ 4,5,7 ] }
+			]
+		});
+});
