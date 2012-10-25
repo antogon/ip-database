@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IpDatabase</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+</head>
+<body>
+	<div class="hero-unit purple-grad">
+		<h1>Clemson University IP-Database</h1>
+		<p>Tracking IPv4 and IPv6 Networks</p>
+		<div class='navbar'>
+			<div class='navbar-inner'>
+				<button class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
+					<span class='icon-bar'></span>
+					<span class='icon-bar'></span>
+					<span class='icon-bar'></span>
+				</button>
+				<div class='nav-collapse collapse'>
+					<ul class='nav'>
+						<li>
+							<%= link_to 'Home', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'Add', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'Edit/Delete', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'View Networks', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'Documentation', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+					</ul>
+				</div>
+				<div class='nav-collapse collapse'>
+					<form class='navbar-search pull-left'>
+						<input type='text' class='search-query' placeholder='Search'>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container row-fluid">
+		<div class="span10 offset1">
+			<%= yield %>
+		</div>
+	</div>
+	<div class='hero-unit purple-grad'>
+		<div class='navbar'>
+			<div class='navbar-inner'>
+				<button class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
+					<span class='icon-bar'></span>
+					<span class='icon-bar'></span>
+					<span class='icon-bar'></span>
+				</button>
+				<div class='nav-collapse collapse'>
+					<ul class='nav'>
+						<li>
+							<%= link_to 'Home', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'Add', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'Edit/Delete', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'View Networks', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+						<li>
+							<%= link_to 'Documentation', url_for(:action => 'index'), {:class => ''} %>
+						</li>
+					</ul>
+				</div>
+				<div class='nav-collapse collapse'>
+					<form class='navbar-search pull-left'>
+						<input type='text' class='search-query' placeholder='Search'>
+					</form>
+				</div>
+			</div>
+		</div>
+		<p>Contact Support at someone@clemson.edu</p>
+	</div>
+</body>
+</html>

@@ -1,14 +1,26 @@
 body {
-	background-image: url('<%= asset_path("grid.png")  %>');
+	background-image: url('<%= asset_path("bodyBackground.png")  %>');
 }
 
 .content-bg {
-	background: #EEEEEE;
-	height: 500em;
+	background: #DEDEDE;
+	height: 500px;
+	overflow-y: scroll;
 }
 
 .shadow {
   -moz-box-shadow:    3px 3px 5px 6px #ccc;
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;
   box-shadow:         3px 3px 5px 6px #ccc;
+}
+
+.purple-grad {
+	background: #b25fcb; /* Old browsers */
+	background: -moz-linear-gradient(top, #b25fcb 0%, #8f00a8 36%, #c837db 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b25fcb), color-stop(36%,#8f00a8), color-stop(100%,#c837db)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b25fcb', endColorstr='#c837db',GradientType=0 ); /* IE6-9 */
 }

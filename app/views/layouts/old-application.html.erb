@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IpDatabase</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+   			<%= link_to 'IP-Database', url_for(:action => 'index'), {:class => 'brand'} %>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li>
+  						<%= link_to 'Home', url_for(:action => 'index') %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+	<div class="container content-bg shadow">
+		<div class="row">
+			<div class="span8 offset 2">
+				<%= yield %>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
