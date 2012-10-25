@@ -23,26 +23,16 @@
 			<tr>
 					<td><%= network.id -%></td>
 					<td>
-						<%- net_ip = network.network_ip -%>
-						<%- if net_ip.ip_v4? -%>
-							<%= net_ip.ip_v4 -%>
-						<%- elsif net_ip.ip_v6? -%>
-							<%= net_ip.ip_v6 -%>
-						<%- end -%>
+						<%= network.network_no -%>
 					</td>
 					<td>
-						<%- net_ip = network.netmask_ip -%>
-						<%- if net_ip.ip_v4? -%>
-							<%= net_ip.ip_v4 -%>
-						<%- elsif net_ip.ip_v6? -%>
-							<%= net_ip.ip_v6 -%>
-						<%- end -%>
+						<%= network.netmask -%>
 					</td>
 					<td><%= network.name -%></td>
 					<td><%= network.router_name -%></td>
 					<td><%= network.is_vrf -%></td>
 					<td><%= network.is_hsrp -%></td>
-					<td><%= (network.network_parent.nil?)?"This network is orphaned.":network.network_parent -%></td>
+					<td><%= (network.parent.nil?)?"This network is orphaned.":network.parent.name -%></td>
 					<td>
  		   			<%= link_to 'Show', network %> | 
  	  	 			<%= link_to 'Edit', edit_network_path(network) %> | 
