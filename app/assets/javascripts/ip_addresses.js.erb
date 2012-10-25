@@ -15,7 +15,15 @@ $(document).ready(function(){
  	      } );
  	    },
 			"aoColumnDefs": [
-				{ "bSearchable": false, "aTargets": [ 4,5,7 ] }
+				{ "bSearchable": false, "aTargets": [ 4,5,7 ] },
+				{
+					"mRender": function ( data, type, full ) {
+					        return '<a href="/ip_addresses/'+data+'">Show</a><br/>'+
+											'<a href="/ip_addresses/'+data+'/edit">Edit</a><br/>'+
+											'<a rel="nofollow" data-method="delete" data-confirm="Are you sure?" href="/ip_addresses/'+data+'">Destroy</a>';
+									      },
+					"aTargets": [7]
+				}
 			]
 		});
 });
