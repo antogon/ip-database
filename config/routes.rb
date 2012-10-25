@@ -7,6 +7,8 @@ IpDatabase::Application.routes.draw do
   resources :device_types
 
   resources :networks
+
+	post 'ip/dataTable' => 'ip_addresses#dataTable'
   resources :ip_addresses
 
 	root :to => 'application#index'

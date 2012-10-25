@@ -10,6 +10,24 @@ class IpAddressesController < ApplicationController
     end
   end
 
+	# GET /ip/dataTable.json
+	def dataTable
+		ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+		aaData = []
+		ip_addresses.each do |ip|
+			aaData.push [ ip.contact, ip.location, (ip.type.nil?)?"None":ip.type.name,
+				(ip.network.nil?)?"None":ip.network.name, ip.is_static_dhcp,
+				(ip.dns_devices.nil?)?"None":(ip.dns_devices.collect {|x| x.name}.join ", "),  # filter object names into array - collapse array into string
+				ip.ip_str, ip.id]
+		end
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => IpAddress.count, :iTotalDisplayRecords => ip_addresses.length,
+			 :aaData => aaData } 
+
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
+
   # GET /ip_addresses/1
   # GET /ip_addresses/1.json
   def show

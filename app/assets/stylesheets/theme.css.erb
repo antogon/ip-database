@@ -2,6 +2,7 @@ body {
 	background-image: url('<%= asset_path("bodyBackground.png")  %>');
 }
 
+/*content bubbles*/
 .content-bg {
 	background: #DEDEDE;
 	height: 500px;
@@ -23,4 +24,36 @@ body {
 	background: -ms-linear-gradient(top, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* IE10+ */
 	background: linear-gradient(to bottom, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b25fcb', endColorstr='#c837db',GradientType=0 ); /* IE6-9 */
+.content-blurb {
+	background: #EEE;
+	padding-top: 1.0em;
+	padding-bottom: 1.0em;
+	padding-left: 4.0em;
+	padding-right: 4.0em;
+	-moz-border-radius: 1em 4em 1em 4em;
+	border-radius: 1em 4em 1em 4em;
+}
+
+.content-header {
+	display: inline;
+}
+
+/*dataTables styling*/
+.dataTable {
+	display: block;
+	clear: both;
+}
+.dataTables_length {
+	display:inline;
+	float:left;
+}
+.dataTables_filter {
+	float:right;
+}
+.dataTables_info {
+	display:inline;
+}
+.dataTables_paginate {
+	display:inline;
+	float:right;
 }
