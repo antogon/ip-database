@@ -18,7 +18,7 @@ class IpAddressesController < ApplicationController
 			aaData.push [ ip.contact, ip.location, (ip.type.nil?)?"None":ip.type.name,
 				(ip.network.nil?)?"None":ip.network.name, ip.is_static_dhcp,
 				(ip.dns_devices.nil?)?"None":(ip.dns_devices.collect {|x| x.name}.join ", "),  # filter object names into array - collapse array into string
-				ip.ip_str, ip.id ]
+				ip.ip_str, ip.id]
 		end
 		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => IpAddress.count, :iTotalDisplayRecords => ip_addresses.length,
 			 :aaData => aaData } 
