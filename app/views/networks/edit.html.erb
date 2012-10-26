@@ -1,6 +1,28 @@
-<h1>Editing network</h1>
+<div class="span10 content-blurb shadow">
+	<h3 class="content-header">Editing Network
+		<%= @network.network_no %>
 
-<%= render 'form' %>
 
-<%= link_to 'Show', @network %> |
-<%= link_to 'Back', networks_path %>
+	</h3>
+	<%= link_to 'Show', @network %> |
+	<%= link_to 'Back', networks_path %>
+	<hr>
+	<%= form_for(@network) do |f| %>
+		<label>Network </label>
+        	<%= f.text_field :network_no -%>
+
+		<label>Netmask </label>
+        	<%= f.text_field :netmask -%>	
+
+		<label><%= f.label :name -%></label>
+		<%= f.text_field :name -%>
+
+		<label><%= f.label :creator_id -%></label>
+		<%= f.text_field :creator_id -%>
+
+		<label>Parent Network</label>
+		<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank => true -%>
+
+		<%= f.submit -%>
+	<%- end -%>
+</div>
