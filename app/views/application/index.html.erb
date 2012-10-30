@@ -1,39 +1,38 @@
-<script type="text/javascript">
-  $(document).ready( function () {
-    $('#first_table').dataTable( {
-      "bProcessing" : true,
-      "bServerSide" : true,
-      "sAjaxSource" : "app/views/application/test.html"
-    } );
-} );
-</script>
+<div class="content-bg span4">
+	<h2>Announcements</h2>
+	<p>
+		Recent announcements will be viewable from
+		here.
+	</p>
+	<p>
+		We will need to decide whether we will be using
+		a model we create, or some sort of Wiki to add
+		the announcements feature.
+	</p>
+</div>
 
-<script>
-	var map = L.map('map');
-</script>
+<div class="content-bg span4">
+	<h2>Statistics</h2>
+	<p>
+		Current key statistics will be viewable from
+		here.
+	</p>
+	<p>
+		We need to ask what comprises key statistics.
+		We could probably decide on our own, but I would
+		much rather hear from the client what they view as
+		being the most important bits of information to see
+		when they only have a moment to glance at the site.
+		We could even ask what sort of statitistics are good
+		and what are bad so that we could take advantage of
+		Bootstrap's "Alerts" component.
+	</p>
+</div>
 
-<h1>TEST</h1>
-<h3>Example</h3>
-
-				<div class="full_width">
-<table cellpadding="0" cellspacing="0" border="0" id="first_table" class="display" id="example" style="width:980px">
-	<thead>
-		<tr>
-			<th>Rendering engine</th>
-			<th>Browser</th>
-			<th>Platform(s)</th>
-			<th>Engine version</th>
-			<th>CSS grade</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr class="gradeX">
-			<td>Trident</td>
-			<td>Internet
-				 Explorer 4.0</td>
-			<td>Win 95+</td>
-			<td class="center">4</td>
-			<td class="center">X</td>
-		</tr>
-	</tbody>
-</table>
+<div class="content-bg span4">
+	<h2>Recent Changes</h2>
+		A log of the most recent changes will be
+		viewable from here.
+		Will need to call 
+		SELECT name, updater_id  FROM networks LIMIT 25
+</div>
