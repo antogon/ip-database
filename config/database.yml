@@ -3,18 +3,18 @@ development:
   database: ip_development
   host: localhost
   username: root
-  password: 
+  password: "N173h9"
 
 test:
   adapter: mysql2
   database: ip_test
   host: localhost
   username: root
-  password: 
+  password: "N173h9"
 
 production:
   adapter: mysql2
   database: ip_production
   host: localhost
   username: root
-  password: 
+  password: "N173h9"
