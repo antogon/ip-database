@@ -7,6 +7,8 @@
             }
         </style>
 
+<h1>Network: <%= @network.name %></h1>
+
 <script>
 Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke) {
     var paper = this,
@@ -59,7 +61,7 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke) {
 $(function () {
     var values = [<%= @network.child_networks.collect {|x| x.num_ip}.join ", " -%>],
         labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
-	ids = [<%= @network.child_networks.collect {|x| x.id}.join "," -%>];
+	ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];
 	
     Raphael("holder", 700, 700).pieChart(350, 350, 200, values, labels, ids, "#fff");
 });

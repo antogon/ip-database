@@ -36,7 +36,8 @@ class Network < ActiveRecord::Base
 			num_ips += curr_net.ip_addresses.length
 		else
 			while i < curr_net.child_networks.length
-				num_ip += curr_net.child_networks[i].num_ip
+				num_ips = num_ips + curr_net.child_networks[i].num_ip
+				i = i + 1
 			end
 		end
 
