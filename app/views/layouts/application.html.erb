@@ -17,7 +17,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-   			<%= link_to 'IP-Database', url_for(:action => 'index'), {:class => 'brand'} %>
+   			<%= link_to 'IP-Database', url_for(:controller => "application", :action => 'index'), {:class => 'brand'} %>
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li class="<%= (params[:controller]=="ip_addresses")?"active":""-%>">
@@ -37,13 +37,47 @@
       </div>
     </div>
   </div>
-	<div class="container content-bg shadow">
-		<div class="row-fluid">
+	<div id="wrap">
+	<div id="main" class="clear-top container bg shadow">
+		<div class="row">
 			<div class="span12">
 				<br/><br/><br/>
 				<%= yield %>
 			</div>
 		</div>
 	</div>
+	</div>
+	<footer class="footer" style="background-color:#c2c2c2;">
+    <div class="container" style="margin:0 auto;">
+        <div class="row">
+            <div class="span2 offset2">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="">About Us</a></li>
+                    <li><a href="">Contact</a></li>
+                </ul>
+            </div>
+            <div class="span2 offset1">
+                <h4>Resource</h4>
+                <ul>
+                    <li><a href="">Get help</a></li>
+                    <li><a href="">FAQ</a></li>
+                    <li><a href="">Support</a></li>
+                </ul>
+            </div>
+            <div class="span2 offset1">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="" title="Facebook">Facebook</a></li>
+                    <li><a href="" title="Twitter">Twitter</a></li>
+                    <li><a href="" title="LinkedIn">LinkedIn</a></li>
+                    <li><a href="" title="Google+">Google+</a></li>
+                    <li><a href="" title="RSS">RSS</a></li>
+                    <li><a href="" title="Blogs">Blogs</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	</footer>
 </body>
 </html>
