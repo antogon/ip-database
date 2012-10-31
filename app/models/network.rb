@@ -15,7 +15,7 @@ class Network < ActiveRecord::Base
 	
 	def network_no
 		addr = read_attribute(:network_no)
-		IP.parse(addr)
+		IP.parse(addr).to_s
 	end
 
 	def netmask= new_ip
@@ -25,7 +25,7 @@ class Network < ActiveRecord::Base
 	
 	def netmask
 		addr = read_attribute(:netmask)
-		IP.parse(addr)
+		IP.parse(addr).to_s
 	end
 
 	def num_ip

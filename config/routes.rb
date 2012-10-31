@@ -7,6 +7,7 @@ IpDatabase::Application.routes.draw do
 	post 'dt/dataTable' => 'device_types#dataTable'
   resources :device_types
 
+	post 'net/dataTable' => 'networks#dataTable'
   resources :networks
 
 	post 'ip/dataTable' => 'ip_addresses#dataTable'
