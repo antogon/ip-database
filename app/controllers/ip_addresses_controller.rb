@@ -13,14 +13,20 @@ class IpAddressesController < ApplicationController
 	# GET /ip/dataTable.json
 	def dataTable
 		s = params[:sSearch]
-		if(!s.match(/\d*\./).nil?)
-			while s.match(/\d*\.\d*\.\d*\.\d*/)
+		if(s.match(/\d*\./))
+			while s.match(/\d*\.\d*\.\d*\.\d*/).nil?
 				s += "0."
 			end
+			s += "0."
 			s.chop!
+			d = s.gsub(".0",".255")
+			puts ":#{s}:"
+			puts ":#{d}:"
 			s = IP.parse(s)
-			ip_addresses = IpAddress.where(:ip_v4 => s.to_s)
-		elsif(s.match /[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}/)
+			d = IP.parse(d)
+			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i)
+		elsif(s.match /[0-9a-fA-F]{0,4}:/)
+			ip_addresses = IpAddress.where("ip_v6 LIKE '#{s}%'")
 		else
 			ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength])).where(
 				"contact LIKE '#{s}%' OR location LIKE '#{s}%'"
