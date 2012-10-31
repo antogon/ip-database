@@ -23,6 +23,19 @@ $(document).ready(function(){
 											'<a rel="nofollow" data-method="delete" data-confirm="Are you sure?" href="/ip_addresses/'+data+'">Destroy</a>';
 									      },
 					"aTargets": [7]
+				},
+				{
+					"mRender": function ( data, type, full ) {
+									if(data==="None")
+									{
+										return data;
+									}
+									else
+									{
+					        	return '<a href="/networks/'+data[0]+'">'+data[1]+'</a>';
+									}
+				},
+					"aTargets": [3]
 				}
 			]
 		});

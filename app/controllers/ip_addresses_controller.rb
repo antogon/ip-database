@@ -20,8 +20,6 @@ class IpAddressesController < ApplicationController
 			s += "0."
 			s.chop!
 			d = s.gsub(".0",".255")
-			puts ":#{s}:"
-			puts ":#{d}:"
 			s = IP.parse(s)
 			d = IP.parse(d)
 			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i)
@@ -35,7 +33,7 @@ class IpAddressesController < ApplicationController
 		aaData = []
 		ip_addresses.each do |ip|
 			aaData.push [ ip.contact, ip.location, (ip.type.nil?)?"None":ip.type.name,
-				(ip.network.nil?)?"None":ip.network.name, ip.is_static_dhcp,
+				(ip.network.nil?)?"None":[ip.network.id,ip.network.name], ip.is_static_dhcp,
 				(ip.dns_devices.nil?)?"None":(ip.dns_devices.collect {|x| x.name}.join ", "),  # filter object names into array - collapse array into string
 				ip.ip_str, ip.id]
 		end
