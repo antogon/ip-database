@@ -10,13 +10,30 @@ class IpAddressesController < ApplicationController
     end
   end
 
-	# GET /ip/dataTable.json
+	# POST /ip/dataTable.json
 	def dataTable
-		ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+		s = params[:sSearch]
+		if(s.match(/\d*\./))
+			while s.match(/\d*\.\d*\.\d*\.\d*/).nil?
+				s += "0."
+			end
+			s += "0."
+			s.chop!
+			d = s.gsub(".0",".255")
+			s = IP.parse(s)
+			d = IP.parse(d)
+			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i).limit(params[:iDisplayLength])
+		elsif(s.match /[0-9a-fA-F]{0,4}:/)
+			ip_addresses = IpAddress.where("ip_v6 LIKE '#{s}%'").limit(params[:iDisplayLength])
+		else
+			ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength])).where(
+				"contact LIKE '#{s}%' OR location LIKE '#{s}%'"
+				)
+		end
 		aaData = []
 		ip_addresses.each do |ip|
 			aaData.push [ ip.contact, ip.location, (ip.type.nil?)?"None":ip.type.name,
-				(ip.network.nil?)?"None":ip.network.name, ip.is_static_dhcp,
+				(ip.network.nil?)?"None":[ip.network.id,ip.network.name], ip.is_static_dhcp,
 				(ip.dns_devices.nil?)?"None":(ip.dns_devices.collect {|x| x.name}.join ", "),  # filter object names into array - collapse array into string
 				ip.ip_str, ip.id]
 		end

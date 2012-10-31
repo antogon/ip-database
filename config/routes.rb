@@ -4,6 +4,7 @@ IpDatabase::Application.routes.draw do
 
   resources :dhcp_ranges
 
+	post 'dt/dataTable' => 'device_types#dataTable'
   resources :device_types
 
   resources :networks

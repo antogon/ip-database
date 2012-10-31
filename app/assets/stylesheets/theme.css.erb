@@ -3,10 +3,8 @@ body {
 }
 
 /*content bubbles*/
-.content-bg {
+.bg {
 	background: #DEDEDE;
-	height: 500px;
-	overflow: auto;
 }
 
 .shadow {
@@ -14,6 +12,33 @@ body {
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;
   box-shadow:         3px 3px 5px 6px #ccc;
 }
+
+/* styles for layout */
+html,body
+{
+    height:100%;
+}
+
+#wrap
+{
+  min-height: 100%;  
+}
+
+#main
+{
+  overflow:auto;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.footer 
+{
+  position: relative;
+	margin-top: -150px; /* negative value of footer height */
+	height: 170px;
+	clear:both;
+  padding-top:0px;
+  color:#fff;
+} 
 
 .purple-grad {
 	background: #b25fcb; /* Old browsers */
@@ -24,6 +49,7 @@ body {
 	background: -ms-linear-gradient(top, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* IE10+ */
 	background: linear-gradient(to bottom, #b25fcb 0%,#8f00a8 36%,#c837db 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b25fcb', endColorstr='#c837db',GradientType=0 ); /* IE6-9 */
+}
 .content-blurb {
 	background: #EEE;
 	padding-top: 1.0em;
