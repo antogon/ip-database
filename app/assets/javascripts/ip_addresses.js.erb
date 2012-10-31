@@ -1,8 +1,7 @@
 <% url = IpDatabase::Application.routes.url_helpers %>
 $(document).ready(function(){
-	$('#index-table').dataTable({
+	$('#ip-index-table').dataTable({
 			"bServerSide": true,
-			//"sServerMethod": "GET",
 			"sAjaxSource": "<%= url.url_for :controller => 'ip_addresses', :action => 'dataTable', :only_path => true %>",
 			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
 	      oSettings.jqXHR = $.ajax( {

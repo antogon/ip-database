@@ -10,7 +10,7 @@ class IpAddressesController < ApplicationController
     end
   end
 
-	# GET /ip/dataTable.json
+	# POST /ip/dataTable.json
 	def dataTable
 		s = params[:sSearch]
 		if(s.match(/\d*\./))
@@ -22,9 +22,9 @@ class IpAddressesController < ApplicationController
 			d = s.gsub(".0",".255")
 			s = IP.parse(s)
 			d = IP.parse(d)
-			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i)
+			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i).limit(params[:iDisplayLength])
 		elsif(s.match /[0-9a-fA-F]{0,4}:/)
-			ip_addresses = IpAddress.where("ip_v6 LIKE '#{s}%'")
+			ip_addresses = IpAddress.where("ip_v6 LIKE '#{s}%'").limit(params[:iDisplayLength])
 		else
 			ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength])).where(
 				"contact LIKE '#{s}%' OR location LIKE '#{s}%'"
