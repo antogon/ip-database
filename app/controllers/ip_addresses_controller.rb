@@ -12,7 +12,20 @@ class IpAddressesController < ApplicationController
 
 	# GET /ip/dataTable.json
 	def dataTable
-		ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+		s = params[:sSearch]
+		if(!s.match(/\d*\./).nil?)
+			while s.match(/\d*\.\d*\.\d*\.\d*/)
+				s += "0."
+			end
+			s.chop!
+			s = IP.parse(s)
+			ip_addresses = IpAddress.where(:ip_v4 => s.to_s)
+		elsif(s.match /[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}:[0-9a-fA-F]{0,4}/)
+		else
+			ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength])).where(
+				"contact LIKE '#{s}%' OR location LIKE '#{s}%'"
+				)
+		end
 		aaData = []
 		ip_addresses.each do |ip|
 			aaData.push [ ip.contact, ip.location, (ip.type.nil?)?"None":ip.type.name,
