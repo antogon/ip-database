@@ -2,6 +2,7 @@
 $(document).ready(function(){
 	$('#dt-index-table').dataTable({
 			"bServerSide": true,
+			"bAutoWidth": false,
 			"sAjaxSource": "<%= url.url_for :controller => 'device_types', :action => 'dataTable', :only_path => true %>",
 			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
 	      oSettings.jqXHR = $.ajax( {
@@ -15,6 +16,7 @@ $(document).ready(function(){
  	    },
 			"aoColumnDefs": [
 				{ "bSearchable": false, "aTargets": [ 0,1 ] },
+				{ "sWidth": "20%", "aTargets": [ 0,1,2,3,4 ] },
 				{
 					"mRender": function ( data, type, full ) {
 					        return '<a href="/device_types/'+data+'">Show</a><br/>'+
