@@ -12,7 +12,7 @@
 	Listing Networks
 	</h3>
 	<hr>
-	<table class="table table-striped table-bordered table-hover table-condensed">
+	<table id="net-index-table" class="table table-striped table-bordered table-hover table-condensed">
 		<thead>
 			<tr>
 				<td>ID</td>
@@ -20,34 +20,13 @@
 				<td>Netmask</td>
 				<td>Name</td>
 				<td>Router Name</td>
-				<td>Is VLAN?</td>
+				<td>Is VRF?</td>
 				<td>Is HSRP?</td>
 				<td>Parent Network</td>
 				<td>Options</td>
 			</tr>
 		</thead>
 		<tbody>
-			<% @networks.each do |network| %>
-			<tr>
-					<td><%= network.id -%></td>
-					<td>
-						<%= network.network_no -%>
-					</td>
-					<td>
-						<%= network.netmask -%>
-					</td>
-					<td><%= network.name -%></td>
-					<td><%= network.router_name -%></td>
-					<td><%= network.is_vrf -%></td>
-					<td><%= network.is_hsrp -%></td>
-					<td><%= (network.parent.nil?)?"This network is orphaned.":network.parent.name -%></td>
-					<td>
- 		   			<%= link_to 'Show', network %> | 
- 	  	 			<%= link_to 'Edit', edit_network_path(network) %> | 
- 	   				<%= link_to 'Destroy', network, method: :delete, data: { confirm: 'Are you sure?' } %>
-					</td>
-				</tr>
-			<% end %>
 		</tbody>
 	</table>
 	<%= link_to 'New Network', new_network_path %>
