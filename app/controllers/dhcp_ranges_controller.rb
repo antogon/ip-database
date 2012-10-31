@@ -10,6 +10,26 @@ class DhcpRangesController < ApplicationController
     end
   end
 
+	# POST /dhcp/dataTable.json
+	def dataTable
+		s = params[:sSearch]
+		if s.match(/\d*\./) || s.match(/[0-9a-fA-F]{0,4}:/)
+			dhcp_ranges = DhcpRange.where("start_ip LIKE '#{s}%' OR end_ip LIKE '#{s}%'").limit(params[:iDisplayLength])
+		else
+			dhcp_ranges = DhcpRange.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+		end
+		aaData = []
+		dhcp_ranges.each do |dhcp|
+			aaData.push [ dhcp.start_ip, dhcp.end_ip, dhcp.id ]
+		end
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DhcpRange.count, :iTotalDisplayRecords => dhcp_ranges.length,
+			 :aaData => aaData } 
+
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
+
   # GET /dhcp_ranges/1
   # GET /dhcp_ranges/1.json
   def show
