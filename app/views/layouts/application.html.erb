@@ -32,6 +32,9 @@
             <li class="<%= (params[:controller]=="dhcp_ranges")?"active":""-%>">
   						<%= link_to 'DHCP Ranges', url_for(:controller => 'dhcp_ranges', :action => 'index')%>
             </li>
+            <li class="<%= (params[:controller]=="dns_device_assocs")?"active":""-%>">
+  						<%= link_to 'DNS Device Associations', url_for(:controller => 'dns_device_assocs', :action => 'index')%>
+            </li>
           </ul>
         </div>
       </div>
