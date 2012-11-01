@@ -1,6 +1,19 @@
-<h1>Editing dns_device_assoc</h1>
+<div class="span10 content-blurb shadow">
 
-<%= render 'form' %>
+	<h1 class="Editing dns_device_assoc"> Editing
+</h1>
+
+<hr>
+
+<%= form_for(@dns_device_assoc) do|f| %>
+	<label><%= f.label :name -%></label>
+	<%=f.text_field :name -%>
+        <label><%= f.label :ip_id -%></label>
+        <%=f.text_field :ip_id -%>
+
+<%= f.submit -%>
+<%- end -%>
 
 <%= link_to 'Show', @dns_device_assoc %> |
 <%= link_to 'Back', dns_device_assocs_path %>
+</div>
