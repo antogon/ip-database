@@ -3,7 +3,7 @@ development:
   database: ip_development
   host: localhost
   username: root
-  password: 
+  password:
 
 test:
   adapter: mysql2
@@ -18,4 +18,3 @@ production:
   host: localhost
   username: root
   password:
-
