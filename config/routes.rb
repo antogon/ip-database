@@ -1,5 +1,6 @@
 IpDatabase::Application.routes.draw do
 
+	post 'dns/dataTable' => 'dns_device_assocs#dataTable'
   resources :dns_device_assocs
 
 	post 'dhcp/dataTable' => 'dhcp_ranges#dataTable'
