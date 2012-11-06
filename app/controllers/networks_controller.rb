@@ -14,11 +14,16 @@ class NetworksController < ApplicationController
 	def dataTable
 		s = params[:sSearch]
 		if s.match(/\d*\./) || s.match(/[0-9a-fA-F]{0,4}:/)
-			networks = Network.where("network_no LIKE '#{s}%' OR netmask LIKE '#{s}%'").limit(params[:iDisplayLength])
+			networks = Network.where("network_no LIKE '#{s}%' OR netmask LIKE '#{s}%'")
+			total = networks.length
+			networks = networks[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		elsif s.match /.*\D+.*/
-			networks = Network.where("name LIKE '#{s}%' OR router_name LIKE '#{s}%'").limit(params[:iDisplayLength])
+			networks = Network.where("name LIKE '#{s}%' OR router_name LIKE '#{s}%'")
+			total = networks.length
+			networks = networks[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		else
 			networks = Network.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+			total = Network.count
 		end
 		aaData = []
 		networks.each do |net|
@@ -27,7 +32,7 @@ class NetworksController < ApplicationController
 				net.is_vrf,net.is_hsrp,(net.parent.nil?)?"None":[net.parent.id,net.parent.name],
 				net.id]
 		end
-		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => Network.count, :iTotalDisplayRecords => networks.length,
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => Network.count, :iTotalDisplayRecords => total,
 			 :aaData => aaData } 
 
     respond_to do |format|
