@@ -7,9 +7,10 @@
 	<%= form_for(@dhcp_range) do |f| %>
 		<label><%= f.label :start_ip -%></label>
 		<%= f.text_field :start_ip -%>
-                <label><%= f.label :end_ip -%></label>
-                <%= f.text_field :end_ip -%>
-
+    <label><%= f.label :end_ip -%></label>
+    <%= f.text_field :end_ip -%>
+		<label>Parent Network</label>
+		<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name, @dhcp_range.network_parent) -%>
 	<%= f.submit -%>
 	<%- end -%>
 	<%= link_to 'Show', @dhcp_range %> |

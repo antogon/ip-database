@@ -16,5 +16,9 @@
 <td>End IP address:</td>
 <td><%= @dhcp_range.end_ip -%></td>
 </tr>
+<tr>
+<td>Parent Network:</td>
+<td><%= link_to @dhcp_range.network.name, network_path(@dhcp_range.network) -%></td>
+</tr>
 </table>
 </div>

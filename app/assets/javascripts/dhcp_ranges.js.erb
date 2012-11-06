@@ -15,15 +15,24 @@ $(document).ready(function(){
  	      } );
  	    },
 			"aoColumnDefs": [
-				{ "bSearchable": false, "aTargets": [ 0,1 ] },
-				{ "sWidth": "100.0em", "aTargets": [ 0,1,2 ] },
+				{ "bSearchable": false, "aTargets": [ 0,1,2 ] },
+				{ "sWidth": "100.0em", "aTargets": [ 0,1,2,3 ] },
+				{
+					"mRender": function ( data, type, full ) {
+						if(data==="None")
+							return data
+						else
+							return "<a href='/networks/"+data[0]+"'>"+data[1]+"</a>"
+					},
+					"aTargets": [2]
+				},
 				{
 					"mRender": function ( data, type, full ) {
 					        return '<a href="/dhcp_ranges/'+data+'">Show</a><br/>'+
 											'<a href="/dhcp_ranges/'+data+'/edit">Edit</a><br/>'+
 											'<a rel="nofollow" data-method="delete" data-confirm="Are you sure?" href="/dhcp_ranges/'+data+'">Destroy</a>';
-									      },
-					"aTargets": [2]
+					},
+					"aTargets": [3]
 				}
 			]
 		});
