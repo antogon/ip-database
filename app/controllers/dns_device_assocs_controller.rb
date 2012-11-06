@@ -22,19 +22,26 @@ class DnsDeviceAssocsController < ApplicationController
 			d = s.gsub(".0",".255")
 			s = IP.parse(s)
 			d = IP.parse(d)
-			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where(:ip_addresses => {:ip_v4 => s.to_i..d.to_i}).limit(params[:iDisplayLength])
+			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where(:ip_addresses => {:ip_v4 => s.to_i..d.to_i})
+			total = dns_assocs.length
+			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		elsif s.match(/[0-9a-fA-F]{0,4}:/)
-			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where("ip_addresses.ip_v6 LIKE '#{s}%'").limit(params[:iDisplayLength])
+			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where("ip_addresses.ip_v6 LIKE '#{s}%'")
+			total = dns_assocs.length
+			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		elsif s.match(/\w*/)
 			dns_assocs = DnsDeviceAssoc.where("name LIKE '#{s}%'")
+			total = dns_assocs.length
+			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		else
 			dns_assocs = DnsDeviceAssoc.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+			total = DnsDeviceAssoc.count
 		end
 		aaData = []
 		dns_assocs.each do |dns|
 			aaData.push [ dns.name, [dns.ip_id,dns.ip_address.ip_str], dns.created_at, dns.updated_at, dns.id ]
 		end
-		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DnsDeviceAssoc.count, :iTotalDisplayRecords => dns_assocs.length,
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DnsDeviceAssoc.count, :iTotalDisplayRecords => total,
 			 :aaData => aaData } 
 
     respond_to do |format|
