@@ -14,15 +14,22 @@ class DhcpRangesController < ApplicationController
 	def dataTable
 		s = params[:sSearch]
 		if s.match(/\d*\./) || s.match(/[0-9a-fA-F]{0,4}:/)
-			dhcp_ranges = DhcpRange.where("start_ip LIKE '#{s}%' OR end_ip LIKE '#{s}%'").limit(params[:iDisplayLength])
+			dhcp_ranges = DhcpRange.where("start_ip LIKE \"#{s}%\" OR end_ip LIKE \"#{s}%\"")
+			total = dhcp_ranges.length
+			dhcp_ranges = dhcp_ranges[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif s.match(/.*/)
+			dhcp_ranges = DhcpRange.joins(:network).where("networks.name LIKE \"#{s}%\"")
+			total = dhcp_ranges.length
+			dhcp_ranges = dhcp_ranges[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		else
 			dhcp_ranges = DhcpRange.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+			total = DhcpRange.count
 		end
 		aaData = []
 		dhcp_ranges.each do |dhcp|
-			aaData.push [ dhcp.start_ip, dhcp.end_ip, dhcp.id ]
+			aaData.push [ dhcp.start_ip, dhcp.end_ip, dhcp.network.nil? ? "None" : [dhcp.network.id,dhcp.network.name], dhcp.id ]
 		end
-		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DhcpRange.count, :iTotalDisplayRecords => dhcp_ranges.length,
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DhcpRange.count, :iTotalDisplayRecords => total,
 			 :aaData => aaData } 
 
     respond_to do |format|

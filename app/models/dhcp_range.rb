@@ -1,5 +1,6 @@
 class DhcpRange < ActiveRecord::Base
-  attr_accessible :start_ip, :end_ip, :id, :created_at, :updated_at
+  attr_accessible :start_ip, :end_ip, :id, :created_at, :updated_at, :network_parent
+	belongs_to :network, :foreign_key => 'network_parent'
 
 	# returns number of addresses in range
 	def address_count
