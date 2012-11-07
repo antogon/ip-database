@@ -9,16 +9,28 @@
 	<hr>
 	<%= form_for(@network) do |f| %>
 		<label>Network </label>
-        	<%= f.text_field :network_no -%>
+    <%= f.text_field :network_no -%>
 
 		<label>Netmask </label>
-        	<%= f.text_field :netmask -%>	
+    <%= f.text_field :netmask -%>	
 
 		<label><%= f.label :name -%></label>
 		<%= f.text_field :name -%>
 
-		<label><%= f.label :creator_id -%></label>
-		<%= f.text_field :creator_id -%>
+		<label>Router Name:</label>
+		<%= f.text_field :router_name -%>
+
+		<label>Description:</label>
+		<%= f.text_area :desc, :size => "30x5" -%>
+
+		<label>Is VRF?</label>
+		<%= f.select :is_vrf, options_for_select([["Yes",true],["No",false]]) -%>
+
+		<label>VLAN Number:</label>
+		<%= f.text_field :vlan_no -%>
+
+		<label>Is HSRP?</label>
+		<%= f.select :is_hsrp, options_for_select([["Yes",true],["No",false]]) -%>
 
 		<label>Parent Network</label>
 		<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank => true -%>
