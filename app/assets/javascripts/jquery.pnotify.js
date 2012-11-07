@@ -1,5 +1,5 @@
 /*
- * jQuery Pines Notify (pnotify) Plugin 1.2.0
+ * jQuery Pines Notify (pnotify) Plugin 1.2.2
  *
  * http://pinesframework.org/pnotify/
  * Copyright (c) 2009-2012 Hunter Perrin
@@ -244,7 +244,7 @@
 				pnotify.container.addClass("ui-pnotify-shadow");
 
 			// The current version of Pines Notify.
-			pnotify.pnotify_version = "1.2.0";
+			pnotify.pnotify_version = "1.2.2";
 
 			// This function is for updating the notice.
 			pnotify.pnotify = function(options) {
@@ -726,7 +726,7 @@
 					history_menu = $("<div />", {
 						"class": "ui-pnotify-history-container "+styles.hi_menu,
 						"mouseleave": function(){
-							history_menu.animate({top: "-"+(history_handle_top*1.1)+"px"}, {duration: 100, queue: false});
+							history_menu.animate({top: "-"+history_handle_top+"px"}, {duration: 100, queue: false});
 						}
 					})
 					.append($("<div />", {"class": "ui-pnotify-history-header", "text": "Redisplay"}))
@@ -794,9 +794,9 @@
 					.appendTo(history_menu);
 
 					// Get the top of the handle.
-					history_handle_top = handle.offset().top + 2;
+					history_handle_top = (handle.offset().top + 2)*1.1;
 					// Hide the history pull down up to the top of the handle.
-					history_menu.css({top: "-"+(history_handle_top*1.1)+"px"});
+					history_menu.css({top: "-"+history_handle_top+"px"});
 					// Save the history pull down.
 					jwindow.data("pnotify_history", history_menu);
 				}
@@ -806,7 +806,8 @@
 			opts.stack.animation = false;
 
 			// Display the notice.
-			pnotify.pnotify_display();
+			if (opts.auto_display)
+				pnotify.pnotify_display();
 
 			return pnotify;
 		}
@@ -872,6 +873,8 @@
 		nonblock_opacity: .2,
 		// Display a pull down menu to redisplay previous notices, and place the notice in the history.
 		history: true,
+		// Display the notice when it is created. Turn this off to add notifications to the history without displaying them.
+		auto_display: true,
 		// Width of the notice.
 		width: "300px",
 		// Minimum height of the notice. It will expand to fit content.
