@@ -1,4 +1,13 @@
-<p id="notice"><%= notice %></p>
+<%- if flash[:notice] -%>
+<script type="text/javascript">
+	$(document).ready(function(){
+ 	   $.pnotify({
+ 	   text: "<%= notice %>",
+		 icon: false
+ 	   });
+	});
+</script>
+<%- end -%>
 <div class="span10 content-blurb shadow">
 	<h3 class="content-header">
 	<%- if @ip_address.ip_v4? -%>
