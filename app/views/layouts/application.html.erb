@@ -6,7 +6,6 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -40,6 +39,23 @@
       </div>
     </div>
   </div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			<%- if session[:notification_history] -%>
+					<%- session[:notification_history].each do |note| -%>
+				$.pnotify({ text: "<%= note -%>", auto_display:false});
+					<%- end -%>
+			<%- end -%>
+			<%- if flash[:notice] -%>
+ 	   		$.pnotify("<%= notice %>");
+				<%- if session[:notification_history] -%>
+					<%- session[:notification_history].push notice -%>
+				<%- else -%>
+					<%- session[:notification_history] = Array.new.push notice -%>
+				<%- end -%>
+			<%- end -%>
+		});
+	</script>
 	<div id="wrap">
 	<div id="main" class="clear-top container bg shadow">
 		<div class="row">
