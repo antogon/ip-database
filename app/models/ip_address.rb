@@ -7,6 +7,14 @@ class IpAddress < ActiveRecord::Base
 		!self.network.nil?
 	end
 
+	def ip_str
+		if ip_v4?
+			ip_v4
+		elsif ip_v6?
+			ip_v6
+		end
+	end
+
 	def ip_v4?
 		i = read_attribute(:ip_v6)
 		i==0 || i.nil?
@@ -28,10 +36,10 @@ class IpAddress < ActiveRecord::Base
 
 	def ip_v6= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:ip_v6, ip.to_i.to_s)
+		write_attribute(:ip_v6, ip.to_s)
 	end
 	
 	def ip_v6
-		IP.new(['v6',read_attribute(:ip_v6).to_i.to_s(16)]).to_s
+		IP.parse(read_attribute(:ip_v6)).to_s
 	end
 end

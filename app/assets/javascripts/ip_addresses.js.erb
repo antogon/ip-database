@@ -1,0 +1,41 @@
+<% url = IpDatabase::Application.routes.url_helpers %>
+$(document).ready(function(){
+	$('#ip-index-table').dataTable({
+			"bServerSide": true,
+			"sAjaxSource": "<%= url.url_for :controller => 'ip_addresses', :action => 'dataTable', :only_path => true %>",
+			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
+	      oSettings.jqXHR = $.ajax( {
+				 dataType: 'json',
+         type: "POST", 
+ 	   		 headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+ 	       url: sSource,
+ 	       data: aoData,
+ 	       success: fnCallback
+ 	      } );
+ 	    },
+			"aoColumnDefs": [
+				{ "bSearchable": false, "aTargets": [ 4,5,7 ] },
+				{
+					"mRender": function ( data, type, full ) {
+					        return '<a href="/ip_addresses/'+data+'">Show</a><br/>'+
+											'<a href="/ip_addresses/'+data+'/edit">Edit</a><br/>'+
+											'<a rel="nofollow" data-method="delete" data-confirm="Are you sure?" href="/ip_addresses/'+data+'">Destroy</a>';
+									      },
+					"aTargets": [7]
+				},
+				{
+					"mRender": function ( data, type, full ) {
+									if(data==="None")
+									{
+										return data;
+									}
+									else
+									{
+					        	return '<a href="/networks/'+data[0]+'">'+data[1]+'</a>';
+									}
+				},
+					"aTargets": [3]
+				}
+			]
+		});
+});

@@ -40,6 +40,9 @@ module IpDatabase
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+		#default url options
+		Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
