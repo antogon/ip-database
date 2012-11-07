@@ -1,35 +1,40 @@
-<h1>New network</h1>
-
-<div class="span10 content-blurb shadow">
-
+<div class="content-blurb shadow">
+<h3 class="content-header">New Network</h3>
+<%= link_to 'Back', networks_path %>
+<hr>
 <%= form_for(@network) do |f| %>
-<table class="table table-striped table-bordered table-hover table-condensed">
-<tr>
-	<td><label>Network </label></td>
-        <td><%= f.text_field :network_no -%></td>
-</tr> <tr>
-	<td><label>Netmask </label></td>
-        <td><%= f.text_field :netmask -%></td>
-</tr> <tr>
-	<td><label><%= f.label :name -%></label></td>
-	<td><%= f.text_field :name -%></td>
-</tr> <tr>
-	<td><label><%= f.label :creator_id -%></label></td>
-	<td><%= f.text_field :creator_id -%></td>
-</tr> <tr>
-	<td><label>Parent Network</label></td>
-	<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank => true -%></td>
-</tr>
-	<%= f.submit -%>
-<%- end -%>
-</table>
-<!--
-<% form_tag :action => :create do %>
-  IPAddress: <%= text_field :IPAddress, :ip_v4 %>
-  <%= submit_tag 'Add new IPAddress' %>
-<% end %>
--->
+		<label>Network </label>
+    <%= f.text_field :network_no -%>
 
+		<label>Netmask </label>
+    <%= f.text_field :netmask -%>	
+
+		<label><%= f.label :name -%></label>
+		<%= f.text_field :name -%>
+
+		<label>Router Name:</label>
+		<%= f.text_field :router_name -%>
+
+		<label>Description:</label>
+		<%= f.text_area :desc, :size => "30x5" -%>
+
+		<label>Is VRF?</label>
+		<%= f.select :is_vrf, options_for_select([["Yes",true],["No",false]]) -%>
+
+		<label>VLAN Number:</label>
+		<%= f.text_field :vlan_no -%>
+
+		<label>Is HSRP?</label>
+		<%= f.select :is_hsrp, options_for_select([["Yes",true],["No",false]]) -%>
+
+		<label>Parent Network</label>
+		<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank => true -%>
+
+		<label>Creator ID</label>
+		<%= f.text_field :creator_id -%>
+
+		<%= f.submit -%>
+
+<%- end -%>
 </div>
 
-<%= link_to 'Back', networks_path %>
