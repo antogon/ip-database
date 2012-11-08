@@ -1,4 +1,7 @@
 class DnsDeviceAssocsController < ApplicationController
+
+	before_filter :session_update
+
   # GET /dns_device_assocs
   # GET /dns_device_assocs.json
   def index
@@ -29,17 +32,17 @@ class DnsDeviceAssocsController < ApplicationController
 			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where("ip_addresses.ip_v6 LIKE '#{s}%'")
 			total = dns_assocs.length
 			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
-		elsif s.match(/\w*/)
+		elsif s.match(/./)
 			dns_assocs = DnsDeviceAssoc.where("name LIKE '#{s}%'")
 			total = dns_assocs.length
 			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		else
-			dns_assocs = DnsDeviceAssoc.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+			dns_assocs = DnsDeviceAssoc.where(:id => params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i))
 			total = DnsDeviceAssoc.count
 		end
 		aaData = []
 		dns_assocs.each do |dns|
-			aaData.push [ dns.name, [dns.ip_id,dns.ip_address.ip_str], dns.created_at, dns.updated_at, dns.id ]
+			aaData.push [ dns.name, (dns.ip_address.nil?)?"None":[dns.ip_id,dns.ip_address.ip_str], dns.created_at, dns.updated_at, dns.id ]
 		end
 		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DnsDeviceAssoc.count, :iTotalDisplayRecords => total,
 			 :aaData => aaData } 

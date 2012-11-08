@@ -1,4 +1,7 @@
 class DhcpRangesController < ApplicationController
+
+	before_filter :session_update
+
   # GET /dhcp_ranges
   # GET /dhcp_ranges.json
   def index

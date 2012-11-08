@@ -1,4 +1,7 @@
 class NetworksController < ApplicationController
+
+	before_filter :session_update
+
   # GET /networks
   # GET /networks.json
   def index

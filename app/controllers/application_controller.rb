@@ -4,4 +4,10 @@ class ApplicationController < ActionController::Base
 	def index
 		render :index
 	end
+
+	def session_update
+		if !session[:create_time]
+			session[:create_time] = lambda{Time.now}.call
+		end
+	end
 end
