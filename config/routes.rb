@@ -1,5 +1,7 @@
 IpDatabase::Application.routes.draw do
 
+  resources :notifications
+
 	post 'dns/dataTable' => 'dns_device_assocs#dataTable'
   resources :dns_device_assocs
 

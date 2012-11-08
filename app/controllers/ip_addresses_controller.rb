@@ -1,4 +1,7 @@
 class IpAddressesController < ApplicationController
+
+	before_filter :session_update
+
   # GET /ip_addresses
   # GET /ip_addresses.json
   def index
