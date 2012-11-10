@@ -1,0 +1,60 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">Announcements</h3>
+	<hr>
+		<div style="max-height:250px;overflow:auto;">
+			<%- @notes.each do |note| -%>
+				<a href="<%= notification_path note -%>" style="display:block;" class="alert <%= (note.note_type=="note")? "alert-info" : "alert-"<<note.note_type.gsub("fail","error") -%>">
+					<button type="button" class="close" data-dismiss="alert">x</button>
+					<strong><%= note.name -%></strong> - <%= note.body[0...75]<<"..."-%>
+				</a>
+			<%- end -%>
+			<p style="text-align: center; margin: auto;"><%= @notes==[] ? "No notes at this time." : "" -%></p>
+		</div>
+		<hr>
+		<div>
+		<%= link_to "New Notification", {:controller => "notifications", :action => "new"}, {:class => "btn btn-primary"} -%>
+		</div>
+	</div>
+
+	<div class="content-blurb shadow">
+	<h3 class="content-header">Statistics</h3>
+	<hr>
+		<div class="container">
+		<div class="row-fluid">
+			<div class="span4">
+				<h4>Networks</h4>
+				<strong>Total:</strong>
+				<%= number_to_human @network_count -%></br>
+				<strong>Physical:</strong>
+				<%= number_to_human @network_physical -%></br>
+				<strong>Virtual:</strong>
+				<%= number_to_human @network_virtual -%></br>
+			</div>
+			<div class="span4">
+				<h4>IP Addresses</h4>
+				<strong>Total:</strong>
+				<%= number_to_human @ip_count -%></br>
+				<strong>Assigned:</strong>
+				<%= number_to_human @ip_assigned -%></br>
+				<strong>Unassigned:</strong>
+				<%= number_to_human @ip_free -%></br>
+			</div>
+			<div class="span4">
+				<h4>DNS Devices</h4>
+				<strong>Total:</strong>
+				<%= number_to_human @dns_count -%></br>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	<div class="content-blurb shadow">
+	<h3 class="content-header">Recent Changes</h3>
+	<hr>
+	<p>
+		A log of the most recent changes will be
+		viewable from here.
+		Will need to call 
+		SELECT name, updater_id  FROM networks LIMIT 25
+	</p>
+	</div>

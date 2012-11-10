@@ -1,5 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="span10 content-blurb shadow">
+	<h3 class="content-header">
+	<%= @dns_device_assoc.name -%>
+	</h3>
+	<%= link_to 'Edit', edit_dns_device_assoc_path(@dns_device_assoc) %> |
+	<%= link_to 'Back', dns_device_assocs_path %>
+	<hr>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+	    <tr>
+		<td>Device Name:</td>
+		<td><%= @dns_device_assoc.name -%></td>
+	   </tr>
+	   <tr>
+		<td>ID:</td>
+		<td><%= @dns_device_assoc.id -%></td>
+	   </tr>
+	   <tr>
+		<td>Created At:</td>
+		<td><%= @dns_device_assoc.created_at -%></td>
+	   </tr>
+	   <tr>
+		<td>Updated At:</td>
+		<td><%= @dns_device_assoc.updated_at -%></td>
+	   </tr>
+	</table>
+</div>
 
 
-<%= link_to 'Edit', edit_dns_device_assoc_path(@dns_device_assoc) %> |
+
+
+
 <%= link_to 'Back', dns_device_assocs_path %>

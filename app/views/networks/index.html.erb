@@ -1,46 +1,108 @@
-<p id="notice"><%= notice %></p>
-<div class="span10 content-blurb shadow">
+<div class="content-blurb shadow">
 	<h3 class="content-header">
-	Listing Networks
+		Listing Networks
 	</h3>
 	<hr>
-	<table class="table table-striped table-bordered table-hover table-condensed">
-		<thead>
-			<tr>
-				<td>ID</td>
-				<td>Network Number</td>
-				<td>Netmask</td>
-				<td>Name</td>
-				<td>Router Name</td>
-				<td>Is VLAN?</td>
-				<td>Is HSRP?</td>
-				<td>Parent Network</td>
-				<td>Options</td>
-			</tr>
-		</thead>
-		<tbody>
-			<% @networks.each do |network| %>
-			<tr>
-					<td><%= network.id -%></td>
-					<td>
-						<%= network.network_no -%>
-					</td>
-					<td>
-						<%= network.netmask -%>
-					</td>
-					<td><%= network.name -%></td>
-					<td><%= network.router_name -%></td>
-					<td><%= network.is_vrf -%></td>
-					<td><%= network.is_hsrp -%></td>
-					<td><%= (network.parent.nil?)?"This network is orphaned.":network.parent.name -%></td>
-					<td>
- 		   			<%= link_to 'Show', network %> | 
- 	  	 			<%= link_to 'Edit', edit_network_path(network) %> | 
- 	   				<%= link_to 'Destroy', network, method: :delete, data: { confirm: 'Are you sure?' } %>
-					</td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-	<%= link_to 'New Network', new_network_path %>
+	<div class="tabbable"> <!-- Only required for left/right tabs -->
+	  <ul class="nav nav-tabs">
+	    <li class="active"><a href="#tab1" data-toggle="tab">Table</a></li>
+	    <li><a href="#tab2" data-toggle="tab">Graphical Interface</a></li>
+	  </ul>
+	  <div class="tab-content">
+	    <div class="tab-pane active" id="tab1">
+				<table id="net-index-table" class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>Network Number</td>
+							<td>Netmask</td>
+							<td>Name</td>
+							<td>Router Name</td>
+							<td>Is VRF?</td>
+							<td>Is HSRP?</td>
+							<td>Parent Network</td>
+							<td>Options</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+	    </div>
+		 <div class="tab-pane" id="tab2">
+		 	<style media="screen">
+        #holder {
+          margin: 0px 0 0 0px;
+          width: 700px;
+          height: 700px;
+         }
+      </style>
+<script>
+Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke) {
+    var paper = this,
+        rad = Math.PI / 180,
+        chart = this.set();
+
+    function sector(cx, cy, r, startAngle, endAngle, params) {
+	if(startAngle == 0 && endAngle == 360) { endAngle = 359.9999 };
+        var x1 = cx + r * Math.cos(-startAngle * rad),
+            x2 = cx + r * Math.cos(-endAngle * rad),
+            y1 = cy + r * Math.sin(-startAngle * rad),
+            y2 = cy + r * Math.sin(-endAngle * rad);
+        return paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
+    }
+    var angle = 0,
+        total = 0,
+        start = 0,
+        process = function (j) {
+            var value = values[j],
+                angleplus = 360 * value / total,
+                popangle = angle + (angleplus / 2),
+                color = Raphael.hsb(start, .75, 1),
+                ms = 500,
+                delta = 30,
+                bcolor = Raphael.hsb(start, 1, 1),
+                p = sector(cx, cy, r, angle, angle + angleplus, {fill: "90-" + bcolor + "-" + color, stroke: stroke, "stroke-width": 3}),
+                txt = paper.text(cx + (r + delta + 55) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), labels[j]).attr({fill: bcolor, stroke: "none", opacity: 0, "font-size": 20});
+            p.mouseover(function () {
+                p.stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
+                txt.stop().animate({opacity: 1}, ms, "elastic");
+            }).mouseout(function () {
+                p.stop().animate({transform: ""}, ms, "elastic");
+                txt.stop().animate({opacity: 0}, ms);
+            });
+	    p.click(function () {
+		document.location.href = "/networks/" + ids[j];
+	    });
+            angle += angleplus;
+            chart.push(p);
+            chart.push(txt);
+            start += .1;
+        };
+    for (var i = 0, ii = values.length; i < ii; i++) {
+        total += values[i];
+    }
+    for (i = 0; i < ii; i++) {
+        process(i);
+    }
+    return chart;
+};
+
+$(function () {
+    var values = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip}.join ", " -%>],
+        labels = <%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.name}.to_json.html_safe-%>,
+	ids = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.id}.join ", " -%>];
+
+
+	
+    Raphael("holder", 700, 700).pieChart(350, 350, 200, values, labels, ids, "#fff");
+});
+</script>
+<div id="holder"></div>
+    </div>
+  </div>
+				<br/><br/>
+				<%= link_to 'New Network', new_network_path, :class => "btn btn-primary" %>
+				<br/>
 </div>
+
+
