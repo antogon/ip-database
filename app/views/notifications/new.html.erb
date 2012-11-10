@@ -1,5 +1,23 @@
-<h1>New notification</h1>
+<div class="content-blurb shadow">
+	<h3 class="content-header">New Notification</h3>
+	<hr>
+	<%= form_for(@notification, :html => {:style=>"width:100%;",:class=>"form-inline"}) do |f| -%>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td><label>Name</label></td>
+				<td><%= f.text_field :name, :style => "width:90%;" -%></td>
+			</tr>
+			<tr>
+				<td><label>Body</label></td>
+				<td><%= f.text_area :body, :size => "10x5", :style => "width:90%;" -%></td>
+			</tr>
+			<tr>
+				<td><label>Note Type</label></td>
+				<td><%= f.select :note_type, options_for_select([["Notification","note"],["Information","info"],["Success","success"],["Error","fail"],["Warning","warn"]]) -%></td>
+			</tr>
+		</table>
+		<%= f.submit -%>
+	<%- end -%>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', notifications_path %>
+	<%= link_to 'Back', :controller => "application", :action => "index" %>
+</div>
