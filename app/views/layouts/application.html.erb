@@ -41,7 +41,17 @@
   </div>
 	<script type="text/javascript">
 		$(document).ready(function(){
-		<%- if flash[:notice] -%>
+			<%- if @note_stream != [] -%>
+				<%- @note_stream.each do |note| -%>
+ 	   			$.pnotify({title: "<%= note.name -%>", text: "<%= note.body[0...75]<<"..." -%>", auto_display: true});
+					<%- if session[:notification_history] -%>
+						<%- session[:notification_history].push note.body[0...75] -%>
+					<%- else -%>
+						<%- session[:notification_history] = Array.new.push note.body[0...75] -%>
+					<%- end -%>
+				<%- end -%>
+			<%- end -%>
+			<%- if flash[:notice] -%>
  	   			$.pnotify({text: "<%= notice %>", auto_display: true});
 				<%- if session[:notification_history] -%>
 					<%- session[:notification_history].push notice -%>

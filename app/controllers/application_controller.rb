@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+	before_filter :session_update
+
 	def index
 		@notes = Notification.after lambda{1.weeks.ago}.call
 		networks = Network.all
@@ -21,5 +23,10 @@ class ApplicationController < ActionController::Base
 		if !session[:create_time]
 			session[:create_time] = lambda{Time.now}.call
 		end
+		if !session[:note_check]
+			session[:note_check] = session[:create_time]
+		end
+		@note_stream = Notification.after session[:note_check]
+		session[:note_check] = lambda{Time.now}.call
 	end
 end
