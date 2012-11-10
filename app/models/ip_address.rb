@@ -33,7 +33,17 @@ class IpAddress < ActiveRecord::Base
 			ip_v6
 		end
 	end
- #Checks if the IP v4 version
+
+	def ip_str= ip_in
+		ip = IP.parse(ip_in)
+		if ip.proto == "v6"
+			self.ip_v6 = ip_in
+		elsif ip.proto == "v4"
+			self.ip_v4 = ip_in
+		end
+	end
+
+ 	#Checks if the IP v4 version
 	def ip_v4?
 		i = read_attribute(:ip_v6)
 		i==0 || i.nil?
