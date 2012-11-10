@@ -41,19 +41,20 @@
   </div>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			<%- if session[:notification_history] -%>
-					<%- session[:notification_history].each do |note| -%>
-				$.pnotify({ text: "<%= note -%>", auto_display:false});
-					<%- end -%>
-			<%- end -%>
-			<%- if flash[:notice] -%>
- 	   		$.pnotify("<%= notice %>");
+		<%- if flash[:notice] -%>
+ 	   			$.pnotify({text: "<%= notice %>", auto_display: true});
 				<%- if session[:notification_history] -%>
 					<%- session[:notification_history].push notice -%>
 				<%- else -%>
 					<%- session[:notification_history] = Array.new.push notice -%>
 				<%- end -%>
+			<%- end -%>	
+			<%- if session[:notification_history] -%>
+					<%- session[:notification_history].each do |note| -%>
+				$.pnotify({ text: "<%= note -%>", auto_display:false});
+					<%- end -%>
 			<%- end -%>
+			
 		});
 	</script>
 	<div id="wrap">

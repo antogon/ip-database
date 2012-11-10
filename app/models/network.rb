@@ -2,6 +2,7 @@ class Network < ActiveRecord::Base
   attr_accessible :id,:name, :creator_id, :updater_id, :network_no, :netmask, :network_parent,
 		:router_name, :is_vrf, :is_hsrp, :desc, :vlan_no, :created_at, :updated_at
 	has_many :ip_addresses, :class_name => 'IpAddress', :foreign_key => :network_parent
+	has_many :dhcp_ranges, :class_name => 'DhcpRange', :foreign_key => :network_parent
 	has_one :parent, :class_name => 'Network', :primary_key => :network_parent, :foreign_key => :id
 
 	def child_networks
@@ -28,19 +29,26 @@ class Network < ActiveRecord::Base
 		IP.parse(addr).to_s
 	end
 
-	def num_ip
-		curr_net = self
-		i = 0
-		num_ips = 0
-		if curr_net.ip_addresses.length != 0
-			num_ips += curr_net.ip_addresses.length
-		else
-			while i < curr_net.child_networks.length
-				num_ips = num_ips + curr_net.child_networks[i].num_ip
-				i = i + 1
-			end
+	def num_ip_assigned
+		total = 0
+		if(self.ip_addresses!=[])
+			total += self.ip_addresses.length
 		end
+		self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		total
+	end
 
-		num_ips
+	def num_ip
+		if self.child_networks == []
+		 start_ip = IP.parse(self.network_no)
+		 mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
+		 IP.new([start_ip.proto, start_ip, mask]).network.size
+		else
+		 0
+		end
+	end
+
+	def num_ip_free
+		num_ip - num_ip_assigned
 	end
 end

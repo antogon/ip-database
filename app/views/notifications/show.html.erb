@@ -1,5 +1,20 @@
-<p id="notice"><%= notice %></p>
+<div class="content-blurb shadow">
+	<h3 class="content-header"><%= @notification.name -%></h3>
+	<hr>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr>
+			<td><label>Note Type</label></td>
+			<td><%= {"note" => "Notification", "info" => "Information","success" => "Success","fail" => "Error","warn" => "Warning"}[@notification.note_type] -%></td>
+		</tr>
+		<tr>
+			<td><label>Body</label></td>
+			<td><%= @notification.body -%></td>
+		</tr>
+		<tr>
+			<td><label>Created At</label></td>
+			<td><%= @notification.created_at -%></td>
+		</tr>
+	</table>
 
-
-<%= link_to 'Edit', edit_notification_path(@notification) %> |
-<%= link_to 'Back', notifications_path %>
+	<%= link_to 'Back', :controller => "application", :action => "index" %>
+</div>
