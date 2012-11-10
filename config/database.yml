@@ -4,7 +4,7 @@ development:
   host: localhost
   username: root
   password:
-
+  
 test:
   adapter: mysql2
   database: ip_test

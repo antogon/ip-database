@@ -1,5 +1,10 @@
-<h1>New dns_device_assoc</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', dns_device_assocs_path %>
+<div class="span10 content-blurb shadow">
+	<h1 class="content-header"> New DNS Device Association</h1>
+	<%= link_to 'Back', dns_device_assocs_path %>
+	<hr>
+	<%= form_for(@dns_device_assoc) do|f| %>
+            	<label><%= f.label :name -%></label>
+        	<%=f.text_field :name -%>
+		<%= f.submit -%>
+	<%- end -%>
+</div>	

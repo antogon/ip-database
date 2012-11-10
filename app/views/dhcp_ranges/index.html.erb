@@ -1,28 +1,20 @@
-<div class="span10 content-blurb shadow">
-<h1>Listing dhcp_ranges</h1>
-
-<table class="table table-striped table-borded table-hover table-condensed">
+<div class="content-blurb shadow">
+<h3 class="content-header">Manage DHCP Ranges</h3>
+<hr>
+<table id="dhcp-index-table" class="table table-striped table-borded table-hover table-condensed">
 	<thead>
   <tr>
     <th>Start IP address</th>
     <th>End IP address</th>
+		<th>Parent Network</th>
     <th>Options</th>
   </tr>
 	</thead>
-
-<tbody>
-<% @dhcp_ranges.each do |dhcp_range| %>
-  <tr>
-    <td><%= dhcp_range.start_ip -%></td>
-    <td><%= dhcp_range.end_ip -%></td>
-    <td><%= link_to 'Show', dhcp_range %>
-    <%= link_to 'Edit', edit_dhcp_range_path(dhcp_range) %>
-    <%= link_to 'Destroy', dhcp_range, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</tbody>
+	<tbody>
+	</tbody>
 </table>
 
 <br />
 
 <%= link_to 'New Dhcp range', new_dhcp_range_path %>
+</div>

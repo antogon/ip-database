@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
         <style media="screen">
             #holder {
                 margin: 0px 0 0 0px;
@@ -6,8 +5,18 @@
                 height: 700px;
             }
         </style>
-
-<h1>Network: <%= @network.name %></h1>
+<div class="content-blurb shadow">
+<h3 class="content-header"><%= @network.name %></h3>
+<%= link_to 'Edit', edit_network_path(@network) %> |
+<%= link_to 'Back', networks_path %>
+<hr>
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Table</a></li>
+    <li><a href="#tab2" data-toggle="tab">Graphical Interface</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane" id="tab2">
 
 <script>
 Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke) {
@@ -69,5 +78,73 @@ $(function () {
 
 <div id="holder"></div>
 
-<%= link_to 'Edit', edit_network_path(@network) %> |
-<%= link_to 'Back', networks_path %>
+</div>
+<div class="tab-pane active" id="tab1">
+	<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr>
+			<td>ID:</td>
+			<td><%= @network.id -%></td>
+		</tr>
+		<tr>
+			<td>Name:</td>
+			<td><%= @network.name -%></td>
+		</tr>
+		<tr>
+			<td>Router Name:</td>
+			<td><%= @network.router_name -%></td>
+		</tr>
+		<tr>
+			<td>Network Number:</td>
+			<td><%= @network.network_no -%></td>
+		</tr>
+		<tr>
+			<td>Netmask Number:</td>
+			<td><%= @network.netmask -%></td>
+		</tr>
+		<tr>
+			<td>Is VRF:</td>
+			<td><%= @network.is_vrf ? "Yes" : "No" -%></td>
+		</tr>
+		<tr>
+			<td>VLAN Number:</td>
+			<td><%= @network.vlan_no -%></td>
+		</tr>
+		<tr>
+			<td>Is HSRP:</td>
+			<td><%= @network.is_hsrp ? "Yes" : "No" -%></td>
+		</tr>
+		<tr>
+			<td>Description:</td>
+			<td><%= @network.desc -%></td>
+		</tr>
+		<tr>
+			<td>Parent Network:</td>
+			<td>
+				<%- if @network.parent.nil? -%>
+					This Network is orphaned.
+				<%- else -%>
+					<%= link_to @network.parent.name, network_path(@network.parent) -%>
+				<%- end -%>
+			</td>
+		</tr>
+		<tr>
+			<td>Created At:</td>
+			<td><%= @network.created_at -%></td>
+		</tr>
+		<tr>
+			<td>Creator ID:</td>
+			<td><%= @network.creator_id -%></td>
+		</tr>
+		<tr>
+			<td>Updated At:</td>
+			<td><%= @network.updated_at -%></td>
+		</tr>
+		<tr>
+			<td>Updater ID:</td>
+			<td><%= @network.updater_id -%></td>
+		</tr>
+	</table>
+</div>
+</div>
+</div>
+</div>

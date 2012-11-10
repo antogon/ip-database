@@ -1,8 +1,7 @@
 <% url = IpDatabase::Application.routes.url_helpers %>
 $(document).ready(function(){
-	$('#index-table').dataTable({
+	$('#ip-index-table').dataTable({
 			"bServerSide": true,
-			//"sServerMethod": "GET",
 			"sAjaxSource": "<%= url.url_for :controller => 'ip_addresses', :action => 'dataTable', :only_path => true %>",
 			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
 	      oSettings.jqXHR = $.ajax( {
@@ -23,6 +22,19 @@ $(document).ready(function(){
 											'<a rel="nofollow" data-method="delete" data-confirm="Are you sure?" href="/ip_addresses/'+data+'">Destroy</a>';
 									      },
 					"aTargets": [7]
+				},
+				{
+					"mRender": function ( data, type, full ) {
+									if(data==="None")
+									{
+										return data;
+									}
+									else
+									{
+					        	return '<a href="/networks/'+data[0]+'">'+data[1]+'</a>';
+									}
+				},
+					"aTargets": [3]
 				}
 			]
 		});

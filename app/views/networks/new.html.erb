@@ -1,35 +1,63 @@
-<h1>New network</h1>
+<div class="content-blurb shadow">
+<h3 class="content-header">New Network</h3>
+<%= link_to 'Back', networks_path %>
+<hr>
+<script type="text/javascript">
+	$(document).ready(function() {
+	jQuery.validator.addMethod("netmask", function(value, element) { 
+	  return this.optional(element) || /^((([0-9]{1,3}\.){3}[0-9]{1,3})|(^((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?))/.test(value); 
+	}, "Please specify a valid IP Address for the netmask of the network.");
+	jQuery.validator.addMethod("ip", function(value, element) { 
+	  return this.optional(element) || /^((([0-9]{1,3}\.){3}[0-9]{1,3})|(^((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?))/.test(value); 
+	}, "Please specify a valid IP Address for the base of the network.");
+		$('#new_network').validate({
+			meta: "validate"
+		});
+	});
+</script>
+<%= form_for(@network, {:class=>"form-inline"}) do |f| %>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td><label>Network<em>*</em>:</label></td>
+    		<td><%= f.text_field :network_no, {:class => "{validate: {required: true, ip: true}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label>Netmask<em>*</em>:</label></td>
+    		<td><%= f.text_field :netmask, {:class => "{validate: {required: true, netmask: true}}"}-%></td>
+			</tr>
+				<td><label>Name<em>*</em>:</label></td>
+				<td><%= f.text_field :name, {:class => "{validate: {required: true, minlength: 2, maxlength: 50}}"} -%></td>
+			<tr>
+				<td><label>Router Name:</label></td>
+				<td><%= f.text_field :router_name -%></td>
+			</tr>
+			<tr>
+				<td><label>Description:</label></td>
+				<td><%= f.text_area :desc, :size => "30x5" -%></td>
+			</tr>
+			<tr>
+				<td><label>Is VRF?<em>*</em></label></td>
+				<td><%= f.select :is_vrf, options_for_select([["Yes",true],["No",false]]) -%></td>
+			</tr>
+			<tr>
+				<td><label>VLAN Number:</label></td>
+				<td><%= f.text_field :vlan_no, { :class => "{validate: {digits: true, max: 4096}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label>Is HSRP?<em>*</em></label></td>
+				<td><%= f.select :is_hsrp, options_for_select([["Yes",true],["No",false]]) -%></td>
+			</tr>
+			<tr>
+				<td><label>Parent Network:</label></td>
+				<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank => true -%></td>
+			</tr>
+			<tr>
+				<td><label>Creator ID:</label></td>
+				<td><%= f.text_field :creator_id -%></td>
+			</tr>
+		</table>
+		<%= f.submit -%>
 
-<div class="span10 content-blurb shadow">
-
-<%= form_for(@network) do |f| %>
-<table class="table table-striped table-bordered table-hover table-condensed">
-<tr>
-	<td><label>Network </label></td>
-        <td><%= f.text_field :network_no -%></td>
-</tr> <tr>
-	<td><label>Netmask </label></td>
-        <td><%= f.text_field :netmask -%></td>
-</tr> <tr>
-	<td><label><%= f.label :name -%></label></td>
-	<td><%= f.text_field :name -%></td>
-</tr> <tr>
-	<td><label><%= f.label :creator_id -%></label></td>
-	<td><%= f.text_field :creator_id -%></td>
-</tr> <tr>
-	<td><label>Parent Network</label></td>
-	<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank => true -%></td>
-</tr>
-	<%= f.submit -%>
 <%- end -%>
-</table>
-<!--
-<% form_tag :action => :create do %>
-  IPAddress: <%= text_field :IPAddress, :ip_v4 %>
-  <%= submit_tag 'Add new IPAddress' %>
-<% end %>
--->
-
 </div>
 
-<%= link_to 'Back', networks_path %>

@@ -1,4 +1,7 @@
 class DhcpRangesController < ApplicationController
+
+	before_filter :session_update
+
   # GET /dhcp_ranges
   # GET /dhcp_ranges.json
   def index
@@ -9,6 +12,33 @@ class DhcpRangesController < ApplicationController
       format.json { render json: @dhcp_ranges }
     end
   end
+
+	# POST /dhcp/dataTable.json
+	def dataTable
+		s = params[:sSearch]
+		if s.match(/\d*\./) || s.match(/[0-9a-fA-F]{0,4}:/)
+			dhcp_ranges = DhcpRange.where("start_ip LIKE \"#{s}%\" OR end_ip LIKE \"#{s}%\"")
+			total = dhcp_ranges.length
+			dhcp_ranges = dhcp_ranges[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif s.match(/.*/)
+			dhcp_ranges = DhcpRange.joins(:network).where("networks.name LIKE \"#{s}%\"")
+			total = dhcp_ranges.length
+			dhcp_ranges = dhcp_ranges[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		else
+			dhcp_ranges = DhcpRange.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+			total = DhcpRange.count
+		end
+		aaData = []
+		dhcp_ranges.each do |dhcp|
+			aaData.push [ dhcp.start_ip, dhcp.end_ip, dhcp.network.nil? ? "None" : [dhcp.network.id,dhcp.network.name], dhcp.id ]
+		end
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DhcpRange.count, :iTotalDisplayRecords => total,
+			 :aaData => aaData } 
+
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
 
   # GET /dhcp_ranges/1
   # GET /dhcp_ranges/1.json

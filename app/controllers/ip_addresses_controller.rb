@@ -1,4 +1,7 @@
 class IpAddressesController < ApplicationController
+
+	before_filter :session_update
+
   # GET /ip_addresses
   # GET /ip_addresses.json
   def index
@@ -10,17 +13,43 @@ class IpAddressesController < ApplicationController
     end
   end
 
-	# GET /ip/dataTable.json
+	# POST /ip/dataTable.json
 	def dataTable
-		ip_addresses = IpAddress.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+		s = params[:sSearch]
+		if(s.match(/[\d]{1,3}\./))
+			while s.match(/[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/).nil?
+				s += "0."
+			end
+			s += "0."
+			s.chop!
+			d = s.gsub(".0",".255")
+			s = IP.parse(s)
+			d = IP.parse(d)
+			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i)
+			total = ip_addresses.length
+			ip_addresses = ip_addresses[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif(s.match /[0-9a-fA-F]{0,4}:/)
+			ip_addresses = IpAddress.where("ip_v6 LIKE '#{s}%'")
+			total = ip_addresses.length
+			ip_addresses = ip_addresses[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif s.match(/.+/)
+			ip_addresses = IpAddress.joins(:network).where(
+				"contact LIKE \"#{s}%\" OR location LIKE \"#{s}%\" OR networks.name LIKE \"#{s}%\""
+				)
+			total = ip_addresses.length
+			ip_addresses = ip_addresses[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		else
+			ip_addresses = IpAddress.joins(:network).where(:id => params[:iDisplayStart]..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i).to_s)
+			total = IpAddress.count
+		end
 		aaData = []
 		ip_addresses.each do |ip|
 			aaData.push [ ip.contact, ip.location, (ip.type.nil?)?"None":ip.type.name,
-				(ip.network.nil?)?"None":ip.network.name, ip.is_static_dhcp,
+				(ip.network.nil?)?"None":[ip.network.id,ip.network.name], ip.is_static_dhcp,
 				(ip.dns_devices.nil?)?"None":(ip.dns_devices.collect {|x| x.name}.join ", "),  # filter object names into array - collapse array into string
 				ip.ip_str, ip.id]
 		end
-		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => IpAddress.count, :iTotalDisplayRecords => ip_addresses.length,
+		resp_val = { :sEcho => params[:sEcho].to_i.to_s, :iTotalRecords => IpAddress.all.count, :iTotalDisplayRecords => total,
 			 :aaData => aaData } 
 
     respond_to do |format|
