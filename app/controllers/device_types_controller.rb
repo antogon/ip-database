@@ -10,6 +10,34 @@ class DeviceTypesController < ApplicationController
     end
   end
 
+	# POST /dt/dataTable.json
+	def dataTable
+		s = params[:sSearch]
+		if(s.match(/\A[\d]+\z/))
+			device_types = DeviceType.where("id LIKE '#{s}%'")
+			total = device_types.length
+			device_types = device_types[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif(s.match /.*[\D]+.*/)
+			device_types = DeviceType.where("name LIKE '#{s}%'")
+			total = device_types.length
+			device_types = device_types[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		else
+			device_types = DeviceType.where(:id => params[:iDisplayStart]..(params[:iDisplayStart]+params[:iDisplayLength]))
+			total = DeviceType.count
+		end
+		aaData = []
+		device_types.each do |dt|
+			aaData.push [ dt.id, dt.name, dt.created_at,
+				dt.updated_at, dt.id ]
+		end
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DeviceType.count, :iTotalDisplayRecords => total,
+			 :aaData => aaData } 
+
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
+
   # GET /device_types/1
   # GET /device_types/1.json
   def show

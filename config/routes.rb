@@ -1,11 +1,17 @@
 IpDatabase::Application.routes.draw do
 
+  resources :notifications
+
+	post 'dns/dataTable' => 'dns_device_assocs#dataTable'
   resources :dns_device_assocs
 
+	post 'dhcp/dataTable' => 'dhcp_ranges#dataTable'
   resources :dhcp_ranges
 
+	post 'dt/dataTable' => 'device_types#dataTable'
   resources :device_types
 
+	post 'net/dataTable' => 'networks#dataTable'
   resources :networks
 
 	post 'ip/dataTable' => 'ip_addresses#dataTable'

@@ -1,4 +1,7 @@
 class DnsDeviceAssocsController < ApplicationController
+
+	before_filter :session_update
+
   # GET /dns_device_assocs
   # GET /dns_device_assocs.json
   def index
@@ -9,6 +12,45 @@ class DnsDeviceAssocsController < ApplicationController
       format.json { render json: @dns_device_assocs }
     end
   end
+
+	# POST /dns/dataTable.json
+	def dataTable
+		s = params[:sSearch]
+		if s.match(/\d*\./)
+			while s.match(/\d*\.\d*\.\d*\.\d*/).nil?
+				s += "0."
+			end
+			s += "0."
+			s.chop!
+			d = s.gsub(".0",".255")
+			s = IP.parse(s)
+			d = IP.parse(d)
+			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where(:ip_addresses => {:ip_v4 => s.to_i..d.to_i})
+			total = dns_assocs.length
+			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif s.match(/[0-9a-fA-F]{0,4}:/)
+			dns_assocs = DnsDeviceAssoc.joins(:ip_address).where("ip_addresses.ip_v6 LIKE '#{s}%'")
+			total = dns_assocs.length
+			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif s.match(/./)
+			dns_assocs = DnsDeviceAssoc.where("name LIKE '#{s}%'")
+			total = dns_assocs.length
+			dns_assocs = dns_assocs[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		else
+			dns_assocs = DnsDeviceAssoc.where(:id => params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i))
+			total = DnsDeviceAssoc.count
+		end
+		aaData = []
+		dns_assocs.each do |dns|
+			aaData.push [ dns.name, (dns.ip_address.nil?)?"None":[dns.ip_id,dns.ip_address.ip_str], dns.created_at, dns.updated_at, dns.id ]
+		end
+		resp_val = { :sEcho => params[:sEcho].to_i, :iTotalRecords => DnsDeviceAssoc.count, :iTotalDisplayRecords => total,
+			 :aaData => aaData } 
+
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
 
   # GET /dns_device_assocs/1
   # GET /dns_device_assocs/1.json
