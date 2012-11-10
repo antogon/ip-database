@@ -32,6 +32,8 @@ class IpAddressesController < ApplicationController
   # GET /ip_addresses/1.json
   def show
     @ip_address = IpAddress.find(params[:id])
+		@assocs = DnsDeviceAssoc.all
+		@dns_device = @ip_address.dns_devices.build
 
     respond_to do |format|
       format.html # show.html.erb
@@ -75,7 +77,7 @@ class IpAddressesController < ApplicationController
   # PUT /ip_addresses/1.json
   def update
     @ip_address = IpAddress.find(params[:id])
-
+		@ip_address.dns_devices.build
     respond_to do |format|
       if @ip_address.update_attributes(params[:ip_address])
         format.html { redirect_to @ip_address, notice: 'Ip address was successfully updated.' }
