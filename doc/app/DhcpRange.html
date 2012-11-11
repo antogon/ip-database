@@ -152,16 +152,7 @@
 
   <div id="description" class="description">
     
-<h2 id="label-Schema+Information">Schema Information</h2>
-
-<p>Table name: dhcp_ranges</p>
-
-<pre>id             :integer          not null, primary key
-start_ip       :string(255)      not null
-end_ip         :string(255)      not null
-created_at     :datetime         not null
-updated_at     :datetime         not null
-network_parent :integer</pre>
+<p>Acquire IP addresses to configure the host class</p>
 
   </div><!-- description -->
 
@@ -199,7 +190,7 @@ network_parent :integer</pre>
 
           
           <div class="method-source-code" id="address_count-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 18</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">address_count</span>
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:end_ip</span>)).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:start_ip</span>)).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
@@ -224,12 +215,12 @@ network_parent :integer</pre>
 
         <div class="method-description">
           
-          
+          <p>Returns the string representation of the End IP</p>
           
 
           
           <div class="method-source-code" id="end_ip-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 37</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">end_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:end_ip</span>))
         <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>
@@ -255,12 +246,12 @@ network_parent :integer</pre>
 
         <div class="method-description">
           
-          
+          <p>Assignment of the string the End Ip for the database</p>
           
 
           
           <div class="method-source-code" id="end_ip-3D-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 32</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">end_ip=</span> <span class="ruby-identifier">attr</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">attr</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:end_ip</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>) 
@@ -286,12 +277,12 @@ network_parent :integer</pre>
 
         <div class="method-description">
           
-          
+          <p>Returns the string representation of the Start IP</p>
           
 
           
           <div class="method-source-code" id="start_ip-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 27</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">start_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:start_ip</span>))
         <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>
@@ -317,12 +308,12 @@ network_parent :integer</pre>
 
         <div class="method-description">
           
-          
+          <p>Assignment of the string the Start Ip for the database</p>
           
 
           
           <div class="method-source-code" id="start_ip-3D-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 22</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">start_ip=</span> <span class="ruby-identifier">attr</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">attr</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:start_ip</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>) 

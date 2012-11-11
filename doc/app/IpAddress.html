@@ -74,6 +74,8 @@
     
     <li><a href="#method-i-ip_str">#ip_str</a>
     
+    <li><a href="#method-i-ip_str-3D">#ip_str=</a>
+    
     <li><a href="#method-i-ip_v4">#ip_v4</a>
     
     <li><a href="#method-i-ip_v4-3D">#ip_v4=</a>
@@ -158,23 +160,27 @@
 
   <div id="description" class="description">
     
-<h2 id="label-Schema+Information">Schema Information</h2>
+<pre>== Schema Information
 
-<p>Table name: ip_addresses</p>
+Table name: ip_addresses
 
-<pre>id             :integer          not null, primary key
-contact        :string(255)      not null
-location       :string(255)      not null
-device_type    :integer          not null
-network_parent :integer
-desc           :text
-is_static_dhcp :boolean          default(FALSE), not null
-has_dns_assoc  :boolean          default(FALSE), not null
-mac_address    :string(255)
-created_at     :datetime         not null
-updated_at     :datetime         not null
-ip_v4          :integer
-ip_v6          :string(255)</pre>
+ id             :integer          not null, primary key
+ contact        :string(255)      not null
+ location       :string(255)      not null
+ device_type    :integer          not null
+ network_parent :integer
+ desc           :text
+ is_static_dhcp :boolean          default(FALSE), not null
+ has_dns_assoc  :boolean          default(FALSE), not null
+ mac_address    :string(255)
+ created_at     :datetime         not null
+ updated_at     :datetime         not null
+ ip_v4          :integer
+ ip_v6          :string(255)</pre>
+
+<p>IPv4 is described in IETF publication RFC 791 (September 1981), replacing
+an earlier definition (RFC 760, January 1980). IPv6 is described in
+Internet standard document RFC 2460, published in December 1998.</p>
 
   </div><!-- description -->
 
@@ -212,7 +218,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="has_parent-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 25</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">has_parent?</span>
         <span class="ruby-operator">!</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">network</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -242,7 +248,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_str-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 29</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_str</span>
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">ip_v4?</span>
                 <span class="ruby-identifier">ip_v4</span>
@@ -258,6 +264,41 @@ ip_v6          :string(255)</pre>
 
         
       </div><!-- ip_str-method -->
+
+    
+      <div id="method-i-ip_str-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ip_str=</span><span
+            class="method-args">(ip_in)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Assigns value to IP address</p>
+          
+
+          
+          <div class="method-source-code" id="ip_str-3D-source">
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_str=</span> <span class="ruby-identifier">ip_in</span>
+        <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">ip_in</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">proto</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;v6&quot;</span>
+                <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_v6</span> = <span class="ruby-identifier">ip_in</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">proto</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;v4&quot;</span>
+                <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_v4</span> = <span class="ruby-identifier">ip_in</span>
+        <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ip_str-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ip_str-3D-method -->
 
     
       <div id="method-i-ip_v4" class="method-detail ">
@@ -276,7 +317,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_v4-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 52</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v4</span>
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([<span class="ruby-string">'v4'</span>,<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>)]).<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
@@ -306,7 +347,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_v4-3D-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 47</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v4=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:ip_v4</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_i</span>)
@@ -337,7 +378,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_v4-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 37</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v4?</span>
         <span class="ruby-identifier">i</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v6</span>)
         <span class="ruby-identifier">i</span><span class="ruby-operator">==</span><span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">nil?</span>
@@ -368,7 +409,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_v6-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 61</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v6</span>
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v6</span>)).<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
@@ -398,7 +439,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_v6-3D-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 56</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 69</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v6=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:ip_v6</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>)
@@ -429,7 +470,7 @@ ip_v6          :string(255)</pre>
 
           
           <div class="method-source-code" id="ip_v6-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 42</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v6?</span>
         <span class="ruby-identifier">i</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>)
         <span class="ruby-identifier">i</span><span class="ruby-operator">==</span><span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">nil?</span>
