@@ -49,24 +49,27 @@ class Network < ActiveRecord::Base
 		addr = read_attribute(:netmask)
 		IP.parse(addr).to_s
 	end
-	# Returns the total number of IP addresses that have been assigned within the network
+
+	#Returns the number of IP Addresses/DHCP Range Sizes in a network
+	#Or returns the same for all child networks
 	def num_ip_assigned
 		total = 0
-		if(self.ip_addresses!=[])
+		if self.child_networks == [] #If subnet
+		 if(self.ip_addresses!=[])
 			total += self.ip_addresses.length
+		 end
+		 self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		else # else if supernet
+		 self.child_networks.each {|child| total+=child.num_ip_assigned}
 		end
-		self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
 		total
 	end
+
 	# Returns total number of the IP addresses within the network
 	def num_ip
-		if self.child_networks == []
 		 start_ip = IP.parse(self.network_no)
 		 mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
 		 IP.new([start_ip.proto, start_ip, mask]).network.size
-		else
-		 0
-		end
 	end
 	# Getting number of IP that are free
 	def num_ip_free
