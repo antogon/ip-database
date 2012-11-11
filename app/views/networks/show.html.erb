@@ -6,11 +6,11 @@
                labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
                ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];
       } else {
-          var totals = [<%= @network.collect {|x| x.num_ip}.join ", " -%>],
-               assigned = [<%= @network.collect {|y| y.num_ip_assigned}.join ", " -%>],
-               free = [<%= @network.collect {|y| y.num_ip_free}.join ", " -%>],
-               labels = <%= @network.collect {|x| x.name}.to_json.html_safe-%>,
-               ids = [<%= @network.collect {|x| x.id}.join ", " -%>];
+          var totals = [],
+               assigned = [],
+               free = [],
+               labels = [],
+               ids = [];
       }
 
       $(function () {
