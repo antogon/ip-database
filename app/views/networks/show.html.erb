@@ -1,23 +1,27 @@
 <script type="text/javascript">
-      if(<%= @network.child_networks.length -%> > 0) {
+      if(<%= @network.child_networks.length -%>) {
           var totals = [<%= @network.child_networks.collect {|x| x.num_ip}.join ", " -%>],
                assigned = [<%= @network.child_networks.collect {|y| y.num_ip_assigned}.join ", " -%>],
                free = [<%= @network.child_networks.collect {|y| y.num_ip_free}.join ", " -%>],
                labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
                ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];
-      } else {
-          var totals = [],
-               assigned = [],
-               free = [],
-               labels = [],
-               ids = [];
-      }
 
-      $(function () {
+        $(function () {
           Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total");
           Raphael("ASSIGNED", 948, 504).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned");
           Raphael("FREE", 948, 504).pieChart(400, 250, 200, free, labels, ids, "#fff", "free");
-      });
+        });
+      } else {
+          var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], // Static IP, DHCP Range, Free
+              space_labels = ["Static IPs Assigned", "DHCP Ranges Assigned", "Free Space"],
+               devices = [],
+               device_labels = [],
+               ids = [];
+
+        $(function () {
+          Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "");
+        });
+      }
 </script>
 
 <div class="content-blurb shadow">

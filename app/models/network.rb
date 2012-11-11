@@ -29,6 +29,7 @@ class Network < ActiveRecord::Base
 	def child_networks
 		Network.where(:network_parent => self.id)
 	end
+
 	# Assignment override setting values for the network
 	def network_no= new_ip
 		ip = IP.parse(new_ip)
@@ -50,15 +51,25 @@ class Network < ActiveRecord::Base
 		IP.parse(addr).to_s
 	end
 
+	def num_static_ip
+		self.ip_addresses.length
+	end
+
+	def num_dhcp_ranges
+		total = 0
+		self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		total
+	end
+
 	#Returns the number of IP Addresses/DHCP Range Sizes in a network
 	#Or returns the same for all child networks
 	def num_ip_assigned
 		total = 0
 		if self.child_networks == [] #If subnet
 		 if(self.ip_addresses!=[])
-			total += self.ip_addresses.length
+			total += self.num_static_ip
 		 end
-		 self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		 total+=num_dhcp_ranges
 		else # else if supernet
 		 self.child_networks.each {|child| total+=child.num_ip_assigned}
 		end
