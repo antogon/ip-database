@@ -1,3 +1,5 @@
+# Class which populates the table for the Networks and includes the Options such as Show, New, Edit, Create, Destroy and Update
+
 class NetworksController < ApplicationController
 
 	before_filter :session_update

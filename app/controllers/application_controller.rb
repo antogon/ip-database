@@ -1,7 +1,11 @@
+# Class which makes the representation of the front page
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
 	before_filter :session_update
+	# Contains information for the front page. Allows the user to create a notification if needed.
+	# Also shows numkber of total, physical and virtual networks. Shows how many IP adresses total, assigned and free.
+	# Shows number of DNS Devices.
 	def index
 		@notes = Notification.after lambda{1.weeks.ago}.call
 		networks = Network.all
@@ -17,7 +21,8 @@ class ApplicationController < ActionController::Base
 		@dns_count = DnsDeviceAssoc.count
 		render :index
 	end
-
+	
+	# Updates the times of the last session and recent changes 
 	def session_update
 		if !session[:create_time]
 			session[:create_time] = lambda{Time.now}.call

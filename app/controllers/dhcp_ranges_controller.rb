@@ -1,3 +1,5 @@
+# Class which using either json or html populates the table for the DHCP Ranges and includes the Options such as Show, Edit, Destroy, New, Create and Update
+
 class DhcpRangesController < ApplicationController
 
 	before_filter :session_update
