@@ -1,13 +1,26 @@
-<div class="span10 content-blurb shadow">
+<div class="content-blurb shadow">
 	<h3 class="content-header">Editing 
 		<%= @device_type.name -%>
 	</h3>
-	<%= link_to 'Show', @device_type %> |
-	<%= link_to 'Back', device_types_path %>
+	<div class="subnav-group">
+		<%= link_to 'Show', @device_type %> |
+		<%= link_to 'Back', device_types_path %>
+	</div>
 	<hr>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('[id^=edit_device_type_]').validate({
+				meta: "validate"
+			});
+		});
+	</script>
 	<%= form_for(@device_type) do |f| %>
-		<label><%= f.label :name -%></label>
-		<%= f.text_field :name -%>
-		<%= f.submit -%>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+	   <tr>
+				<td>Device Name<em>*</em>:</td>
+				<td><%= f.text_field :name, :class => "{validate: {required: true, minlength: 2, maxlength: 50}}" -%></td>
+	   </tr>
+	</table>
+	<%= f.submit :class => "btn btn-primary"-%>
 	<%- end -%>
 </div>
