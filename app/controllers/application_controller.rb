@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
 	before_filter :session_update
-
 	def index
 		@notes = Notification.after lambda{1.weeks.ago}.call
 		networks = Network.all

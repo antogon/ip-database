@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: networks
+#
+#  id             :integer          not null, primary key
+#  name           :string(255)      not null
+#  creator_id     :string(255)      not null
+#  updater_id     :string(255)
+#  router_name    :string(255)
+#  is_vrf         :boolean          default(FALSE), not null
+#  is_hsrp        :boolean          default(FALSE), not null
+#  desc           :text
+#  vlan_no        :integer
+#  network_parent :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  network_no     :string(255)      not null
+#  netmask        :string(255)      not null
+#
+
 class Network < ActiveRecord::Base
   attr_accessible :id,:name, :creator_id, :updater_id, :network_no, :netmask, :network_parent,
 		:router_name, :is_vrf, :is_hsrp, :desc, :vlan_no, :created_at, :updated_at
