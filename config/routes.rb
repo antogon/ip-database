@@ -2,6 +2,7 @@ IpDatabase::Application.routes.draw do
 
   resources :notifications
 
+  get 'dns/autocomplete' => 'dns_device_assocs#autocomplete'
 	post 'dns/dataTable' => 'dns_device_assocs#dataTable'
   resources :dns_device_assocs
 

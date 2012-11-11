@@ -106,7 +106,7 @@ class IpAddressesController < ApplicationController
   # PUT /ip_addresses/1.json
   def update
     @ip_address = IpAddress.find(params[:id])
-		@ip_address.dns_devices.build
+		@ip_address.dns_ip_joins.build.build_dns_devices
     respond_to do |format|
       if @ip_address.update_attributes(params[:ip_address])
         format.html { redirect_to @ip_address, notice: 'Ip address was successfully updated.' }

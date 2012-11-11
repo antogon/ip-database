@@ -13,6 +13,17 @@ class DnsDeviceAssocsController < ApplicationController
     end
   end
 
+	# GET /dns/autocomplete.json
+	def autocomplete
+		q = params[:query]
+		result = DnsDeviceAssoc.where("name LIKE \"#{q}%\"");
+		resp_val = {:query => q,:suggestions => result.collect {|x| x.name},
+			:data => result.collect {|x| x.id}}	
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
+
 	# POST /dns/dataTable.json
 	def dataTable
 		s = params[:sSearch]
