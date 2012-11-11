@@ -8,6 +8,7 @@
 #  updated_at :datetime         not null
 #
 
+# Place for a user to add the Device Type names, times when they were created and updated
 class DeviceType < ActiveRecord::Base
-  # attr_accessible :title, :body
+  # attr_accessible :name, :created_at, :updated_at
 end

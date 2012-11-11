@@ -146,6 +146,8 @@
 
   <div id="description" class="description">
     
+<p>Class which makes the representation of the front page</p>
+
   </div><!-- description -->
 
   
@@ -177,12 +179,15 @@
 
         <div class="method-description">
           
-          
+          <p>Contains information for the front page. Allows the user to create a
+notification if needed. Also shows numkber of total, physical and virtual
+networks. Shows how many IP adresses total, assigned and free. Shows number
+of DNS Devices.</p>
           
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 5</span>
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
         <span class="ruby-ivar">@notes</span> = <span class="ruby-constant">Notification</span>.<span class="ruby-identifier">after</span> <span class="ruby-identifier">lambda</span>{<span class="ruby-value">1</span>.<span class="ruby-identifier">weeks</span>.<span class="ruby-identifier">ago</span>}.<span class="ruby-identifier">call</span>
         <span class="ruby-identifier">networks</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">all</span>
@@ -219,12 +224,12 @@
 
         <div class="method-description">
           
-          
+          <p>Updates the times of the last session and recent changes</p>
           
 
           
           <div class="method-source-code" id="session_update-source">
-            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 21</span>
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">session_update</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">session</span>[<span class="ruby-value">:create_time</span>]
                 <span class="ruby-identifier">session</span>[<span class="ruby-value">:create_time</span>] = <span class="ruby-identifier">lambda</span>{<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>}.<span class="ruby-identifier">call</span>

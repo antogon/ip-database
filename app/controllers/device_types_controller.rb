@@ -1,3 +1,4 @@
+# Class which using either json or html populates the table for the Device Types and includes the Options such as Show, Edit, Destroy, Creates, New and Update
 class DeviceTypesController < ApplicationController
   # GET /device_types
   # GET /device_types.json
