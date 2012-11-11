@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: networks
+#
+#  id             :integer          not null, primary key
+#  name           :string(255)      not null
+#  creator_id     :string(255)      not null
+#  updater_id     :string(255)
+#  router_name    :string(255)
+#  is_vrf         :boolean          default(FALSE), not null
+#  is_hsrp        :boolean          default(FALSE), not null
+#  desc           :text
+#  vlan_no        :integer
+#  network_parent :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  network_no     :string(255)      not null
+#  netmask        :string(255)      not null
+#
+
 class Network < ActiveRecord::Base
   attr_accessible :id,:name, :creator_id, :updater_id, :network_no, :netmask, :network_parent,
 		:router_name, :is_vrf, :is_hsrp, :desc, :vlan_no, :created_at, :updated_at
@@ -29,23 +49,26 @@ class Network < ActiveRecord::Base
 		IP.parse(addr).to_s
 	end
 
+	#Returns the number of IP Addresses/DHCP Range Sizes in a network
+	#Or returns the same for all child networks
 	def num_ip_assigned
 		total = 0
-		if(self.ip_addresses!=[])
+		if self.child_networks == [] #If subnet
+		 if(self.ip_addresses!=[])
 			total += self.ip_addresses.length
+		 end
+		 self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		else # else if supernet
+		 self.child_networks.each {|child| total+=child.num_ip_assigned}
 		end
-		self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
 		total
 	end
 
+	#Returns the number
 	def num_ip
-		if self.child_networks == []
 		 start_ip = IP.parse(self.network_no)
 		 mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
 		 IP.new([start_ip.proto, start_ip, mask]).network.size
-		else
-		 0
-		end
 	end
 
 	def num_ip_free

@@ -15,6 +15,7 @@ $(document).ready(function(){
  	    },
 			"aoColumnDefs": [
 				{ "bSearchable": false, "aTargets": [ 4,5,7 ] },
+				{ "sWidth": "15%", "aTargets": [ 0,1,2,3,4,5,6,7 ] },
 				{
 					"mRender": function ( data, type, full ) {
 					        return '<a href="/ip_addresses/'+data+'">Show</a><br/>'+
@@ -36,7 +37,15 @@ $(document).ready(function(){
 				},
 					"aTargets": [3]
 				}
-			]
+			],
+			"fnDrawCallback": function( oSettings ) {
+				$('.paginate_disabled_previous').addClass("btn disabled");
+				$('.paginate_disabled_next').addClass("btn disabled");
+				$('.paginate_enabled_previous').addClass("btn");
+				$('.paginate_enabled_next').addClass("btn");
+				$('.paginate_enabled_previous').removeClass("disabled");
+				$('.paginate_enabled_next').removeClass("disabled");
+			}
 		});
 
 	var ajax_auto_options, ajax_auto_a;
