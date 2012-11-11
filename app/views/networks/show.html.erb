@@ -22,8 +22,10 @@
 
 <div class="content-blurb shadow">
 <h3 class="content-header"><%= @network.name %></h3>
-<%= link_to 'Edit', edit_network_path(@network) %> |
-<%= link_to 'Back', networks_path %>
+<div class="subnav-group">
+	<%= link_to 'Edit', edit_network_path(@network) %> |
+	<%= link_to 'Back', networks_path %>
+</div>
 <hr>
 <div class="tabbable"> <!-- Only required for left/right tabs -->
   <ul class="nav nav-tabs">
