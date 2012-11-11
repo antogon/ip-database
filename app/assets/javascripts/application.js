@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require raphael-min
+//= require piechart
 //= require_tree .
 $(document).ready(function(){
 	$.pnotify.defaults.styling = 'bootstrap';
