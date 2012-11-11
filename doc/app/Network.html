@@ -208,12 +208,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Returns the network to which it is a parent</p>
           
 
           
           <div class="method-source-code" id="child_networks-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 28</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">child_networks</span>
         <span class="ruby-constant">Network</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:network_parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -238,12 +238,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Getting values for the netmask in string representation</p>
           
 
           
           <div class="method-source-code" id="netmask-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 47</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">netmask</span>
         <span class="ruby-identifier">addr</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:netmask</span>)
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">addr</span>).<span class="ruby-identifier">to_s</span>
@@ -269,12 +269,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Assignment override setting values for the netmask</p>
           
 
           
           <div class="method-source-code" id="netmask-3D-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 42</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">netmask=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:netmask</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>)
@@ -300,12 +300,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Getting values for the network in string representation</p>
           
 
           
           <div class="method-source-code" id="network_no-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 37</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">network_no</span>
         <span class="ruby-identifier">addr</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:network_no</span>)
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">addr</span>).<span class="ruby-identifier">to_s</span>
@@ -331,12 +331,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Assignment override setting values for the network</p>
           
 
           
           <div class="method-source-code" id="network_no-3D-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 32</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">network_no=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:network_no</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>)
@@ -362,12 +362,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Returns total number of the IP addresses within the network</p>
           
 
           
           <div class="method-source-code" id="num_ip-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 61</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_ip</span>
         <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">child_networks</span> <span class="ruby-operator">==</span> []
          <span class="ruby-identifier">start_ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">network_no</span>)
@@ -398,12 +398,13 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Returns the total number of IP addresses that have been assigned within the
+network</p>
           
 
           
           <div class="method-source-code" id="num_ip_assigned-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 52</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_ip_assigned</span>
         <span class="ruby-identifier">total</span> = <span class="ruby-value">0</span>
         <span class="ruby-keyword">if</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_addresses!</span>=[])
@@ -433,12 +434,12 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          
+          <p>Getting number of IP that are free</p>
           
 
           
           <div class="method-source-code" id="num_ip_free-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 71</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_ip_free</span>
         <span class="ruby-identifier">num_ip</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">num_ip_assigned</span>
 <span class="ruby-keyword">end</span></pre>

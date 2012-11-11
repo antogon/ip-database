@@ -8,6 +8,7 @@ gem 'therubyracer'
 gem 'faker'
 gem 'annotate'
 gem 'rails-erd'
+gem 'yard'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -158,6 +158,9 @@
 
   <div id="description" class="description">
     
+<p>Class which populates the table for the Networks and includes the Options
+such as Show, New, Edit, Create, Destroy and Update</p>
+
   </div><!-- description -->
 
   
@@ -194,7 +197,7 @@
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 75</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@network</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:network</span>])
 
@@ -234,7 +237,7 @@
 
           
           <div class="method-source-code" id="dataTable-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 17</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 19</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">dataTable</span>
             <span class="ruby-identifier">s</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:sSearch</span>]
             <span class="ruby-keyword">if</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r\d*\./</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r[0-9a-fA-F]{0,4}:/</span>)
@@ -289,7 +292,7 @@
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 107</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@network</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@network</span>.<span class="ruby-identifier">destroy</span>
@@ -325,7 +328,7 @@
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 69</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@network</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -355,7 +358,7 @@
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 7</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@networks</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">all</span>
 
@@ -390,7 +393,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 59</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@network</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">new</span>
 
@@ -425,7 +428,7 @@
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 48</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@network</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -460,7 +463,7 @@
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 91</span>
+            <pre><span class="ruby-comment"># File app/controllers/networks_controller.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@network</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
