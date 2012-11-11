@@ -8,7 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-
+# Shows associations of Device Type and DNS
 class DnsDeviceAssoc < ActiveRecord::Base
   attr_accessible :id, :name, :ip_id
 	belongs_to :ip_address, :class_name => 'IpAddress', :foreign_key => 'ip_id', :primary_key => 'id'
