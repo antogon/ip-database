@@ -1,3 +1,17 @@
+<script type="text/javascript">
+    var totals = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip}.join ", " -%>],
+        assigned = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_assigned}.join ", " -%>],
+        free = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_free}.join ", " -%>],
+        labels = <%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.name}.to_json.html_safe-%>,
+	ids = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.id}.join ", " -%>];
+
+        $(function () {
+          Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total");
+          Raphael("ASSIGNED", 948, 504).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned");
+          Raphael("FREE", 948, 504).pieChart(400, 250, 200, free, labels, ids, "#fff", "free");
+        });
+</script>
+
 <div class="content-blurb shadow">
 	<h3 class="content-header">
 		Listing Networks
@@ -29,35 +43,22 @@
 				</table>
 	    </div>
 		 <div class="tab-pane" id="tab2">
-		 	<style media="screen">
-        #holder {
-          margin: 0px 0 0 0px;
-          width: 700px;
-          height: 700px;
-         }
-      </style>
-<script>
+                   <div class="tabbable tabs-left">
+                     <ul class="nav nav-tabs">
+                       <li class="active"><a href="#Totals" data-toggle="tab">Totals</a></li>
+                       <li><a href = "#Assigned" data-toggle="tab">Assigned</a></li>
+                       <li><a href = "#Free" data-toggle="tab">Free</a></li>
+                     </ul>
+                     <div class="tab-content">
+                       <div class="tab-pane active" id="Totals"><div id = "TOTALS"></div></div>
+                       <div class="tab-pane" id="Assigned"><div id = "ASSIGNED"></div></div>
+                       <div class="tab-pane" id="Free"><div id = "FREE"></div></div>
+                     </div>
+                   </div>
 
-$(function () {
-    var totals = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip}.join ", " -%>],
-        assigned = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_assigned}.join ", " -%>],
-        free = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_free}.join ", " -%>],
-        labels = <%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.name}.to_json.html_safe-%>,
-	ids = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.id}.join ", " -%>];
-
-    
-    
-    
-	
-    Raphael("holder", 1066, 500).pieChart(400, 250, 200, totals, labels, ids, "#fff");
-});
-</script>
-<div id="holder"></div>
     </div>
   </div>
 				<br/><br/>
 				<%= link_to 'New Network', new_network_path, :class => "btn btn-primary" %>
 				<br/>
 </div>
-
-

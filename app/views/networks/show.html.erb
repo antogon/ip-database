@@ -1,10 +1,25 @@
-        <style media="screen">
-            #holder {
-                margin: 0px 0 0 0px;
-                width: 700px;
-                height: 700px;
-            }
-        </style>
+<script type="text/javascript">
+      if(<%= @network.child_networks.length -%> > 0) {
+          var totals = [<%= @network.child_networks.collect {|x| x.num_ip}.join ", " -%>],
+               assigned = [<%= @network.child_networks.collect {|y| y.num_ip_assigned}.join ", " -%>],
+               free = [<%= @network.child_networks.collect {|y| y.num_ip_free}.join ", " -%>],
+               labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
+               ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];
+      } else {
+          var totals = [],
+               assigned = [],
+               free = [],
+               labels = [],
+               ids = [];
+      }
+
+      $(function () {
+          Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total");
+          Raphael("ASSIGNED", 948, 504).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned");
+          Raphael("FREE", 948, 504).pieChart(400, 250, 200, free, labels, ids, "#fff", "free");
+      });
+</script>
+
 <div class="content-blurb shadow">
 <h3 class="content-header"><%= @network.name %></h3>
 <%= link_to 'Edit', edit_network_path(@network) %> |
@@ -16,25 +31,7 @@
     <li><a href="#tab2" data-toggle="tab">Graphical Interface</a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane" id="tab2">
-
-<script>
-
-$(function () {
-    var totals = [<%= @network.child_networks.collect {|x| x.num_ip}.join ", " -%>],
-        assigned = [<%= @network.child_networks.collect {|y| y.num_ip_assigned}.join ", " -%>],
-        free = [<%= @network.child_networks.collect {|y| y.num_ip_free}.join ", " -%>],
-        labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
-	ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];
-	
-    Raphael("holder", 1066, 500).pieChart(400, 250, 200, totals, labels, ids, "#fff");
-});
-</script>
-
-<div id="holder"></div>
-
-</div>
-<div class="tab-pane active" id="tab1">
+    <div class="tab-pane active" id="tab1">
 	<table class="table table-striped table-bordered table-hover table-condensed">
 		<tr>
 			<td>ID:</td>
@@ -100,6 +97,21 @@ $(function () {
 		</tr>
 	</table>
 </div>
+    <div class="tab-pane" id="tab2">
+      <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#Totals" data-toggle="tab">Totals</a></li>
+          <li><a href = "#Assigned" data-toggle="tab">Assigned</a></li>
+          <li><a href = "#Free" data-toggle="tab">Free</a></li>
+        </ul>
+        <div class="tab-content">
+        <div class="tab-pane active" id="Totals"><div id = "TOTALS"></div></div>
+        <div class="tab-pane" id="Assigned"><div id = "ASSIGNED"></div></div>
+        <div class="tab-pane" id="Free"><div id = "FREE"></div></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 </div>
 </div>
