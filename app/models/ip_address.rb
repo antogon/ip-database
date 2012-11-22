@@ -24,6 +24,13 @@ class IpAddress < ActiveRecord::Base
 	has_one :type, :class_name => 'DeviceType', :foreign_key => "id", :primary_key => "device_type"
 	has_many :dns_devices, :class_name => 'DnsDeviceAssoc', :foreign_key => 'ip_id'
 
+	#Returns the validity of this model checked against the rules of networking
+	#If and only if the address is a valid IP, is defined in a network,
+	#and is not already assigned or in a DHCP range, this function returns true.
+	def valid?
+		
+	end
+
  	#Returns true if network exists or false if doesn't
 	def has_parent?
 		!self.network.nil?

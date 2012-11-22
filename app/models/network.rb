@@ -24,6 +24,8 @@ class Network < ActiveRecord::Base
 	has_many :ip_addresses, :class_name => 'IpAddress', :foreign_key => :network_parent
 	has_many :dhcp_ranges, :class_name => 'DhcpRange', :foreign_key => :network_parent
 	has_one :parent, :class_name => 'Network', :primary_key => :network_parent, :foreign_key => :id
+
+	# scope :ip_in_range?, lambda{ |ip| }
 	
 	# Returns the network to which it is a parent
 	def child_networks
