@@ -34,22 +34,23 @@ class Network < ActiveRecord::Base
 	# Assignment override setting values for the network
 	def network_no= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:network_no, ip.to_s)
+		write_attribute(:ip_v4, (ip.proto=="v4"))
+		write_attribute(:network_no, ip.to_hex)
 	end
 	# Getting values for the network in string representation
 	def network_no
 		addr = read_attribute(:network_no)
-		IP.parse(addr).to_s
+		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
 	# Assignment override setting values for the netmask
 	def netmask= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:netmask, ip.to_s)
+		write_attribute(:netmask, ip.to_hex)
 	end
 	# Getting values for the netmask in string representation
 	def netmask
 		addr = read_attribute(:netmask)
-		IP.parse(addr).to_s
+		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
 
 	#Returns the number of IP Addresses/DHCP Range Sizes in a network
