@@ -27,11 +27,19 @@ class IpAddressesController < ApplicationController
 			d = s.gsub(".0",".255")
 			s = IP.parse(s)
 			d = IP.parse(d)
-			ip_addresses = IpAddress.where(:ip_v4 => s.to_i..d.to_i)
+			ip_addresses = IpAddress.where("ip_v4 > '#{s.to_hex}' AND ip_v4 < '#{d.to_hex}'")
 			total = ip_addresses.length
 			ip_addresses = ip_addresses[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		elsif(s.match /[0-9a-fA-F]{0,4}:/)
-			ip_addresses = IpAddress.where("ip_v6 LIKE '#{s}%'")
+			while s.match(/([0-9a-fA-F]{0,4}:){7}/).nil?
+				s += "0000:"
+			end
+			s += "0000:"
+			s.chop!
+			d = s.gsub(":0000",":FFFF")
+			s = IP.parse(s)
+			d = IP.parse(d)
+			ip_addresses = IpAddress.where("ip_v6 > '#{s.to_hex}' AND ip_v6 < '#{d.to_hex}'")
 			total = ip_addresses.length
 			ip_addresses = ip_addresses[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		elsif s.match(/.+/)

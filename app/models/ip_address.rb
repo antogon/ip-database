@@ -27,9 +27,11 @@ class IpAddress < ActiveRecord::Base
 	#Returns the validity of this model checked against the rules of networking
 	#If and only if the address is a valid IP, is defined in a network,
 	#and is not already assigned or in a DHCP range, this function returns true.
+=begin
 	def valid?
 		
 	end
+=end
 
  	#Returns true if network exists or false if doesn't
 	def has_parent?
@@ -58,16 +60,19 @@ class IpAddress < ActiveRecord::Base
 		i = read_attribute(:ip_v6)
 		i==0 || i.nil?
 	end
+
  	#Checks if the IPv6 version
 	def ip_v6?
 		i = read_attribute(:ip_v4)
 		i==0 || i.nil?
 	end
+
  	#Assignment override setting values for the IP v4
 	def ip_v4= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:ip_v4, ip.to_i)
+		write_attribute(:ip_v4, ip.to_hex)
 	end
+
  	#Getting values for the IP v4
 	def ip_v4
 		IP.new(['v4',read_attribute(:ip_v4)]).to_s
@@ -75,10 +80,10 @@ class IpAddress < ActiveRecord::Base
  	#Assignment override setting values for the IP v6
 	def ip_v6= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:ip_v6, ip.to_s)
+		write_attribute(:ip_v6, ip.to_hex)
 	end
 	#Getting values for the IP v6
 	def ip_v6
-		IP.parse(read_attribute(:ip_v6)).to_s
+		IP.new(['v6',read_attribute(:ip_v6)]).to_s
 	end
 end
