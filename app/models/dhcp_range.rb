@@ -25,27 +25,31 @@ class DhcpRange < ActiveRecord::Base
 
 	# returns number of addresses in range
 	def address_count
-		IP.parse(read_attribute(:end_ip)).to_i - IP.parse(read_attribute(:start_ip)).to_i + 1
+		IP.parse(self.end_ip).to_i - IP.parse(self.start_ip).to_i + 1
 	end
-        # Assignment of the string the Start Ip for the database
+
+  # Assignment of the string the Start Ip for the database
 	def start_ip= attr
 		ip = IP.parse(attr)
-		write_attribute(:start_ip, ip.to_s) 
+		write_attribute(:ip_v4, (ip.proto=="v4"))
+		write_attribute(:start_ip, ip.to_hex) 
 	end
+
 	# Returns the string representation of the Start IP
 	def start_ip
-		ip = IP.parse(read_attribute(:start_ip))
-		ip.to_s
+		addr = read_attribute(:start_ip)
+		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
-        # Assignment of the string the End Ip for the database
 
+  # Assignment of the string the End Ip for the database
 	def end_ip= attr
 		ip = IP.parse(attr)
-		write_attribute(:end_ip, ip.to_s) 
+		write_attribute(:end_ip, ip.to_hex) unless ((ip.proto=="v4")!=read_attribute(:ip_v4)) 
 	end
-        # Returns the string representation of the End IP
+
+  # Returns the string representation of the End IP
 	def end_ip
-		ip = IP.parse(read_attribute(:end_ip))
-		ip.to_s
+		addr = read_attribute(:end_ip)
+		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
 end
