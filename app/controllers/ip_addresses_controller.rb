@@ -98,13 +98,16 @@ class IpAddressesController < ApplicationController
   # POST /ip_addresses.json
   def create
     @ip_address = IpAddress.new(params[:ip_address])
-
+		validity = @ip_address.valid_ip?
     respond_to do |format|
-      if @ip_address.save
+      if validity && @ip_address.save
         format.html { redirect_to @ip_address, notice: 'Ip address was successfully created.' }
         format.json { render json: @ip_address, status: :created, location: @ip_address }
+			elsif !validity
+        format.html { render action: "new", notice: 'IP Address invalid.  Be sure that the parent network contains this address and that the address is not already assigned.' }
+        format.json { render json: @ip_address.errors, status: :unprocessable_entity }
       else
-        format.html { render action: "new" }
+        format.html { render action: "new", notice: 'IP Address could not be saved' }
         format.json { render json: @ip_address.errors, status: :unprocessable_entity }
       end
     end

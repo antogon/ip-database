@@ -25,7 +25,10 @@ class Network < ActiveRecord::Base
 	has_many :dhcp_ranges, :class_name => 'DhcpRange', :foreign_key => :network_parent
 	has_one :parent, :class_name => 'Network', :primary_key => :network_parent, :foreign_key => :id
 
-	# scope :ip_in_range?, lambda{ |ip| }
+	scope :ip_in_range?, lambda { |ip| 
+		ip = IP.parse(ip)
+		where("network_no < '#{ip.to_hex}' AND '#{ip.to_hex}' < BINARY CONCAT(SUBSTR(network_no FROM 1 FOR LENGTH(SUBSTRING_INDEX(netmask,'0',1))),REPEAT('f',IF(ip_v4=1, LENGTH(TRIM(LEADING 'f' FROM netmask))-24,LENGTH(TRIM(LEADING 'f' FROM netmask))))) AND ip_v4 = #{(ip.proto=="v4")?1:0}")
+	}
 	
 	# Returns the network to which it is a parent
 	def child_networks
