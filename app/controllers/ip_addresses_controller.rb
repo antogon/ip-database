@@ -101,12 +101,15 @@ class IpAddressesController < ApplicationController
 		validity = @ip_address.valid_ip?
     respond_to do |format|
       if validity && @ip_address.save
+print "---A---"
         format.html { redirect_to @ip_address, notice: 'Ip address was successfully created.' }
         format.json { render json: @ip_address, status: :created, location: @ip_address }
 			elsif !validity
+print "---B---"
         format.html { render action: "new", notice: 'IP Address invalid.  Be sure that the parent network contains this address and that the address is not already assigned.' }
         format.json { render json: @ip_address.errors, status: :unprocessable_entity }
       else
+print "---C---"
         format.html { render action: "new", notice: 'IP Address could not be saved' }
         format.json { render json: @ip_address.errors, status: :unprocessable_entity }
       end
