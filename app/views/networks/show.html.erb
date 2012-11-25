@@ -2,6 +2,8 @@
       if(<%= @network.child_networks.length -%>) {
           var totals = [<%= @network.child_networks.collect {|x| x.num_ip}.join ", " -%>],
                assigned = [<%= @network.child_networks.collect {|y| y.num_ip_assigned}.join ", " -%>],
+               staticip = [<%= @network.child_networks.collect {|y| y.num_static_ip}.join ", " -%>],
+               dhcp = [<%= @network.child_networks.collect {|y| y.num_dhcp_ranges}.join ", " -%>],
                free = [<%= @network.child_networks.collect {|y| y.num_ip_free}.join ", " -%>],
                labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
                ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];

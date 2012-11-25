@@ -4,7 +4,7 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator
         chart = this.set();
 
     function sector(cx, cy, r, startAngle, endAngle, params) {
-	if(startAngle == 0 && endAngle == 360) { endAngle = 359.9999 };
+	if(endAngle == 360) { endAngle = 359.9999 };
         var x1 = cx + r * Math.cos(-startAngle * rad),
             x2 = cx + r * Math.cos(-endAngle * rad),
             y1 = cy + r * Math.sin(-startAngle * rad),

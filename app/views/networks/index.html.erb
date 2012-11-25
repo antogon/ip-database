@@ -1,6 +1,8 @@
 <script type="text/javascript">
     var totals = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip}.join ", " -%>],
         assigned = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_assigned}.join ", " -%>],
+	staticip = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_static_ip}. join ", " -%>],
+	dhcp = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_dhcp_ranges}. join ", " -%>],
         free = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_free}.join ", " -%>],
         labels = <%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.name}.to_json.html_safe-%>,
 	ids = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.id}.join ", " -%>];
