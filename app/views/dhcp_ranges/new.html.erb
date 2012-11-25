@@ -6,7 +6,7 @@
 	<hr>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#new_ip_address').validate({
+			$('#new_dhcp_range').validate({
 				meta: "validate"
 			});
 		});
@@ -23,7 +23,7 @@
 			</tr>
 			<tr>
 				<td><label>Parent Network:</label></td>
-				<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name) -%></td>
+				<td><%= f.select :network_parent, options_from_collection_for_select(Network.where(:id => 1...10), :id, :name) -%></td>
 			</tr>
 		</table>
 		<%= f.submit :class => "btn btn-primary"-%>

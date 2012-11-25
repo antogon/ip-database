@@ -18,8 +18,29 @@ class DhcpRangesController < ApplicationController
 	# POST /dhcp/dataTable.json
 	def dataTable
 		s = params[:sSearch]
-		if s.match(/\d*\./) || s.match(/[0-9a-fA-F]{0,4}:/)
-			dhcp_ranges = DhcpRange.where("start_ip LIKE \"#{s}%\" OR end_ip LIKE \"#{s}%\"")
+
+		if(s.match(/[\d]{1,3}\./))
+			while s.match(/[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/).nil?
+				s += "0."
+			end
+			s += "0."
+			s.chop!
+			d = s.gsub(".0",".255")
+			s = IP.parse(s)
+			d = IP.parse(d)
+			dhcp_ranges = DhcpRange.where("((start_ip > '#{s.to_hex}' AND start_ip < '#{d.to_hex}') OR (end_ip > '#{s.to_hex}' AND end_ip < '#{d.to_hex}')) AND ip_v4 = 1")
+			total = dhcp_ranges.length
+			dhcp_ranges = dhcp_ranges[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
+		elsif(s.match /[0-9a-fA-F]{0,4}:/)
+			while s.match(/([0-9a-fA-F]{0,4}:){7}/).nil?
+				s += "0000:"
+			end
+			s += "0000:"
+			s.chop!
+			d = s.gsub(":0000",":FFFF")
+			s = IP.parse(s)
+			d = IP.parse(d)
+			dhcp_ranges = DhcpRange.where("((start_ip > '#{s.to_hex}' AND start_ip < '#{d.to_hex}') OR (end_ip > '#{s.to_hex}' AND end_ip < '#{d.to_hex}')) AND ip_v4 = 0")
 			total = dhcp_ranges.length
 			dhcp_ranges = dhcp_ranges[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		elsif s.match(/.*/)
