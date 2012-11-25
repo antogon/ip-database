@@ -24,6 +24,11 @@ class Network < ActiveRecord::Base
 	has_many :ip_addresses, :class_name => 'IpAddress', :foreign_key => :network_parent
 	has_many :dhcp_ranges, :class_name => 'DhcpRange', :foreign_key => :network_parent
 	has_one :parent, :class_name => 'Network', :primary_key => :network_parent, :foreign_key => :id
+
+	scope :ip_in_range?, lambda { |ip| 
+		ip = IP.parse(ip)
+		where("network_no < '#{ip.to_hex}' AND '#{ip.to_hex}' < BINARY CONCAT(SUBSTR(network_no FROM 1 FOR LENGTH(SUBSTRING_INDEX(netmask,'0',1))),REPEAT('f',IF(ip_v4=1, LENGTH(TRIM(LEADING 'f' FROM netmask))-24,LENGTH(TRIM(LEADING 'f' FROM netmask))))) AND ip_v4 = #{(ip.proto=="v4")?1:0}")
+	}
 	
 	# Returns the network to which it is a parent
 	def child_networks
@@ -33,22 +38,23 @@ class Network < ActiveRecord::Base
 	# Assignment override setting values for the network
 	def network_no= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:network_no, ip.to_s)
+		write_attribute(:ip_v4, (ip.proto=="v4"))
+		write_attribute(:network_no, ip.to_hex)
 	end
 	# Getting values for the network in string representation
 	def network_no
 		addr = read_attribute(:network_no)
-		IP.parse(addr).to_s
+		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
 	# Assignment override setting values for the netmask
 	def netmask= new_ip
 		ip = IP.parse(new_ip)
-		write_attribute(:netmask, ip.to_s)
+		write_attribute(:netmask, ip.to_hex)
 	end
 	# Getting values for the netmask in string representation
 	def netmask
 		addr = read_attribute(:netmask)
-		IP.parse(addr).to_s
+		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
 
 	def num_static_ip

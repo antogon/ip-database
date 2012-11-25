@@ -1,5 +1,8 @@
 <div class="content-blurb shadow">
 	<h3 class="content-header"><%= @notification.name -%></h3>
+	<div class="subnav-group">
+		<%= link_to 'Back', :controller => "application", :action => "index" %>
+	</div>
 	<hr>
 	<table class="table table-striped table-bordered table-hover table-condensed">
 		<tr>
@@ -15,6 +18,4 @@
 			<td><%= @notification.created_at -%></td>
 		</tr>
 	</table>
-
-	<%= link_to 'Back', :controller => "application", :action => "index" %>
 </div>
