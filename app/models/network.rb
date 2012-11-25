@@ -58,28 +58,29 @@ class Network < ActiveRecord::Base
 	end
 
 	def num_static_ip
-		self.ip_addresses.length
+		total = 0
+		if self.child_networks == [] #If subnet
+			total+=self.ip_addresses.length
+		else # else if supernet
+			self.child_networks.each {|child| total+=child.num_static_ip}
+		end
+		total
 	end
 
 	def num_dhcp_ranges
 		total = 0
-		self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		if self.child_networks == [] #If subnet
+			self.dhcp_ranges.each {|dhcp| total+=dhcp.address_count}
+		else #else if supernet
+			self.child_networks.each {|child| total+=child.num_dhcp_ranges}
+		end
 		total
 	end
 
 	#Returns the number of IP Addresses/DHCP Range Sizes in a network
 	#Or returns the same for all child networks
 	def num_ip_assigned
-		total = 0
-		if self.child_networks == [] #If subnet
-		 if(self.ip_addresses!=[])
-			total += self.num_static_ip
-		 end
-		 total+=num_dhcp_ranges
-		else # else if supernet
-		 self.child_networks.each {|child| total+=child.num_ip_assigned}
-		end
-		total
+		self.num_static_ip + self.num_dhcp_ranges
 	end
 
 	# Returns total number of the IP addresses within the network
