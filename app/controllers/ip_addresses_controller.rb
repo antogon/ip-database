@@ -16,6 +16,14 @@ class IpAddressesController < ApplicationController
     end
   end
 
+	# POST /ip/macCheck.json
+	def macCheck
+		resp_val = IpAddress.where("mac_address = '#{params[:mac]}'").length == 0
+    respond_to do |format|
+      format.json { render json: resp_val }
+    end
+	end
+
 	# POST /ip/dataTable.json
 	def dataTable
 		s = params[:sSearch]
@@ -50,7 +58,7 @@ class IpAddressesController < ApplicationController
 			total = ip_addresses.length
 			ip_addresses = ip_addresses[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 		else
-			ip_addresses = IpAddress.joins(:network).where(:id => params[:iDisplayStart]..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i).to_s)
+			ip_addresses = IpAddress.joins(:network).all[params[:iDisplayStart].to_i..(params[:iDisplayStart].to_i+params[:iDisplayLength].to_i)]
 			total = IpAddress.count
 		end
 		aaData = []
