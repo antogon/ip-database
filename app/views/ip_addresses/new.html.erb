@@ -1,8 +1,6 @@
 <div class="content-blurb shadow">
 	<h3 class="content-header">New IP Address</h3>
-	<div class="subnav-group">
-		<%= link_to 'Back', ip_addresses_path %>
-	</div>
+	<div class="subnav-group"><%= link_to 'Back', ip_addresses_path %></div>
 	<hr>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -11,7 +9,7 @@
 			});
 		});
 	</script>
-	<%= form_for(@ip_address) do |f| %>
+	<%= form_for(@ip_address, {:class=>"form-inline"}) do |f| %>
 		<table class="table table-striped table-bordered table-hover table-condensed">
 			<tr>
 				<td><label>IP Address<em>*</em>:</label></td>

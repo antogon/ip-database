@@ -18,11 +18,11 @@
 		<table class="table table-striped table-bordered table-hover table-condensed">
 			<tr>
 				<td><label>Network<em>*</em>:</label></td>
-    		<td><%= f.text_field :network_no, {:class => "{validate: {required: true, ip: true}}"} -%></td>
+    				<td><%= f.text_field :network_no, :class => "{validate: {required: true, ip: true}}", :value => @network.network_no -%></td>
 			</tr>
 			<tr>
 				<td><label>Netmask<em>*</em>:</label></td>
-    		<td><%= f.text_field :netmask, {:class => "{validate: {required: true, netmask: true}}"}-%></td>
+    				<td><%= f.text_field :netmask, :class => "{validate: {required: true, netmask: true}}", :value => @network.netmask -%></td>
 			</tr>
 				<td><label>Name<em>*</em>:</label></td>
 				<td><%= f.text_field :name, {:class => "{validate: {required: true, minlength: 2, maxlength: 50}}"} -%></td>
@@ -36,7 +36,7 @@
 			</tr>
 			<tr>
 				<td><label>Is VRF?<em>*</em></label></td>
-				<td><%= f.select :is_vrf, options_for_select([["Yes",true],["No",false]]) -%></td>
+				<td><%= f.select :is_vrf, options_for_select([["Yes",true],["No",false]])-%></td>
 			</tr>
 			<tr>
 				<td><label>VLAN Number:</label></td>

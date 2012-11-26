@@ -73,7 +73,6 @@ class IpAddressesController < ApplicationController
   def show
     @ip_address = IpAddress.find(params[:id])
 		@assocs = DnsDeviceAssoc.all
-		@dns_device = @ip_address.dns_devices.build
 
     respond_to do |format|
       format.html # show.html.erb
@@ -85,7 +84,7 @@ class IpAddressesController < ApplicationController
   # GET /ip_addresses/new.json
   def new
     @ip_address = IpAddress.new
-
+		@dns_device = @ip_address.dns_devices.build
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @ip_address }

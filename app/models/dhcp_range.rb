@@ -28,6 +28,10 @@ class DhcpRange < ActiveRecord::Base
 		IP.parse(self.end_ip).to_i - IP.parse(self.start_ip).to_i + 1
 	end
 
+	def to_range
+		IP.parse(self.start_ip)..IP.parse(self.end_ip)
+	end
+
   # Assignment of the string the Start Ip for the database
 	def start_ip= attr
 		ip = IP.parse(attr)
