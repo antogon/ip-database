@@ -1,16 +1,28 @@
 <script type="text/javascript">
-    var totals = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip}.join ", " -%>],
-        assigned = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_assigned}.join ", " -%>],
-	staticip = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_static_ip}. join ", " -%>],
-	dhcp = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_dhcp_ranges}. join ", " -%>],
-        free = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.num_ip_free}.join ", " -%>],
-        labels = <%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.name}.to_json.html_safe-%>,
-	ids = [<%= (@networks.keep_if {|x| x.parent.nil? }).collect {|y| y.id}.join ", " -%>];
+    var totals4 = [<%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?) }).collect {|y| y.num_ip}.join ", " -%>],
+        assigned4 = [<%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?)}).collect {|y| y.num_ip_assigned}.join ", " -%>],
+	staticip4 = [<%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?)}).collect {|y| y.num_static_ip}. join ", " -%>],
+	dhcp4 = [<%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?)}).collect {|y| y.num_dhcp_ranges}. join ", " -%>],
+        free4 = [<%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?)}).collect {|y| y.num_ip_free}.join ", " -%>],
+        labels4 = <%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?)}).collect {|y| y.name}.to_json.html_safe-%>,
+	ids4 = [<%= (@networks.select {|x| (x.parent.nil? && x.ip_v4?)}).collect {|y| y.id}.join ", " -%>],
+
+	totals6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.num_ip}.join ", " -%>],
+        assigned6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.num_ip_assigned}.join ", " -%>],
+	staticip6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.num_static_ip}. join ", " -%>],
+	dhcp6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.num_dhcp_ranges}. join ", " -%>],
+        free6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.num_ip_free}.join ", " -%>],
+        labels6 = <%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.name}.to_json.html_safe-%>,
+	ids6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.id}.join ", " -%>];
 
         $(function () {
-          Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total");
-          Raphael("ASSIGNED", 948, 504).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned");
-          Raphael("FREE", 948, 504).pieChart(400, 250, 200, free, labels, ids, "#fff", "free");
+          Raphael("TOTALS4", 462, 540).pieChart(230, 250, 200, totals4, labels4, ids4, "#fff", "total", "IPv4");
+          Raphael("ASSIGNED4", 462, 540).pieChart(230, 250, 200, assigned4, labels4, ids4, "#fff", "assigned", "IPv4");
+          Raphael("FREE4", 462, 540).pieChart(230, 250, 200, free4, labels4, ids4, "#fff", "free", "IPv4");
+          Raphael("TOTALS6", 462, 540).pieChart(230, 250, 200, totals6, labels6, ids6, "#fff", "total", "IPv6");
+          Raphael("ASSIGNED6", 462, 540).pieChart(230, 250, 200, assigned6, labels6, ids6, "#fff", "assigned", "IPv6");
+          Raphael("FREE6", 462, 540).pieChart(230, 250, 200, free6, labels6, ids6, "#fff", "free", "IPv6");
+
         });
 </script>
 
@@ -52,9 +64,11 @@
                        <li><a href = "#Free" data-toggle="tab">Free</a></li>
                      </ul>
                      <div class="tab-content">
-                       <div class="tab-pane active" id="Totals"><div id = "TOTALS"></div></div>
-                       <div class="tab-pane" id="Assigned"><div id = "ASSIGNED"></div></div>
-                       <div class="tab-pane" id="Free"><div id = "FREE"></div></div>
+                       <div class="tab-pane active" id="Totals">
+			<div class = "span6" id = "TOTALS4"></div><div class = "span6" id = "TOTALS6"></div></div>
+                       <div class="tab-pane" id="Assigned">
+			<div class = "span6" id = "ASSIGNED4"></div><div class = "span6" id = "ASSIGNED6"></div></div>
+                       <div class="tab-pane" id="Free"><div class = "span6" id = "FREE4"></div><div class = "span6" id = "FREE6"></div></div>
                      </div>
                    </div>
 

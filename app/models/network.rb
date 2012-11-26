@@ -19,7 +19,7 @@
 #
 
 class Network < ActiveRecord::Base
-  attr_accessible :id,:name, :creator_id, :updater_id, :network_no, :netmask, :network_parent,
+  attr_accessible :id,:name, :creator_id, :updater_id, :network_no, :netmask, :network_parent, :ip_v4,
 		:router_name, :is_vrf, :is_hsrp, :desc, :vlan_no, :created_at, :updated_at
 	has_many :ip_addresses, :class_name => 'IpAddress', :foreign_key => :network_parent
 	has_many :dhcp_ranges, :class_name => 'DhcpRange', :foreign_key => :network_parent
@@ -30,6 +30,10 @@ class Network < ActiveRecord::Base
 		where("network_no < '#{ip.to_hex}' AND '#{ip.to_hex}' < BINARY CONCAT(SUBSTR(network_no FROM 1 FOR LENGTH(SUBSTRING_INDEX(netmask,'0',1))),REPEAT('f',IF(ip_v4=1, LENGTH(TRIM(LEADING 'f' FROM netmask))-24,LENGTH(TRIM(LEADING 'f' FROM netmask))))) AND ip_v4 = #{(ip.proto=="v4")?1:0}")
 	}
 	
+	def ip_v4=
+		raise "You can't set this.  It's read-only.  Asshole."
+	end
+
 	# Returns the network to which it is a parent
 	def child_networks
 		Network.where(:network_parent => self.id)

@@ -6,22 +6,24 @@
                dhcp = [<%= @network.child_networks.collect {|y| y.num_dhcp_ranges}.join ", " -%>],
                free = [<%= @network.child_networks.collect {|y| y.num_ip_free}.join ", " -%>],
                labels = <%= @network.child_networks.collect {|x| x.name}.to_json.html_safe-%>,
-               ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>];
+               ids = [<%= @network.child_networks.collect {|x| x.id}.join ", " -%>],
+               title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
-          Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total");
-          Raphael("ASSIGNED", 948, 504).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned");
-          Raphael("FREE", 948, 504).pieChart(400, 250, 200, free, labels, ids, "#fff", "free");
+          Raphael("TOTALS", 948, 550).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total", title);
+          Raphael("ASSIGNED", 948, 550).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned", title);
+          Raphael("FREE", 948, 550).pieChart(400, 250, 200, free, labels, ids, "#fff", "free", title);
         });
       } else {
-          var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], // Static IP, DHCP Range, Free
+          var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], 
               space_labels = ["Static IPs Assigned", "DHCP Ranges Assigned", "Free Space"],
                devices = [],
                device_labels = [],
-               ids = [];
+               ids = []
+               title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
-          Raphael("TOTALS", 948, 504).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "");
+          Raphael("TOTALS", 948, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title);
         });
       }
 </script>

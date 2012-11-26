@@ -1,4 +1,4 @@
-Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator) {
+Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator, title) {
     var paper = this,
         rad = Math.PI / 180,
         chart = this.set();
@@ -24,7 +24,7 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator
                 bcolor = Raphael.hsb(start, 1, 1),
                 p = sector(cx, cy, r, angle, angle + angleplus, {fill: "90-" + bcolor + "-" + color, stroke: stroke, "stroke-width": 1}),
 
-		txt = paper.text(cx*2,cy/2, labels[j] +"\nTotal of "+values[j]+"\n IP Addresses "+operator).attr({fill: bcolor, stroke: "none", opacity: 0, "font-size": 20});
+		txt = paper.text(cx,cy, labels[j] +"\nTotal of "+values[j]+"\n IP Addresses "+operator).attr({fill: bcolor, stroke: "none", opacity: 0, "font-size": 20});
             p.mouseover(function () {
                 p.stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
                 txt.stop().animate({opacity: 1}, ms, "elastic");
@@ -45,8 +45,12 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator
     for (var i = 0, ii = values.length; i < ii; i++) {
         total += values[i];
     }
+    if(total == 0) title = "No IP Addresses "+ operator;
     for (i = 0; i < ii; i++) {
         process(i);
     }
+
+    ti = paper.text(cx, cy/20, title).attr({fill: Raphael.hsb(0,0,0), stroke: "none", opacity: 1, "font-size": 32});
+    chart.push(ti);
     return chart;
 };
