@@ -22,14 +22,9 @@
 class IpAddress < ActiveRecord::Base
 	belongs_to :network, :foreign_key => 'network_parent'
 	has_one :type, :class_name => 'DeviceType', :foreign_key => "id", :primary_key => "device_type"
-	has_many :dns_ip_joins, :foreign_key => "ip_id"
+	has_many :dns_ip_joins, :foreign_key => "ip_id", :dependent => :destroy
 	has_many :dns_devices, :class_name => "DnsDeviceAssoc", :through => :dns_ip_joins
-	accepts_nested_attributes_for :dns_devices, :reject_if => :rejection_test, :allow_destroy => true
-
-	def rejection_test(attrs)
-		ap attrs
-		attrs['id'].blank?
-	end
+	accepts_nested_attributes_for :dns_devices, :allow_destroy => true
 
 	#Returns the validity of this model checked against the rules of networking
 	#If and only if the address is a valid IP, is defined in a network,

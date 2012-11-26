@@ -24,8 +24,9 @@ class DnsDeviceAssocsController < ApplicationController
 	def autocomplete
 		q = params[:query]
 		result = DnsDeviceAssoc.where("name LIKE \"#{q}%\"");
-		resp_val = {:query => q,:suggestions => result.collect {|x| x.name},
-			:data => result.collect {|x| x.id}}	
+##		resp_val = {:query => q,:suggestions => result.collect {|x| x.name},
+#			:data => result.collect {|x| x.id}}	
+			resp_val = result.collect{|x| [x.name,x.id]}
     respond_to do |format|
       format.json { render json: resp_val }
     end
