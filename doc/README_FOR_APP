@@ -40,7 +40,8 @@ Class NotificationsController - Class which using either JSON or HTML format cre
 	It includes methods: create(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
 
 DEPENDENCIES:
-This project depends on the Ruby on Rails (3.2.8) library released under the specifications of FOSS (Free and Open Sourced Software) and is used
+This project depends on the Ruby on Rails library released under the
+specifications of FOSS (Free and Open Sourced Software) and is used
 appropriately as such.
 
 LICENSE:
