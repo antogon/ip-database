@@ -1,6 +1,7 @@
-#  A Domain Name Service resolves queries for domain names into IP addresses for the purpose of locating computer services and devices worldwide.
+# A Domain Name Service resolves queries for domain names into IP addresses 
+# for the purpose of locating computer services and devices worldwide.
 # Reference: http://en.wikipedia.org/wiki/Domain_Name_System
- 
+#  
 # Class which populates the table for the DNS Device Associations using either JSON or HTML.
 # This class includes Options such as Show, Edit, Destroy, New, Create and Update. 
 

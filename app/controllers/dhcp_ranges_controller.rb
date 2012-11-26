@@ -3,10 +3,9 @@
 # Ranges determine which IP addresses are provided to the clients. Ranges should be defined and activated before DHCP clients use the DHCP server for its dynamic IP configuration. 
 # As many ranges on a DHCP server as is required could be configured in network environment.
 # Reference: http://wiki.answers.com/Q/What_is_scope_and_super_scope
- 
+#
 # This Class populates the table for the DHCP Ranges using either JSON or HTML format.
 # This Class includes Options such as Show, Edit, Destroy, New, Create and Update
-
 class DhcpRangesController < ApplicationController
 
 	before_filter :session_update
