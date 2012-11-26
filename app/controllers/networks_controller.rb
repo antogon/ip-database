@@ -1,4 +1,5 @@
-# Class which populates the table for the Networks and includes the Options such as Show, New, Edit, Create, Destroy and Update
+# Class which populates the table for the Networks using either JSON or HTML format.
+# This class includes Options such as Show, New, Edit, Create, Destroy and Update
 
 class NetworksController < ApplicationController
 

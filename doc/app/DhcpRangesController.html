@@ -160,9 +160,9 @@
 
   <div id="description" class="description">
     
-<p>Class which using either json or html populates the table for the DHCP
-Ranges and includes the Options such as Show, Edit, Destroy, New, Create
-and Update</p>
+<p>This Class populates the table for the DHCP Ranges using either JSON or
+HTML format. This Class includes Options such as Show, Edit, Destroy, New,
+Create and Update</p>
 
   </div><!-- description -->
 
@@ -200,7 +200,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 95</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 102</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:dhcp_range</span>])
 
@@ -240,7 +240,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="dataTable-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 19</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 26</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">dataTable</span>
             <span class="ruby-identifier">s</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:sSearch</span>]
 
@@ -313,7 +313,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 127</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@dhcp_range</span>.<span class="ruby-identifier">destroy</span>
@@ -349,7 +349,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 89</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -379,7 +379,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 9</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@dhcp_ranges</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">all</span>
 
@@ -414,7 +414,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 79</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">new</span>
 
@@ -449,7 +449,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 68</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -484,7 +484,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 111</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 118</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
