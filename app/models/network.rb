@@ -27,8 +27,13 @@ class Network < ActiveRecord::Base
 
 	scope :ip_in_range?, lambda { |ip| 
 		ip = IP.parse(ip)
-		where("network_no < '#{ip.to_hex}' AND '#{ip.to_hex}' < BINARY CONCAT(SUBSTR(network_no FROM 1 FOR LENGTH(SUBSTRING_INDEX(netmask,'0',1))),REPEAT('f',IF(ip_v4=1, LENGTH(TRIM(LEADING 'f' FROM netmask))-24,LENGTH(TRIM(LEADING 'f' FROM netmask))))) AND ip_v4 = #{(ip.proto=="v4")?1:0}")
+		where("(x'#{ip.to_hex}' >= cast(conv(network_no,16,10) as unsigned)) AND (x'#{ip.to_hex}' <= ((cast(conv(network_no,16,10) as unsigned)|(~cast(conv(netmask,16,10) as unsigned)))&x'00000000FFFFFFFF')) AND (ip_v4 = #{(ip.proto=="v4")?1:0})").delete_if {|x| !x.assignable? ip}
 	}
+
+	def assignable? ip
+		IpAddress.where("ip_v4 = '#{ip.to_hex}' OR ip_v6 = '#{ip.to_hex}'").length == 0 &&
+		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
+	end
 	
 	def ip_v4=
 		raise "You can't set this.  It's read-only.  Asshole."

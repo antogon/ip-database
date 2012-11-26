@@ -36,8 +36,7 @@ class IpAddress < ActiveRecord::Base
 	#and is not already assigned or in a DHCP range, this function returns true.
 	def valid_ip?
 		net_possibilities = Network.ip_in_range?(self.ip_str)
-		(net_possibilities.length>0) && (net_possibilities.collect { |x| x.id }.include? self.network_parent) &&
-		(IpAddress.where("ip_v4 = '#{IP.parse(self.ip_str).to_hex}' OR ip_v6 = '#{IP.parse(self.ip_str).to_hex}'").length == 0)
+		(net_possibilities.length>0) && (net_possibilities.collect { |x| x.id }.include? self.network_parent)
 	end
 
  	#Returns true if network exists or false if doesn't
