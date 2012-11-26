@@ -23,7 +23,8 @@
                title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
-          Raphael("TOTALS", 948, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title);
+          document.getElementById("LEFT").style.display="none";
+          Raphael("SUB", 1066, 554).pieChart(533, 250, 200, space, space_labels, ids, "#fff", "", title);
         });
       }
 </script>
@@ -108,7 +109,8 @@
 	</table>
 </div>
     <div class="tab-pane" id="tab2">
-      <div class="tabbable tabs-left">
+      <div id="SUB"></div>
+      <div class="tabbable tabs-left" id="LEFT">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#Totals" data-toggle="tab">Totals</a></li>
           <li><a href = "#Assigned" data-toggle="tab">Assigned</a></li>

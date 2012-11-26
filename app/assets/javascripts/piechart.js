@@ -46,11 +46,13 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator
         total += values[i];
     }
     if(total == 0) title = "No IP Addresses "+ operator;
-    for (i = 0; i < ii; i++) {
-        process(i);
-    }
-
     ti = paper.text(cx, cy/20, title).attr({fill: Raphael.hsb(0,0,0), stroke: "none", opacity: 1, "font-size": 32});
     chart.push(ti);
+    if(total != 0) {
+        for (i = 0; i < ii; i++) {
+            process(i);
+        }
+    }
+
     return chart;
 };
