@@ -148,10 +148,11 @@
 
   <div id="description" class="description">
     
-<p>Class which makes the representation of the IP-Database page. Allows user
-to create New Notifications in the Announcements section. Presents the
-statistics of the Networks, IP Addresses and DNS Devices. Also it shows the
-Recent Changes made and apdates the most recent date of the session.</p>
+<p>Class which makes the representation of the IP-Database page.  This class
+provides user an option to create New Notifications in the Announcements
+section.  Class presents the statistics for the Networks, IP Addresses and
+DNS Devices.  Class also shows the Recent Changes made and updates the most
+recent date of the session.</p>
 
   </div><!-- description -->
 
@@ -192,7 +193,7 @@ of DNS Devices.</p>
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 9</span>
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
         <span class="ruby-ivar">@notes</span> = <span class="ruby-constant">Notification</span>.<span class="ruby-identifier">after</span> <span class="ruby-identifier">lambda</span>{<span class="ruby-value">1</span>.<span class="ruby-identifier">weeks</span>.<span class="ruby-identifier">ago</span>}.<span class="ruby-identifier">call</span>
         <span class="ruby-identifier">networks</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">all</span>
@@ -234,7 +235,7 @@ of DNS Devices.</p>
 
           
           <div class="method-source-code" id="session_update-source">
-            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 26</span>
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">session_update</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">session</span>[<span class="ruby-value">:create_time</span>]
                 <span class="ruby-identifier">session</span>[<span class="ruby-value">:create_time</span>] = <span class="ruby-identifier">lambda</span>{<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>}.<span class="ruby-identifier">call</span>
