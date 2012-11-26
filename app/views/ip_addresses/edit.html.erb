@@ -18,33 +18,41 @@
 			});
 		});
 	</script>
-	<%= form_for(@ip_address) do |f| %>
-		<label><%= f.label :contact -%></label>
-		<%= f.text_field :contact -%>
-
-		<label><%= f.label :location -%></label>
-		<%= f.text_field :location -%>
-
-		<label><%= f.label :device_type -%></label>
-		<%= f.select :device_type, options_from_collection_for_select(DeviceType.all, :id, :name) -%>
-
-
-		<label>Parent Network</label>
-		<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name) -%>
-
-		<label>Description</label>
-		<%= f.text_area :desc, :size => "30x5" -%>
-
-		<label>MAC Address</label>
-		<%= f.text_field :mac_address -%>
-
-		<label>DNS Associations</label>
-	<%= f.fields_for :dns_devices do |dns_dev|-%>
-			<%= dns_dev.select :id, [], {:multiple => true}, {:style => "display:none;"} -%>
-			<%= text_field_tag "dns-assocs-nested-search" -%>
-	<% end %>
-
-		<label>Static DHCP?</label>
-		<%= f.select :is_static_dhcp, options_for_select([["Yes",true],["No",false]]) -%>
+	<%= form_for(@ip_address, {:class=>"form-inline"}) do |f| %>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td><label>IP Address<em>*</em>:</label></td>
+        <td><%= f.text_field :ip_str, {:class => "{validate: {required: true, ip: true}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label>Contact Name<em>*</em>:</label></td>
+				<td><%= f.text_field :contact, {:class => "{validate: {required: true, minlength: 6, maxlength: 50}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label><%= f.label :location -%></label></td>
+				<td><%= f.text_field :location -%></td>
+			</tr>
+			<tr>
+				<td><label>Device Type<em>*</em>:</label></td>
+				<td><%= f.select :device_type, options_from_collection_for_select(DeviceType.all, :id, :name) -%></td>
+			</tr>
+			<tr>
+				<td><label>Parent Network:</label></td>
+				<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name) -%></td>
+			</tr>
+			<tr>
+				<td><label>Description:</label></td>
+				<td><%= f.text_area :desc, :size => "30x5" -%></td>
+			</tr>
+			<tr>
+				<td><label>Static DHCP?</label></td>
+				<td><%= f.select :is_static_dhcp, options_for_select([["Yes",true],["No",false]]) -%></td>
+			</tr>
+			<tr>
+				<td><label>MAC Address:</label></td>
+				<td><%= f.text_field :mac_address, {:class => "{validate: {required: function(element){return $('#ip_address_is_static_dhcp').val()===\"true\";}, mac: true}}"} -%></td>
+			</tr>
+		</table>
 		<%= f.submit :class => "btn btn-primary"-%>
 	<%- end -%>
+</div>
