@@ -62,7 +62,9 @@
 			<td>Associated DNS Devices:</td>
 			<td>
 				<% if @ip_address.dns_devices != [] %>
-					<%= @ip_address.dns_devices -%>
+					<% @ip_address.dns_devices.each do |dns| %>
+						<% link_to dns.name, dns -%>
+					<% end %>
 				<% end %>
 			</td>
 		</tr>
