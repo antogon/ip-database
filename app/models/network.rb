@@ -34,7 +34,7 @@ class Network < ActiveRecord::Base
 		mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
 		mask = ((self.ip_v4)?32:128)-mask
 		(((IP.parse(self.network_no))..(IP.new([(self.ip_v4)?"v4":"v6",IP.parse(self.network_no).to_i | [((2**mask)-1).to_s(16).rjust((self.ip_v4)?8:32,'0').scan(/[0-9a-f]{2}/i).reverse.join].pack('H*').unpack('l')[0]]))) === ip) &&
-		IpAddress.where("ip_v4 = '#{ip.to_hex}' OR ip_v6 = '#{ip.to_hex}'").length == 0 &&
+		!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s) &&
 		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
 	end
 	
