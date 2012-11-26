@@ -1,4 +1,5 @@
-# Class which using either json or html populates the table for the IP addresses and includes the Options such as Show, Edit, Destroy, Create, New and Update
+# Class which populates the table for the IP addresses using either JSON or HTML.
+# This class includes the Options such as Show, Edit, Destroy, Create, New and Update
 
 class IpAddressesController < ApplicationController
 

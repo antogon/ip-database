@@ -1,4 +1,8 @@
-# Class which makes the representation of the IP-Database page. Allows user to create New Notifications in the Announcements section. Presents the statistics of the Networks, IP Addresses and DNS Devices. Also it shows the Recent Changes made and apdates the most recent date of the session.
+# Class which makes the representation of the IP-Database page. 
+# This class provides user an option to create New Notifications in the Announcements section. 
+# Class presents the statistics for the Networks, IP Addresses and DNS Devices. 
+# Class also shows the Recent Changes made and updates the most recent date of the session.
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 

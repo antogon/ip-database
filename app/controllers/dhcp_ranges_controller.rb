@@ -1,5 +1,11 @@
-# Class which using either json or html populates the table for the DHCP Ranges and includes the Options such as Show, Edit, Destroy, New, Create and Update
-
+# A DHCP scope is a valid range of IP addresses which are available for assignments or lease to client computers on a particular subnet. 
+# In a DHCP server, range must be configured to determine the address pool of IPs which the server can provide to DHCP clients.
+# Ranges determine which IP addresses are provided to the clients. Ranges should be defined and activated before DHCP clients use the DHCP server for its dynamic IP configuration. 
+# As many ranges on a DHCP server as is required could be configured in network environment.
+# Reference: http://wiki.answers.com/Q/What_is_scope_and_super_scope
+#
+# This Class populates the table for the DHCP Ranges using either JSON or HTML format.
+# This Class includes Options such as Show, Edit, Destroy, New, Create and Update
 class DhcpRangesController < ApplicationController
 
 	before_filter :session_update
