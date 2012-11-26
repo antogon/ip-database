@@ -27,7 +27,7 @@ class DhcpRange < ActiveRecord::Base
 	def address_count
 		IP.parse(self.end_ip).to_i - IP.parse(self.start_ip).to_i + 1
 	end
-
+	#Converts DHCP range into the IP Address
 	def to_range
 		IP.parse(self.start_ip)..IP.parse(self.end_ip)
 	end

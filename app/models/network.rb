@@ -37,7 +37,7 @@ class Network < ActiveRecord::Base
 		!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s) &&
 		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
 	end
-	
+	#Protects the private parts	
 	def ip_v4=
 		raise "You can't set this.  It's read-only.  Asshole."
 	end
@@ -68,7 +68,7 @@ class Network < ActiveRecord::Base
 		addr = read_attribute(:netmask)
 		IP.new([(read_attribute(:ip_v4))?"v4":"v6",addr]).to_s
 	end
-
+	#Returns number of static IP Adresses of a subnet or a supernet
 	def num_static_ip
 		total = 0
 		if self.child_networks == [] #If subnet
@@ -78,7 +78,7 @@ class Network < ActiveRecord::Base
 		end
 		total
 	end
-
+	#Returns number IP Addresses in DHCP Ranges for a subnet or a supernet
 	def num_dhcp_ranges
 		total = 0
 		if self.child_networks == [] #If subnet
