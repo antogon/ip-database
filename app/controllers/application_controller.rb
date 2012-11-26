@@ -1,10 +1,10 @@
-# Class which makes the representation of the front page
+# Class which makes the representation of the IP-Database page. Allows user to create New Notifications in the Announcements section. Presents the statistics of the Networks, IP Addresses and DNS Devices. Also it shows the Recent Changes made and apdates the most recent date of the session.
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
 	before_filter :session_update
 	# Contains information for the front page. Allows the user to create a notification if needed.
-	# Also shows numkber of total, physical and virtual networks. Shows how many IP adresses total, assigned and free.
+	# Also shows number of total, physical and virtual networks. Shows how many IP adresses total, assigned and free.
 	# Shows number of DNS Devices.
 	def index
 		@notes = Notification.after lambda{1.weeks.ago}.call
