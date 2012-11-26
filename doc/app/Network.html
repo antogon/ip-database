@@ -129,6 +129,8 @@
   
     <li><a href="./DnsDeviceAssocsHelper.html">DnsDeviceAssocsHelper</a>
   
+    <li><a href="./DnsIpJoin.html">DnsIpJoin</a>
+  
     <li><a href="./IpAddress.html">IpAddress</a>
   
     <li><a href="./IpAddressesController.html">IpAddressesController</a>
@@ -213,7 +215,7 @@ netmask        :string(255)      not null</pre>
 
           
           <div class="method-source-code" id="child_networks-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 29</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">child_networks</span>
         <span class="ruby-constant">Network</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:network_parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -243,10 +245,10 @@ netmask        :string(255)      not null</pre>
 
           
           <div class="method-source-code" id="netmask-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 48</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">netmask</span>
         <span class="ruby-identifier">addr</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:netmask</span>)
-        <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">addr</span>).<span class="ruby-identifier">to_s</span>
+        <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>))<span class="ruby-operator">?</span><span class="ruby-string">&quot;v4&quot;</span><span class="ruby-operator">:</span><span class="ruby-string">&quot;v6&quot;</span>,<span class="ruby-identifier">addr</span>]).<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- netmask-source -->
           
@@ -274,10 +276,10 @@ netmask        :string(255)      not null</pre>
 
           
           <div class="method-source-code" id="netmask-3D-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 43</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">netmask=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
-        <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:netmask</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>)
+        <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:netmask</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_hex</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- netmask-3D-source -->
           
@@ -305,10 +307,10 @@ netmask        :string(255)      not null</pre>
 
           
           <div class="method-source-code" id="network_no-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 38</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">network_no</span>
         <span class="ruby-identifier">addr</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:network_no</span>)
-        <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">addr</span>).<span class="ruby-identifier">to_s</span>
+        <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>))<span class="ruby-operator">?</span><span class="ruby-string">&quot;v4&quot;</span><span class="ruby-operator">:</span><span class="ruby-string">&quot;v6&quot;</span>,<span class="ruby-identifier">addr</span>]).<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- network_no-source -->
           
@@ -336,10 +338,11 @@ netmask        :string(255)      not null</pre>
 
           
           <div class="method-source-code" id="network_no-3D-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 33</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">network_no=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
-        <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:network_no</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>)
+        <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:ip_v4</span>, (<span class="ruby-identifier">ip</span>.<span class="ruby-identifier">proto</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;v4&quot;</span>))
+        <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:network_no</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_hex</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- network_no-3D-source -->
           
@@ -367,15 +370,11 @@ netmask        :string(255)      not null</pre>
 
           
           <div class="method-source-code" id="num_ip-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 62</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_ip</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">child_networks</span> <span class="ruby-operator">==</span> []
          <span class="ruby-identifier">start_ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">network_no</span>)
          <span class="ruby-identifier">mask</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">netmask</span>).<span class="ruby-identifier">to_i</span>.<span class="ruby-identifier">to_s</span>(<span class="ruby-value">2</span>).<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r/</span>).<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">s</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_i</span> }
          <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">start_ip</span>.<span class="ruby-identifier">proto</span>, <span class="ruby-identifier">start_ip</span>, <span class="ruby-identifier">mask</span>]).<span class="ruby-identifier">network</span>.<span class="ruby-identifier">size</span>
-        <span class="ruby-keyword">else</span>
-         <span class="ruby-value">0</span>
-        <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- num_ip-source -->
           
@@ -398,19 +397,23 @@ netmask        :string(255)      not null</pre>
 
         <div class="method-description">
           
-          <p>Returns the total number of IP addresses that have been assigned within the
-network</p>
+          <p>Returns the number of IP Addresses/DHCP Range Sizes in a network Or returns
+the same for all child networks</p>
           
 
           
           <div class="method-source-code" id="num_ip_assigned-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 53</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_ip_assigned</span>
         <span class="ruby-identifier">total</span> = <span class="ruby-value">0</span>
-        <span class="ruby-keyword">if</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_addresses!</span>=[])
+        <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">child_networks</span> <span class="ruby-operator">==</span> [] <span class="ruby-comment">#If subnet</span>
+         <span class="ruby-keyword">if</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_addresses!</span>=[])
                 <span class="ruby-identifier">total</span> <span class="ruby-operator">+=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_addresses</span>.<span class="ruby-identifier">length</span>
+         <span class="ruby-keyword">end</span>
+         <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dhcp_ranges</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">dhcp</span><span class="ruby-operator">|</span> <span class="ruby-identifier">total</span><span class="ruby-operator">+=</span><span class="ruby-identifier">dhcp</span>.<span class="ruby-identifier">address_count</span>}
+        <span class="ruby-keyword">else</span> <span class="ruby-comment"># else if supernet</span>
+         <span class="ruby-keyword">self</span>.<span class="ruby-identifier">child_networks</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">child</span><span class="ruby-operator">|</span> <span class="ruby-identifier">total</span><span class="ruby-operator">+=</span><span class="ruby-identifier">child</span>.<span class="ruby-identifier">num_ip_assigned</span>}
         <span class="ruby-keyword">end</span>
-        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dhcp_ranges</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">dhcp</span><span class="ruby-operator">|</span> <span class="ruby-identifier">total</span><span class="ruby-operator">+=</span><span class="ruby-identifier">dhcp</span>.<span class="ruby-identifier">address_count</span>}
         <span class="ruby-identifier">total</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- num_ip_assigned-source -->
@@ -439,7 +442,7 @@ network</p>
 
           
           <div class="method-source-code" id="num_ip_free-source">
-            <pre><span class="ruby-comment"># File app/models/network.rb, line 72</span>
+            <pre><span class="ruby-comment"># File app/models/network.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_ip_free</span>
         <span class="ruby-identifier">num_ip</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">num_ip_assigned</span>
 <span class="ruby-keyword">end</span></pre>

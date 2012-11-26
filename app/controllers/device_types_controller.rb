@@ -1,4 +1,11 @@
-# Class which using either json or html populates the table for the Device Types and includes the Options such as Show, Edit, Destroy, Creates, New and Update
+# Class which populates the table for the Device Types using either JSON or HTML. 
+# Options:
+# Show, Edit, Destroy, Create, New and Update options are included. 
+# New Device Type button provides an option to add a new device type. 
+# Shows ID, Names and when entry was created or updated. 
+# Users may choose their preferences of how many entries would be displayed on the page.
+# Search option is provided
+
 class DeviceTypesController < ApplicationController
   # GET /device_types
   # GET /device_types.json

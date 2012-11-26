@@ -129,6 +129,8 @@
   
     <li><a href="./DnsDeviceAssocsHelper.html">DnsDeviceAssocsHelper</a>
   
+    <li><a href="./DnsIpJoin.html">DnsIpJoin</a>
+  
     <li><a href="./IpAddress.html">IpAddress</a>
   
     <li><a href="./IpAddressesController.html">IpAddressesController</a>
@@ -158,9 +160,12 @@
 
   <div id="description" class="description">
     
-<p>Class which using either json or html populates the table for the Device
-Types and includes the Options such as Show, Edit, Destroy, Creates, New
-and Update</p>
+<p>Class which populates the table for the Device Types using either JSON or
+HTML.  Options: Show, Edit, Destroy, Create, New and Update options are
+included.  New Device Type button provides an option to add a new device
+type.  Shows ID, Names and when entry was created or updated.  Users may
+choose their preferences of how many entries would be displayed on the
+page. Search option is provided</p>
 
   </div><!-- description -->
 
@@ -198,7 +203,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 71</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@device_type</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:device_type</span>])
 
@@ -238,7 +243,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="dataTable-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 15</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 22</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">dataTable</span>
             <span class="ruby-identifier">s</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:sSearch</span>]
             <span class="ruby-keyword">if</span>(<span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r\A[\d]+\z/</span>))
@@ -291,7 +296,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 103</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 110</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@device_type</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@device_type</span>.<span class="ruby-identifier">destroy</span>
@@ -327,7 +332,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 65</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@device_type</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -357,7 +362,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 5</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@device_types</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">all</span>
 
@@ -392,7 +397,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 55</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@device_type</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">new</span>
 
@@ -427,7 +432,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 44</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@device_type</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -462,7 +467,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 87</span>
+            <pre><span class="ruby-comment"># File app/controllers/device_types_controller.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@device_type</span> = <span class="ruby-constant">DeviceType</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 

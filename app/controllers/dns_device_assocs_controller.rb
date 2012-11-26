@@ -1,4 +1,4 @@
-# Class which using either json or html populates the table for the DNS Device Associations and includes the Options such as Show, Edit, Destroy, New, Create and Update
+# Class which populates the table for the DNS Device Associations using either JSON or HTML.This class includes the Options such as Show, Edit, Destroy, New, Create and Update. 
 
 class DnsDeviceAssocsController < ApplicationController
 
