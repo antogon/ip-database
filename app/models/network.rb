@@ -27,10 +27,13 @@ class Network < ActiveRecord::Base
 
 	scope :ip_in_range?, lambda { |ip| 
 		ip = IP.parse(ip)
-		where("(x'#{ip.to_hex}' >= cast(conv(network_no,16,10) as unsigned)) AND (x'#{ip.to_hex}' <= ((cast(conv(network_no,16,10) as unsigned)|(~cast(conv(netmask,16,10) as unsigned)))&x'00000000FFFFFFFF')) AND (ip_v4 = #{(ip.proto=="v4")?1:0})").delete_if {|x| !x.assignable? ip}
+		Network.all.delete_if { |x| (!x.assignable? ip) }
 	}
 
 	def assignable? ip
+		mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
+		mask = ((self.ip_v4)?32:128)-mask
+		(((IP.parse(self.network_no))..(IP.new([(self.ip_v4)?"v4":"v6",IP.parse(self.network_no).to_i | [((2**mask)-1).to_s(16).rjust((self.ip_v4)?8:32,'0').scan(/[0-9a-f]{2}/i).reverse.join].pack('H*').unpack('l')[0]]))) === ip) &&
 		IpAddress.where("ip_v4 = '#{ip.to_hex}' OR ip_v6 = '#{ip.to_hex}'").length == 0 &&
 		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
 	end
