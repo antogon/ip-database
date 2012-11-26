@@ -93,6 +93,7 @@ GEM
     rb-readline (0.4.2)
     rdoc (3.12)
       json (~> 1.4)
+    redcarpet (2.2.2)
     ruby-graphviz (1.0.8)
     ruby-ip (0.9.1)
     sass (3.2.1)
@@ -130,6 +131,7 @@ DEPENDENCIES
   rails (= 3.2.8)
   rails-erd
   rb-readline
+  redcarpet
   ruby-ip
   sass-rails (~> 3.2.3)
   therubyracer
