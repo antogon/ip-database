@@ -61,13 +61,9 @@
 		<tr>
 			<td>Associated DNS Devices:</td>
 			<td>
-			<% if @ip_address.dns_devices != [] -%>
-				<% @ip_address.dns_devices.each do |d| %>
-					<%= link_to d.name, dns_device_assoc_path(d) -%><br/>
+				<% if @ip_address.dns_devices != [] %>
+					<%= @ip_address.dns_devices -%>
 				<% end %>
-			<% else %>
-				<%= "None" -%>
-			<% end %>
 			</td>
 		</tr>
 	</table>
