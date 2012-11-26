@@ -208,15 +208,16 @@ Destroy, New, Create and Update.</p>
           
           <div class="method-source-code" id="autocomplete-source">
             <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 24</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">autocomplete</span>
-            <span class="ruby-identifier">q</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:query</span>]
-            <span class="ruby-identifier">result</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;name LIKE \&quot;#{q}%\&quot;&quot;</span>);
-            <span class="ruby-identifier">resp_val</span> = {<span class="ruby-value">:query</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">q</span>,<span class="ruby-value">:suggestions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">name</span>},
-                    <span class="ruby-value">:data</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">id</span>}}  
-<span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-identifier">resp_val</span> }
-<span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">end</span></pre>
+        <span class="ruby-keyword">def</span> <span class="ruby-identifier">autocomplete</span>
+                <span class="ruby-identifier">q</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:query</span>]
+                <span class="ruby-identifier">result</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;name LIKE \&quot;#{q}%\&quot;&quot;</span>);
+<span class="ruby-comment">##              resp_val = {:query =&gt; q,:suggestions =&gt; result.collect {|x| x.name},</span>
+<span class="ruby-comment">#                       :data =&gt; result.collect {|x| x.id}} </span>
+                        <span class="ruby-identifier">resp_val</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">x</span>.<span class="ruby-identifier">name</span>,<span class="ruby-identifier">x</span>.<span class="ruby-identifier">id</span>]}
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-identifier">resp_val</span> }
+    <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span></pre>
           </div><!-- autocomplete-source -->
           
         </div>
@@ -243,7 +244,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 102</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@dns_device_assoc</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:dns_device_assoc</span>])
 
@@ -283,7 +284,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="dataTable-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 35</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 36</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">dataTable</span>
             <span class="ruby-identifier">s</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:sSearch</span>]
             <span class="ruby-keyword">if</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r\d*\./</span>)
@@ -347,7 +348,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 134</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@dns_device_assoc</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@dns_device_assoc</span>.<span class="ruby-identifier">destroy</span>
@@ -383,7 +384,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 96</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 97</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@dns_device_assoc</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -448,7 +449,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 86</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@dns_device_assoc</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">new</span>
 
@@ -483,7 +484,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 75</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@dns_device_assoc</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -518,7 +519,7 @@ Destroy, New, Create and Update.</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 118</span>
+            <pre><span class="ruby-comment"># File app/controllers/dns_device_assocs_controller.rb, line 119</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@dns_device_assoc</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 

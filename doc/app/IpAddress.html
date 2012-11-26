@@ -88,8 +88,6 @@
     
     <li><a href="#method-i-ip_v6-3F">#ip_v6?</a>
     
-    <li><a href="#method-i-rejection_test">#rejection_test</a>
-    
     <li><a href="#method-i-valid_ip-3F">#valid_ip?</a>
     
   </ul>
@@ -224,7 +222,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="has_parent-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 44</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">has_parent?</span>
         <span class="ruby-operator">!</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">network</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -254,7 +252,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_str-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 48</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_str</span>
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">ip_v4?</span>
                 <span class="ruby-identifier">ip_v4</span>
@@ -288,7 +286,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_str-3D-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 56</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_str=</span> <span class="ruby-identifier">ip_in</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">ip_in</span>)
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">proto</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;v6&quot;</span>
@@ -323,7 +321,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_v4-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 84</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v4</span>
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([<span class="ruby-string">'v4'</span>,<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>)]).<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
@@ -353,7 +351,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_v4-3D-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 78</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v4=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:ip_v4</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_hex</span>)
@@ -384,7 +382,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_v4-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 66</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v4?</span>
         <span class="ruby-identifier">i</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v6</span>)
         <span class="ruby-identifier">i</span><span class="ruby-operator">==</span><span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">nil?</span>
@@ -415,7 +413,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_v6-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 93</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v6</span>
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([<span class="ruby-string">'v6'</span>,<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v6</span>)]).<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
@@ -445,7 +443,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_v6-3D-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 88</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v6=</span> <span class="ruby-identifier">new_ip</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">new_ip</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:ip_v6</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_hex</span>)
@@ -476,7 +474,7 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
           
           <div class="method-source-code" id="ip_v6-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 72</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_v6?</span>
         <span class="ruby-identifier">i</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>)
         <span class="ruby-identifier">i</span><span class="ruby-operator">==</span><span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">nil?</span>
@@ -489,37 +487,6 @@ Internet standard document RFC 2460, published in December 1998.</p>
 
         
       </div><!-- ip_v6-3F-method -->
-
-    
-      <div id="method-i-rejection_test" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">rejection_test</span><span
-            class="method-args">(attrs)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="rejection_test-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 29</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">rejection_test</span>(<span class="ruby-identifier">attrs</span>)
-        <span class="ruby-identifier">ap</span> <span class="ruby-identifier">attrs</span>
-        <span class="ruby-identifier">attrs</span>[<span class="ruby-string">'id'</span>].<span class="ruby-identifier">blank?</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- rejection_test-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- rejection_test-method -->
 
     
       <div id="method-i-valid_ip-3F" class="method-detail ">
@@ -540,11 +507,10 @@ not already assigned or in a DHCP range, this function returns true.</p>
 
           
           <div class="method-source-code" id="valid_ip-3F-source">
-            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 37</span>
+            <pre><span class="ruby-comment"># File app/models/ip_address.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_ip?</span>
         <span class="ruby-identifier">net_possibilities</span> = <span class="ruby-constant">Network</span>.<span class="ruby-identifier">ip_in_range?</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip_str</span>)
-        (<span class="ruby-identifier">net_possibilities</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">net_possibilities</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">id</span> }.<span class="ruby-identifier">include?</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">network_parent</span>) <span class="ruby-operator">&amp;&amp;</span>
-        (<span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;ip_v4 = '#{IP.parse(self.ip_str).to_hex}' OR ip_v6 = '#{IP.parse(self.ip_str).to_hex}'&quot;</span>).<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>)
+        (<span class="ruby-identifier">net_possibilities</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">net_possibilities</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">id</span> }.<span class="ruby-identifier">include?</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">network_parent</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- valid_ip-3F-source -->
           
