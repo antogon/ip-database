@@ -16,6 +16,7 @@ IpDatabase::Application.routes.draw do
   resources :networks
 
 	post 'ip/dataTable' => 'ip_addresses#dataTable'
+	post 'ip/macCheck' => 'ip_addresses#macCheck'
   resources :ip_addresses
 
 	root :to => 'application#index'
