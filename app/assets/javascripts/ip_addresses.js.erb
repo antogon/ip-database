@@ -61,5 +61,23 @@ jQuery(function(){
    ajax_auto_a = $('#dns-assocs-nested-search').autocomplete(ajax_auto_options);
 });	
 
+jQuery(function(){
+	$(".btn").click(function(){
+		var ip_address = #("input#network[network_no]").val();
+		if(ip_address == "")
+			return false;
+		else
+			$.ajax({
+				type: "POST",
+				url: "",
+				data: ip_address,
+				success: function(data) {
+					$(".network_network_parent").children("select:first").children("option").remove();
+					for(i = 0; i < data.length; i++){
+						$(".network_network_parent").children("select:first")
+				});
+	});
+});
+
 });
 
