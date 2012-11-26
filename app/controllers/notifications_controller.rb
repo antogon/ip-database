@@ -1,4 +1,4 @@
-# Class which using either json or html creates an option for a user to create a notification
+# Class which using either JSON or HTML format creates an option for a user to create a notification or update one.
 class NotificationsController < ApplicationController
 
 	before_filter :session_update

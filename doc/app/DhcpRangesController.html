@@ -129,6 +129,8 @@
   
     <li><a href="./DnsDeviceAssocsHelper.html">DnsDeviceAssocsHelper</a>
   
+    <li><a href="./DnsIpJoin.html">DnsIpJoin</a>
+  
     <li><a href="./IpAddress.html">IpAddress</a>
   
     <li><a href="./IpAddressesController.html">IpAddressesController</a>
@@ -198,7 +200,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 74</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 95</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:dhcp_range</span>])
 
@@ -241,8 +243,29 @@ and Update</p>
             <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 19</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">dataTable</span>
             <span class="ruby-identifier">s</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:sSearch</span>]
-            <span class="ruby-keyword">if</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r\d*\./</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r[0-9a-fA-F]{0,4}:/</span>)
-                    <span class="ruby-identifier">dhcp_ranges</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;start_ip LIKE \&quot;#{s}%\&quot; OR end_ip LIKE \&quot;#{s}%\&quot;&quot;</span>)
+
+            <span class="ruby-keyword">if</span>(<span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r[\d]{1,3}\./</span>))
+                    <span class="ruby-keyword">while</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/</span>).<span class="ruby-identifier">nil?</span>
+                            <span class="ruby-identifier">s</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&quot;0.&quot;</span>
+                    <span class="ruby-keyword">end</span>
+                    <span class="ruby-identifier">s</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&quot;0.&quot;</span>
+                    <span class="ruby-identifier">s</span>.<span class="ruby-identifier">chop!</span>
+                    <span class="ruby-identifier">d</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;.0&quot;</span>,<span class="ruby-string">&quot;.255&quot;</span>)
+                    <span class="ruby-identifier">s</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">s</span>)
+                    <span class="ruby-identifier">d</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">d</span>)
+                    <span class="ruby-identifier">dhcp_ranges</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;((start_ip &gt; '#{s.to_hex}' AND start_ip &lt; '#{d.to_hex}') OR (end_ip &gt; '#{s.to_hex}' AND end_ip &lt; '#{d.to_hex}')) AND ip_v4 = 1&quot;</span>)
+                    <span class="ruby-identifier">total</span> = <span class="ruby-identifier">dhcp_ranges</span>.<span class="ruby-identifier">length</span>
+                    <span class="ruby-identifier">dhcp_ranges</span> = <span class="ruby-identifier">dhcp_ranges</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">..</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">+</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayLength</span>].<span class="ruby-identifier">to_i</span>)]
+            <span class="ruby-keyword">elsif</span>(<span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span> <span class="ruby-regexp">%r[0-9a-fA-F]{0,4}:/</span>)
+                    <span class="ruby-keyword">while</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r([0-9a-fA-F]{0,4}:){7}/</span>).<span class="ruby-identifier">nil?</span>
+                            <span class="ruby-identifier">s</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&quot;0000:&quot;</span>
+                    <span class="ruby-keyword">end</span>
+                    <span class="ruby-identifier">s</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&quot;0000:&quot;</span>
+                    <span class="ruby-identifier">s</span>.<span class="ruby-identifier">chop!</span>
+                    <span class="ruby-identifier">d</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;:0000&quot;</span>,<span class="ruby-string">&quot;:FFFF&quot;</span>)
+                    <span class="ruby-identifier">s</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">s</span>)
+                    <span class="ruby-identifier">d</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">d</span>)
+                    <span class="ruby-identifier">dhcp_ranges</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;((start_ip &gt; '#{s.to_hex}' AND start_ip &lt; '#{d.to_hex}') OR (end_ip &gt; '#{s.to_hex}' AND end_ip &lt; '#{d.to_hex}')) AND ip_v4 = 0&quot;</span>)
                     <span class="ruby-identifier">total</span> = <span class="ruby-identifier">dhcp_ranges</span>.<span class="ruby-identifier">length</span>
                     <span class="ruby-identifier">dhcp_ranges</span> = <span class="ruby-identifier">dhcp_ranges</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">..</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">+</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayLength</span>].<span class="ruby-identifier">to_i</span>)]
             <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r.*/</span>)
@@ -290,7 +313,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 106</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@dhcp_range</span>.<span class="ruby-identifier">destroy</span>
@@ -326,7 +349,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 68</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 89</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -391,7 +414,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 58</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 79</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">new</span>
 
@@ -426,7 +449,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 47</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -461,7 +484,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 90</span>
+            <pre><span class="ruby-comment"># File app/controllers/dhcp_ranges_controller.rb, line 111</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@dhcp_range</span> = <span class="ruby-constant">DhcpRange</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 

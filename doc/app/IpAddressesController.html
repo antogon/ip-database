@@ -129,6 +129,8 @@
   
     <li><a href="./DnsDeviceAssocsHelper.html">DnsDeviceAssocsHelper</a>
   
+    <li><a href="./DnsIpJoin.html">DnsIpJoin</a>
+  
     <li><a href="./IpAddress.html">IpAddress</a>
   
     <li><a href="./IpAddressesController.html">IpAddressesController</a>
@@ -198,16 +200,19 @@ and Update</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 91</span>
+            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 101</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@ip_address</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:ip_address</span>])
-
+              <span class="ruby-identifier">validity</span> = <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">valid_ip?</span>
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">validity</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">save</span>
       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-ivar">@ip_address</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'Ip address was successfully created.'</span> }
       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@ip_address</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:created</span>, <span class="ruby-identifier">location</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@ip_address</span> }
+                      <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">validity</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;new&quot;</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'IP Address invalid.  Be sure that the parent network contains this address and that the address is not already assigned.'</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:unprocessable_entity</span> }
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;new&quot;</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;new&quot;</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'IP Address could not be saved'</span> }
       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:unprocessable_entity</span> }
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
@@ -250,11 +255,19 @@ and Update</p>
                     <span class="ruby-identifier">d</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;.0&quot;</span>,<span class="ruby-string">&quot;.255&quot;</span>)
                     <span class="ruby-identifier">s</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">s</span>)
                     <span class="ruby-identifier">d</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">d</span>)
-                    <span class="ruby-identifier">ip_addresses</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:ip_v4</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_i</span><span class="ruby-operator">..</span><span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)
+                    <span class="ruby-identifier">ip_addresses</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;ip_v4 &gt; '#{s.to_hex}' AND ip_v4 &lt; '#{d.to_hex}'&quot;</span>)
                     <span class="ruby-identifier">total</span> = <span class="ruby-identifier">ip_addresses</span>.<span class="ruby-identifier">length</span>
                     <span class="ruby-identifier">ip_addresses</span> = <span class="ruby-identifier">ip_addresses</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">..</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">+</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayLength</span>].<span class="ruby-identifier">to_i</span>)]
             <span class="ruby-keyword">elsif</span>(<span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span> <span class="ruby-regexp">%r[0-9a-fA-F]{0,4}:/</span>)
-                    <span class="ruby-identifier">ip_addresses</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;ip_v6 LIKE '#{s}%'&quot;</span>)
+                    <span class="ruby-keyword">while</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r([0-9a-fA-F]{0,4}:){7}/</span>).<span class="ruby-identifier">nil?</span>
+                            <span class="ruby-identifier">s</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&quot;0000:&quot;</span>
+                    <span class="ruby-keyword">end</span>
+                    <span class="ruby-identifier">s</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&quot;0000:&quot;</span>
+                    <span class="ruby-identifier">s</span>.<span class="ruby-identifier">chop!</span>
+                    <span class="ruby-identifier">d</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;:0000&quot;</span>,<span class="ruby-string">&quot;:FFFF&quot;</span>)
+                    <span class="ruby-identifier">s</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">s</span>)
+                    <span class="ruby-identifier">d</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">d</span>)
+                    <span class="ruby-identifier">ip_addresses</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;ip_v6 &gt; '#{s.to_hex}' AND ip_v6 &lt; '#{d.to_hex}'&quot;</span>)
                     <span class="ruby-identifier">total</span> = <span class="ruby-identifier">ip_addresses</span>.<span class="ruby-identifier">length</span>
                     <span class="ruby-identifier">ip_addresses</span> = <span class="ruby-identifier">ip_addresses</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">..</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayStart</span>].<span class="ruby-identifier">to_i</span><span class="ruby-operator">+</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:iDisplayLength</span>].<span class="ruby-identifier">to_i</span>)]
             <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r.+/</span>)
@@ -307,7 +320,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 123</span>
+            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@ip_address</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">destroy</span>
@@ -343,7 +356,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 85</span>
+            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 95</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@ip_address</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -408,7 +421,7 @@ and Update</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 75</span>
+            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 85</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@ip_address</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">new</span>
 
@@ -443,9 +456,11 @@ and Update</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 64</span>
+            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@ip_address</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+              <span class="ruby-ivar">@assocs</span> = <span class="ruby-constant">DnsDeviceAssoc</span>.<span class="ruby-identifier">all</span>
+              <span class="ruby-ivar">@dns_device</span> = <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">dns_devices</span>.<span class="ruby-identifier">build</span>
 
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># show.html.erb</span>
@@ -478,10 +493,10 @@ and Update</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 107</span>
+            <pre><span class="ruby-comment"># File app/controllers/ip_addresses_controller.rb, line 120</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@ip_address</span> = <span class="ruby-constant">IpAddress</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
-
+              <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">dns_ip_joins</span>.<span class="ruby-identifier">build</span>.<span class="ruby-identifier">build_dns_devices</span>
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@ip_address</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:ip_address</span>])
       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-ivar">@ip_address</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'Ip address was successfully updated.'</span> }
