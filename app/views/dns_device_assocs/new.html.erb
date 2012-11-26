@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<td><label>IP Association<em>*</em>:</label></td>
-				<td></td>
+				<td><%= f.select :ip_id, options_from_collection_for_select(IpAddress.where(:id=> 0...10), :id, :ip_str), :class => "{validate: {required: true}}" -%>
 			</tr>
 		</table>
 		<%= f.submit "Create Dns Device", :class => "btn btn-primary"-%>
