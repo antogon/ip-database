@@ -45,12 +45,56 @@
 				<td><%= f.text_area :desc, :size => "30x5" -%></td>
 			</tr>
 			<tr>
+				<td><label>DNS Associations</label></td>
+		<%- devices = @ip_address.dns_devices -%>
+				<td><%= text_field_tag(nil, nil, :id=>'textarea', :class=>"autocomplete") -%><br/>
+<%= f.select(:dns_devices, devices.collect {|x| [x.name,{:name => x.name, :id => x.id}]}, 
+              {:selected => (@ip_address.dns_devices.collect {|x| x.id})}, {:multiple => true}) %>
+</td>
+			</tr>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			$('#textarea').textext({
+				plugins : 'tags prompt focus autocomplete ajax arrow',
+				tagsItems :[<%= raw devices.collect {|x| "['"<<x.name<<"',#{x.id}]"}.join ", " %>],
+				prompt : 'Add DNS Association',
+				ajax : {
+					url : '/dns/autocomplete.json',
+					dataType : 'json',
+					cacheResults : true
+				},
+				ext: {
+          tags: {
+            addTags: function(tags) {
+							var tagVals = tags.map(function(val)
+								{
+									console.log(val);
+									if(typeof val == "string")
+									{
+										var id = /,(\d+)/.exec(val)[1];
+										val = val.replace(/,\d+/g,"");
+										$('<option value="'+val+'" selected="selected" name="'+val+'" id="'+id+'">'+val+'</option>').appendTo('#ip_address_dns_devices');
+										return val;
+									}
+									return new Array(val[0]);
+								});
+              $.fn.textext.TextExtTags.prototype.addTags.apply(this, [tagVals]);
+              }
+          }
+        }
+
+			});
+			});
+		</script>
+			<tr>
 				<td><label>Static DHCP?</label></td>
 				<td><%= f.select :is_static_dhcp, options_for_select([["Yes",true],["No",false]]) -%></td>
 			</tr>
 			<tr>
 				<td><label>MAC Address:</label></td>
-				<td><%= f.text_field :mac_address, {:class => "{validate: {required: function(element){return $('#ip_address_is_static_dhcp').val()===\"true\";}, mac: true}}"} -%></td>
+				<td>
+					<%= f.text_field :mac_address, {:class => "{validate: {required: function(element){return $('#ip_address_is_static_dhcp').val()===\"true\";}, mac: true}}"} -%>
+				</td>
 			</tr>
 		</table>
 		<%= f.submit :class => "btn btn-primary"-%>

@@ -127,6 +127,8 @@ class IpAddressesController < ApplicationController
   # PUT /ip_addresses/1.json
   def update
     @ip_address = IpAddress.find(params[:id])
+		comp = @ip_address.dns_devices.collect {|x| x.id}
+		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].collect{|x| comp.delete(x.id); {:id => x.id}}.concat(comp.collect{|x| {:id => x, :_destroy => "1"}})
 		@ip_address.assign_attributes(params[:ip_address])
     respond_to do |format|
       if @ip_address.valid_ip? && @ip_address.update_attributes(params[:ip_address])
