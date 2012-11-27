@@ -5,7 +5,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#new_ip_address').validate({
-				meta: "validate"
+				meta: "validate",
 			});
 		});
 	</script>
@@ -29,7 +29,9 @@
 			</tr>
 			<tr>
 				<td><label>Parent Network:</label></td>
-				<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name) -%></td>
+				<td>
+					<%= f.select :network_parent, {},{}, {:class=>"span3 parentNets"}  -%>
+				</td>
 			</tr>
 			<tr>
 				<td><label>Description:</label></td>
