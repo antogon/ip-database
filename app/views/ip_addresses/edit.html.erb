@@ -48,15 +48,17 @@
 				<td><label>DNS Associations</label></td>
 		<%- devices = @ip_address.dns_devices -%>
 				<td><%= text_field_tag(nil, nil, :id=>'textarea', :class=>"autocomplete") -%><br/>
-<%= f.select(:dns_devices, devices.collect {|x| [x.name,{:name => x.name, :id => x.id}]}, 
-              {:selected => (@ip_address.dns_devices.collect {|x| x.id})}, {:multiple => true}) %>
+				<div style="display:none;">
+<%= f.select(:dns_devices, [], 
+              {}, {:multiple => true}) %>
+				</div>
 </td>
 			</tr>
 		<script type="text/javascript">
 			$(document).ready(function() {
 			$('#textarea').textext({
 				plugins : 'tags prompt focus autocomplete ajax arrow',
-				tagsItems :[<%= raw devices.collect {|x| "['"<<x.name<<"',#{x.id}]"}.join ", " %>],
+				tagsItems: ['<%= raw(devices.collect{|x| x.name}.join("', '")) %>'],
 				prompt : 'Add DNS Association',
 				ajax : {
 					url : '/dns/autocomplete.json',
@@ -66,19 +68,12 @@
 				ext: {
           tags: {
             addTags: function(tags) {
-							var tagVals = tags.map(function(val)
+							$(tags).each(function(ndx,val)
 								{
-									console.log(val);
-									if(typeof val == "string")
-									{
-										var id = /,(\d+)/.exec(val)[1];
-										val = val.replace(/,\d+/g,"");
-										$('<option value="'+val+'" selected="selected" name="'+val+'" id="'+id+'">'+val+'</option>').appendTo('#ip_address_dns_devices');
-										return val;
-									}
-									return new Array(val[0]);
+									$('<option value="'+val.replace(/,\d+/,"")+'" selected="selected">'+val.replace(/,\d+/,"")+'</option>').appendTo('#ip_address_dns_devices');
+									return val;
 								});
-              $.fn.textext.TextExtTags.prototype.addTags.apply(this, [tagVals]);
+              $.fn.textext.TextExtTags.prototype.addTags.apply(this, [tags]);
               }
           }
         }

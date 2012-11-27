@@ -4745,6 +4745,8 @@
 			element = self.getTagElement(tag);
 		}
 
+		$('select > :contains('+$(element[0]).text()+')').remove();
+
 		element.remove();
 		self.updateFormCache();
 		core.getFormData();
@@ -4768,8 +4770,7 @@
 		var self = this,
 			node = $(self.opts(OPT_HTML_TAG))
 			;
-
-		node.find('.text-label').text(self.itemManager().itemToString(tag));
+		node.find('.text-label').text(tag.replace(/,\d+/,""));
 		node.data(CSS_TAG, tag);
 		return node;
 	};
