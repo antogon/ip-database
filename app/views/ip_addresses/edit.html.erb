@@ -22,7 +22,7 @@
 		<table class="table table-striped table-bordered table-hover table-condensed">
 			<tr>
 				<td><label>IP Address<em>*</em>:</label></td>
-        <td><%= f.text_field :ip_str, {:class => "{validate: {required: true, ip: true}}"} -%></td>
+        <td><%= f.text_field :ip_str, {:class => "{validate: {required: true, ip: true}} ipField"} -%></td>
 			</tr>
 			<tr>
 				<td><label>Contact Name<em>*</em>:</label></td>
@@ -38,7 +38,9 @@
 			</tr>
 			<tr>
 				<td><label>Parent Network:</label></td>
-				<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name) -%></td>
+				<td>
+					<%= f.select :network_parent, {},{},{:class=>"span3 parentNets"}  -%>
+				<td>
 			</tr>
 			<tr>
 				<td><label>Description:</label></td>
@@ -61,7 +63,7 @@
 				tagsItems: ['<%= raw(devices.collect{|x| x.name}.join("', '")) %>'],
 				prompt : 'Add DNS Association',
 				ajax : {
-					url : '/dns/autocomplete.json',
+					url : /dns/autocomplete,
 					dataType : 'json',
 					cacheResults : true
 				},
@@ -94,4 +96,7 @@
 		</table>
 		<%= f.submit :class => "btn btn-primary"-%>
 	<%- end -%>
+	<script type="text/javascript">
+		document.getElementById("ip_address_ip_str").focus();
+	</script>
 </div>

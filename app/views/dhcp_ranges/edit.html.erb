@@ -24,7 +24,12 @@
 			</tr>
 			<tr>
 				<td><label>Parent Network:</label></td>
-				<td><%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name) -%></td>
+				<td>
+				<div class="input-append">
+					<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :id=>"appendedInputButton", :type=>"text", :class=>"span3", :size=>nil  -%>
+					<button class="btn" type="button" value= >Populate Network</button>
+				</div>
+				</td>
 			</tr>
 		</table>
 		<%= f.submit :class => "btn btn-primary"-%>
