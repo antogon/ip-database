@@ -24,6 +24,14 @@ class IpAddressesController < ApplicationController
     end
 	end
 
+	#POST /ip/findNetworks.json
+	def findNetworks
+		resp_val = Network.ip_in_range? params[:ip]
+		respond_to do |format|
+			format.json { render json: resp_val }
+		end
+	end
+	
 	# POST /ip/dataTable.json
 	def dataTable
 		s = params[:sSearch]
@@ -128,7 +136,13 @@ class IpAddressesController < ApplicationController
   def update
     @ip_address = IpAddress.find(params[:id])
 		comp = @ip_address.dns_devices.collect {|x| x.id}
-		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].collect{|x| comp.delete(x.id); {:id => x.id}}.concat(comp.collect{|x| {:id => x, :_destroy => "1"}})
+		print('***************************')
+		print(params)
+		print(comp)
+		print(params[:ip_address])
+		print(params[:id])
+		print('**************************************')	
+#		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].collect{|x| comp.delete(x.id); {:id => x.id}}.concat(comp.collect{|x| {:id => x, :_destroy => "1"}})
 		@ip_address.assign_attributes(params[:ip_address])
     respond_to do |format|
       if @ip_address.valid_ip? && @ip_address.update_attributes(params[:ip_address])

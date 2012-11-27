@@ -2,6 +2,7 @@ IpDatabase::Application.routes.draw do
 
   resources :notifications
 
+
   get 'dns/autocomplete' => 'dns_device_assocs#autocomplete'
 	post 'dns/dataTable' => 'dns_device_assocs#dataTable'
   resources :dns_device_assocs
@@ -15,12 +16,14 @@ IpDatabase::Application.routes.draw do
 	post 'net/dataTable' => 'networks#dataTable'
   resources :networks
 
+	post 'ip/findNetworks' => 'ip_addresses#findNetworks'
 	post 'ip/dataTable' => 'ip_addresses#dataTable'
 	post 'ip/macCheck' => 'ip_addresses#macCheck'
   resources :ip_addresses
 
-	root :to => 'application#index'
-  # The priority is based upon order of creation:
+	root :to => 'application#index'  
+
+	# The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:

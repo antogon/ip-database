@@ -26,20 +26,9 @@ class Network < ActiveRecord::Base
 	has_one :parent, :class_name => 'Network', :primary_key => :network_parent, :foreign_key => :id
 
 	scope :ip_in_range?, lambda { |ip| 
-print ip
-		ip = IP.parse(ip)
+		ip = IP.parse(ip.to_s)
 		Network.all.delete_if { |x| (!x.assignable? ip) }
 	}
-
-	def valid_network? 
-		#Tests if parent is_vrf and self is_vrf match
-		if self.parent != nil
-			if self.parent.is_vrf^self.is_vrf
-				false
-			end
-		end
-		true
-	end
 
 	def assignable? ip
 		if(self.child_networks.length != 0)
