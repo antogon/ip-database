@@ -46,20 +46,6 @@ $(document).ready(function(){
 				$('.paginate_enabled_previous').removeClass("disabled");
 				$('.paginate_enabled_next').removeClass("disabled");
 			}
-	});
-
-	var ajax_auto_options, ajax_auto_a;
-jQuery(function(){
-   ajax_auto_options = { 
-		serviceUrl:'<%= url.url_for(:controller => "dns_device_assocs", :action => "autocomplete",:format => :json, :only_path => true) %>',
-			delimiter: /(,|;)\s*/, 
-			onSelect: function(value,data){
-				$('<option value="'+data+'" selected="selected">'+value+'</option>').appendTo($('select[id^=ip_address_dns_devices_attributes_]'));
-				//$('select[id^=ip_address_dns_devices_attributes_] > option[value='+data+']').attr('selected', 'selected');
-		 }
-	};
-   ajax_auto_a = $('#dns-assocs-nested-search').autocomplete(ajax_auto_options);
-});	
-
+		});
 });
 
