@@ -18,17 +18,17 @@
       } else {
           var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], 
               space_labels = ["Static IPs Assigned", "DHCP Ranges Assigned", "Free Space"],
-               frag = [[1,2],[1,2]],
+               ids = [],
+               frag = <%= @network.frag_array -%>,
                fragval = frag[0],
                fragtype = frag[1],
-               fraglab = [],
-               ids = []
+               fraglab = [];
                title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
           document.getElementById("SUPER").style.display="none";
           Raphael("PIEDIST", 920, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title);
-          Raphael("FRAGDIST", 700, 700).fragChart(50, 50, 100, 600, fragval, fragtype, fraglab, "#fff");
+          Raphael("FRAGDIST", 920, 550).fragChart(50, 50, 100, 600, fragval, fragtype, fraglab, "#fff");
         });
       }
 </script>
@@ -120,7 +120,7 @@
         </ul>
 	<div class="tab-content">
 	  <div class="tab-pane active" id = "PieDist"><div id = "PIEDIST"></div></div>
-          <div class="tab-pane active" id = "FragDist"><div id = "FRAGDIST"></div></div>
+          <div class="tab-pane" id = "FragDist"><div id = "FRAGDIST"></div></div>
         </div>
       </div>
       <div class="tabbable tabs-left" id="SUPER">

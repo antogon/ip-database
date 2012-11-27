@@ -113,11 +113,50 @@ class Network < ActiveRecord::Base
 	def frag_array
 		data = self.order
 		net_no = (IP.new(self.network_no)).to_i
-		loc = net_no
+		ip_loc = 0
+		index_loc = -1
 		i = 0
+		ip_a = []
+		frag_num = []
+		frag_type = []
 		while i < data.length
-			store = data[i].ip_a
+			if (data[i].respond_to? :start_ip)
+				ip_a[0] = IP.new(data[i].start_ip).to_i-net_no
+				ip_a[1] = data[i].address_count
+				ip_a[2] = 2
+			else
+				if(data[i].ip_v4?)
+					ip_a[0] = IP.new(data[i].ip_v4).to_i-net_no
+				else
+					ip_a[0] = IP.new(data[i].ip_v6).to_i-net_no
+				end
+				ip_a[1] = 1
+				ip_a[2] = 3
+			end
+			if ip_a[0]-ip_loc == 0  #Things are side by side
+				if index_loc != -1 && frag_type[index_loc] == ip_a[2] #Things are the same
+					frag_num[index_loc]+=ip_a[1]
+				else #Things are different
+					index_loc+=1
+					frag_num[index_loc]=ip_a[1]
+					frag_type[index_loc]=ip_a[2]
+				end
+			elsif ip_a[0]-ip_loc > 0 #There is free space
+				index_loc+=1
+				frag_num[index_loc]=ip_a[0]-ip_loc
+				frag_type[index_loc]=1				
+				index_loc+=1
+				frag_num[index_loc]=ip_a[1]
+				frag_type[index_loc]=ip_a[2]
+			end
+			ip_loc = ip_a[0]+ip_a[1]
 			i+=1
 		end
+		if ip_loc < self.num_ip
+			index_loc+=1
+			frag_num[index_loc]=self.num_ip-ip_loc
+			frag_type[index_loc]=1
+		end
+		return frag_num, frag_type
 	end
 end
