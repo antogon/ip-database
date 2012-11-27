@@ -38,3 +38,13 @@ Class NetworksController - Class which populates the table for the Networks and 
 
 Class NotificationsController - Class which using either JSON or HTML format creates an option for a user to create a notification or update.
 	It includes methods: create(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+DEPENDENCIES:
+This project depends on the Ruby on Rails library released under the
+specifications of FOSS (Free and Open Sourced Software) and is used
+appropriately as such.
+
+LICENSE:
+This application and all of its source is released under the terms of the
+GPL(v3) license. All original source from this project is openly
+available to the public and can be shared, edited, and copied freely.

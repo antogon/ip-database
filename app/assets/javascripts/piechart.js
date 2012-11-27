@@ -1,4 +1,4 @@
-Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator, title) {
+Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator, title, link) {
     var paper = this,
         rad = Math.PI / 180,
         chart = this.set();
@@ -33,7 +33,7 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, ids, stroke, operator
                 txt.stop().animate({opacity: 0}, ms);
             });
 	    p.click(function () {
-		if(ids != [] ) {
+		if(link && ids != [] ) {
 		  document.location.href = "/networks/" + ids[j];
 		}
 	    });

@@ -20,14 +20,14 @@
 # Acquire IP addresses to configure the host class
 class DhcpRange < ActiveRecord::Base
 	# Acquire IP addresses to configure the host
-  attr_accessible :start_ip, :end_ip, :id, :created_at, :updated_at, :network_parent
+  attr_accessible :start_ip, :end_ip, :address_count, :id, :created_at, :updated_at, :network_parent
 	belongs_to :network, :foreign_key => 'network_parent'
 
 	# returns number of addresses in range
 	def address_count
 		IP.parse(self.end_ip).to_i - IP.parse(self.start_ip).to_i + 1
 	end
-
+	#Converts DHCP range into the IP Address
 	def to_range
 		IP.parse(self.start_ip)..IP.parse(self.end_ip)
 	end

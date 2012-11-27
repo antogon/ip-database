@@ -80,6 +80,8 @@
     
     <li><a href="#method-i-start_ip-3D">#start_ip=</a>
     
+    <li><a href="#method-i-to_range">#to_range</a>
+    
   </ul>
 </nav>
 
@@ -222,7 +224,7 @@
 
           
           <div class="method-source-code" id="end_ip-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 51</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">end_ip</span>
         <span class="ruby-identifier">addr</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:end_ip</span>)
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>))<span class="ruby-operator">?</span><span class="ruby-string">&quot;v4&quot;</span><span class="ruby-operator">:</span><span class="ruby-string">&quot;v6&quot;</span>,<span class="ruby-identifier">addr</span>]).<span class="ruby-identifier">to_s</span>
@@ -253,7 +255,7 @@
 
           
           <div class="method-source-code" id="end_ip-3D-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 45</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">end_ip=</span> <span class="ruby-identifier">attr</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">attr</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:end_ip</span>, <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_hex</span>) <span class="ruby-keyword">unless</span> ((<span class="ruby-identifier">ip</span>.<span class="ruby-identifier">proto</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;v4&quot;</span>)<span class="ruby-operator">!=</span><span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>)) 
@@ -284,7 +286,7 @@
 
           
           <div class="method-source-code" id="start_ip-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 39</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">start_ip</span>
         <span class="ruby-identifier">addr</span> = <span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:start_ip</span>)
         <span class="ruby-constant">IP</span>.<span class="ruby-identifier">new</span>([(<span class="ruby-identifier">read_attribute</span>(<span class="ruby-value">:ip_v4</span>))<span class="ruby-operator">?</span><span class="ruby-string">&quot;v4&quot;</span><span class="ruby-operator">:</span><span class="ruby-string">&quot;v6&quot;</span>,<span class="ruby-identifier">addr</span>]).<span class="ruby-identifier">to_s</span>
@@ -315,7 +317,7 @@
 
           
           <div class="method-source-code" id="start_ip-3D-source">
-            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 32</span>
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">start_ip=</span> <span class="ruby-identifier">attr</span>
         <span class="ruby-identifier">ip</span> = <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">attr</span>)
         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value">:ip_v4</span>, (<span class="ruby-identifier">ip</span>.<span class="ruby-identifier">proto</span><span class="ruby-operator">==</span><span class="ruby-string">&quot;v4&quot;</span>))
@@ -329,6 +331,36 @@
 
         
       </div><!-- start_ip-3D-method -->
+
+    
+      <div id="method-i-to_range" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_range</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_range-source">
+            <pre><span class="ruby-comment"># File app/models/dhcp_range.rb, line 31</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_range</span>
+        <span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">start_ip</span>)<span class="ruby-operator">..</span><span class="ruby-constant">IP</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">end_ip</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_range-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_range-method -->
 
     
     </section><!-- public-instance-method-details -->
