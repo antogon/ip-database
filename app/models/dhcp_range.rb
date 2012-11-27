@@ -20,7 +20,7 @@
 # Acquire IP addresses to configure the host class
 class DhcpRange < ActiveRecord::Base
 	# Acquire IP addresses to configure the host
-  attr_accessible :start_ip, :end_ip, :id, :created_at, :updated_at, :network_parent
+  attr_accessible :start_ip, :end_ip, :address_count, :id, :created_at, :updated_at, :network_parent
 	belongs_to :network, :foreign_key => 'network_parent'
 
 	# returns number of addresses in range

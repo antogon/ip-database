@@ -24,16 +24,16 @@
 			<div class="span4">
 				<h4>Networks</h4>
 				<strong>Total:</strong>
-				<%= number_to_human @network_count -%></br>
+				<%= number_to_human @network_count -%></br> <!-- SELECT COUNT(*) FROM networks; -->
 				<strong>Physical:</strong>
-				<%= number_to_human @network_physical -%></br>
+				<%= number_to_human @network_physical -%></br><!-- SELECT COUNT(*) FROM networks WHERE is_vrf = 0; -->
 				<strong>Virtual:</strong>
-				<%= number_to_human @network_virtual -%></br>
+				<%= number_to_human @network_virtual -%></br><!-- SELECT COUNT(*) FROM networks WHERE is_vrf = 1; -->
 			</div>
 			<div class="span4">
 				<h4>IP Addresses</h4>
 				<strong>Total:</strong>
-				<%= number_to_human @ip_count -%></br>
+				<%= number_to_human @ip_count -%></br><!-- SELECT COUNT(*) FROM ip_addresses; -->
 				<strong>Assigned:</strong>
 				<%= number_to_human @ip_assigned -%></br>
 				<strong>Unassigned:</strong>

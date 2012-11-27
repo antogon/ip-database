@@ -118,4 +118,69 @@ class Network < ActiveRecord::Base
 	def num_ip_free
 		num_ip - num_ip_assigned
 	end
+
+	def order
+		 self.dhcp_ranges.to_a.concat(self.ip_addresses.to_a).sort! {|a,b| a = (a.class.name=="DhcpRange")? a.start_ip: a.ip_str; b = (b.class.name=="DhcpRange")? b.start_ip : b.ip_str; IP.parse( a ) <=> IP.parse( b )}
+	end
+
+	def frag_array
+		data = self.order
+		net_no = (IP.new(self.network_no)).to_i
+		ip_loc = 0
+		index_loc = -1
+		i = 0
+		ip_a = []
+		frag_num = []
+		frag_type = []
+		store = 0
+                splits = []
+		#splits[index_loc+1] = self.network_no
+		while i < data.length
+			if (data[i].respond_to? :start_ip)
+				store = IP.new(data[i].start_ip)
+				ip_a[0] = store.to_i-net_no
+				ip_a[1] = data[i].address_count
+				ip_a[2] = 2
+			else
+				if(data[i].ip_v4?)
+					store = IP.new(data[i].ip_v4)
+					ip_a[0] = store.to_i-net_no
+				else
+					store = IP.new(data[i].ip_v6)
+					ip_a[0] = store.to_i-net_no
+				end
+				ip_a[1] = 1
+				ip_a[2] = 3
+			end
+			if ip_a[0]-ip_loc == 0  #Things are side by side
+				if index_loc != -1 && frag_type[index_loc] == ip_a[2] #Things are the same
+					frag_num[index_loc]+=ip_a[1]
+				else #Things are different
+					index_loc+=1
+					frag_num[index_loc]=ip_a[1]
+					frag_type[index_loc]=ip_a[2]
+					splits[index_loc] = store.to_s	#
+				end
+			elsif ip_a[0]-ip_loc > 0 #There is free space
+				index_loc+=1
+				frag_num[index_loc]=ip_a[0]-ip_loc
+				frag_type[index_loc]=1
+				splits[index_loc] = (IP.new(self.network_no) + ip_loc).to_s	#
+				index_loc+=1
+				frag_num[index_loc]=ip_a[1]
+				frag_type[index_loc]=ip_a[2]
+				splits[index_loc] = store.to_s	#
+			end
+			ip_loc = ip_a[0]+ip_a[1]
+			i+=1
+		end
+		if ip_loc < self.num_ip
+			index_loc+=1
+			frag_num[index_loc]=self.num_ip-ip_loc
+			frag_type[index_loc]=1
+			splits[index_loc] = (IP.new(self.network_no) + ip_loc).to_s	#
+		end
+		splits[index_loc+1] = (IP.new(network_no)+num_ip).to_s
+		return frag_num, frag_type, splits
+	end
 end
