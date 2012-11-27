@@ -1,4 +1,21 @@
 <script type="text/javascript">
+      var length = 600,
+          width = 600,
+	  raph = null;
+
+      function zoomFrag (zoom) {
+          var frag = <%= @network.frag_array -%>,
+              fragval = frag[0],
+              fragtype = frag[1],
+              fraglab = [];
+              length = length*zoom;
+              width = width*zoom;
+              if(raph != null) {
+                raph.remove();
+              }
+              raph = Raphael("FRAGDIST", width, 200);
+              raph.fragChart(50, 50, 100, length, fragval, fragtype, fraglab, "#fff");
+      };
       if(<%= @network.child_networks.length -%>) {
           var totals = [<%= @network.child_networks.collect {|x| x.num_ip}.join ", " -%>],
                assigned = [<%= @network.child_networks.collect {|y| y.num_ip_assigned}.join ", " -%>],
@@ -18,17 +35,13 @@
       } else {
           var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], 
               space_labels = ["Static IPs Assigned", "DHCP Ranges Assigned", "Free Space"],
-               ids = [],
-               frag = <%= @network.frag_array -%>,
-               fragval = frag[0],
-               fragtype = frag[1],
-               fraglab = [];
+               ids = []
                title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
           document.getElementById("SUPER").style.display="none";
           Raphael("PIEDIST", 920, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title);
-          Raphael("FRAGDIST", 920, 550).fragChart(50, 50, 100, 600, fragval, fragtype, fraglab, "#fff");
+          zoomFrag(1.0);
         });
       }
 </script>
@@ -116,11 +129,14 @@
       <div class="tabbale tabs-left" id="SUB">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#PieDist" data-toggle="tab">Weight</a></li>
-          <li><a href = "#FragDist" data-toggle="tab">Fragmentation</a></li>
+          <li><a href = "#Frag" data-toggle="tab">Fragmentation</a></li>
         </ul>
 	<div class="tab-content">
 	  <div class="tab-pane active" id = "PieDist"><div id = "PIEDIST"></div></div>
-          <div class="tab-pane" id = "FragDist"><div id = "FRAGDIST"></div></div>
+          <div class="tab-pane" id = "Frag"><div id = "FRAGDIST"></div>
+            <button onclick="zoomFrag(0.9)" class="btn btn-large btn-primary" type="button" id="ZoomOut">Zoom Out</button>
+            <button onclick="zoomFrag(1.1)" class="btn btn-large btn-primary" type="button" id="ZoomIn">Zoom In</button>
+          </div>
         </div>
       </div>
       <div class="tabbable tabs-left" id="SUPER">
