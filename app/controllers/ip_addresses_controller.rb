@@ -24,6 +24,15 @@ class IpAddressesController < ApplicationController
     end
 	end
 
+	#POST /ip/findNetworks.json
+	def findNetworks
+		resp_val = Network.ip_in_range? params[:ip]
+		print(resp_val)
+		respond_to do |format|
+			format.json { render json: resp_val }
+		end
+	end
+	
 	# POST /ip/dataTable.json
 	def dataTable
 		s = params[:sSearch]
