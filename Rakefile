@@ -21,7 +21,7 @@ namespace :db do
 			dhcp.save
 			for j in 1..(r.rand(0..200))
 				ip = IpAddress.new({:contact => Faker::Name.first_name + " " + Faker::Name.last_name, :location => Faker::Address.latitude + " : " + Faker::Address.longitude, :network_parent => net.id, :device_type => type.id})
-				if rnum
+				if ip.network.ip_v4
 					ip.ip_v4 = Faker::Internet.ip_v4_address
 				else
 					ip.ip_v6 = Faker::Internet.ip_v6_address
