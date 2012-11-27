@@ -29,8 +29,8 @@ class IpAddress < ActiveRecord::Base
 	#Returns the validity of this model checked against the rules of networking
 	#If and only if the address is a valid IP, is defined in a network,
 	#and is not already assigned or in a DHCP range, this function returns true.
-	def valid_ip?
-		net_possibilities = Network.ip_in_range?(self.ip_str)
+	def valid_ip? action = :create
+		net_possibilities = Network.ip_in_range?(self.ip_str, action)
 		(net_possibilities.length>0) && (net_possibilities.collect { |x| x.id }.include? self.network_parent)
 	end
 
