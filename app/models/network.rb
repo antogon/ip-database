@@ -119,16 +119,22 @@ class Network < ActiveRecord::Base
 		ip_a = []
 		frag_num = []
 		frag_type = []
+		store = 0
+                splits = []
+		#splits[index_loc+1] = self.network_no
 		while i < data.length
 			if (data[i].respond_to? :start_ip)
-				ip_a[0] = IP.new(data[i].start_ip).to_i-net_no
+				store = IP.new(data[i].start_ip)
+				ip_a[0] = store.to_i-net_no
 				ip_a[1] = data[i].address_count
 				ip_a[2] = 2
 			else
 				if(data[i].ip_v4?)
-					ip_a[0] = IP.new(data[i].ip_v4).to_i-net_no
+					store = IP.new(data[i].ip_v4)
+					ip_a[0] = store.to_i-net_no
 				else
-					ip_a[0] = IP.new(data[i].ip_v6).to_i-net_no
+					store = IP.new(data[i].ip_v6)
+					ip_a[0] = store.to_i-net_no
 				end
 				ip_a[1] = 1
 				ip_a[2] = 3
@@ -140,14 +146,17 @@ class Network < ActiveRecord::Base
 					index_loc+=1
 					frag_num[index_loc]=ip_a[1]
 					frag_type[index_loc]=ip_a[2]
+					splits[index_loc] = store.to_s	#
 				end
 			elsif ip_a[0]-ip_loc > 0 #There is free space
 				index_loc+=1
 				frag_num[index_loc]=ip_a[0]-ip_loc
-				frag_type[index_loc]=1				
+				frag_type[index_loc]=1
+				splits[index_loc] = (IP.new(self.network_no) + ip_loc).to_s	#
 				index_loc+=1
 				frag_num[index_loc]=ip_a[1]
 				frag_type[index_loc]=ip_a[2]
+				splits[index_loc] = store.to_s	#
 			end
 			ip_loc = ip_a[0]+ip_a[1]
 			i+=1
@@ -156,7 +165,9 @@ class Network < ActiveRecord::Base
 			index_loc+=1
 			frag_num[index_loc]=self.num_ip-ip_loc
 			frag_type[index_loc]=1
+			splits[index_loc] = (IP.new(self.network_no) + ip_loc).to_s	#
 		end
-		return frag_num, frag_type
+		splits[index_loc+1] = (IP.new(network_no)+num_ip).to_s
+		return frag_num, frag_type, splits
 	end
 end
