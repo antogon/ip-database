@@ -16,12 +16,12 @@
 	ids6 = [<%= (@networks.select {|x| (x.parent.nil? && !(x.ip_v4?))}).collect {|y| y.id}.join ", " -%>];
 
         $(function () {
-          Raphael("TOTALS4", 462, 540).pieChart(230, 250, 200, totals4, labels4, ids4, "#fff", "total", "IPv4");
-          Raphael("ASSIGNED4", 462, 540).pieChart(230, 250, 200, assigned4, labels4, ids4, "#fff", "assigned", "IPv4");
-          Raphael("FREE4", 462, 540).pieChart(230, 250, 200, free4, labels4, ids4, "#fff", "free", "IPv4");
-          Raphael("TOTALS6", 462, 540).pieChart(230, 250, 200, totals6, labels6, ids6, "#fff", "total", "IPv6");
-          Raphael("ASSIGNED6", 462, 540).pieChart(230, 250, 200, assigned6, labels6, ids6, "#fff", "assigned", "IPv6");
-          Raphael("FREE6", 462, 540).pieChart(230, 250, 200, free6, labels6, ids6, "#fff", "free", "IPv6");
+          Raphael("TOTALS4", 462, 540).pieChart(230, 250, 200, totals4, labels4, ids4, "#fff", "total", "IPv4", true);
+          Raphael("ASSIGNED4", 462, 540).pieChart(230, 250, 200, assigned4, labels4, ids4, "#fff", "assigned", "IPv4", true);
+          Raphael("FREE4", 462, 540).pieChart(230, 250, 200, free4, labels4, ids4, "#fff", "free", "IPv4", true);
+          Raphael("TOTALS6", 462, 540).pieChart(230, 250, 200, totals6, labels6, ids6, "#fff", "total", "IPv6", true);
+          Raphael("ASSIGNED6", 462, 540).pieChart(230, 250, 200, assigned6, labels6, ids6, "#fff", "assigned", "IPv6", true);
+          Raphael("FREE6", 462, 540).pieChart(230, 250, 200, free6, labels6, ids6, "#fff", "free", "IPv6", true);
 
         });
 </script>

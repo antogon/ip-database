@@ -28,9 +28,9 @@
 
         $(function () {
           document.getElementById("SUB").style.display="none";
-          Raphael("TOTALS", 948, 550).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total", title);
-          Raphael("ASSIGNED", 948, 550).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned", title);
-          Raphael("FREE", 948, 550).pieChart(400, 250, 200, free, labels, ids, "#fff", "free", title);
+          Raphael("TOTALS", 948, 550).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total", title, true);
+          Raphael("ASSIGNED", 948, 550).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned", title, true);
+          Raphael("FREE", 948, 550).pieChart(400, 250, 200, free, labels, ids, "#fff", "free", title, true);
         });
       } else {
           var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], 
@@ -40,7 +40,7 @@
 
         $(function () {
           document.getElementById("SUPER").style.display="none";
-          Raphael("PIEDIST", 920, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title);
+          Raphael("PIEDIST", 920, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title, false);
           zoomFrag(1.0);
         });
       }
