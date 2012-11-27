@@ -13,7 +13,7 @@
 		<table class="table table-striped table-bordered table-hover table-condensed">
 			<tr>
 				<td><label>Network<em>*</em>:</label></td>
-    		<td><%= f.text_field :network_no, {:class => "{validate: {required: true, ip: true}}"} -%></td>
+    		<td><%= f.text_field :network_no, {:class => "{validate: {required: true, network: true}}"} -%></td>
 			</tr>
 			<tr>
 				<td><label>Netmask<em>*</em>:</label></td>
@@ -44,10 +44,7 @@
 			<tr>
 				<td><label>Parent Network:</label></td>
 				<td>
-				<div class="input-append">
-					<%= f.select :network_parent, options_from_collection_for_select(Network.all, :id, :name), :include_blank=>true, :id=>"appendedInputButton", :type=>"text", :class=>"span3", :size=>nil  -%>
-					<button class="btn" type="button" value= >Populate Network</button>
-				</div>
+					<%= f.select :network_parent, {}, :include_blank=>true, :class=>"span3 parentNets" -%>
 				</td>
 			</tr>
 			<tr>
