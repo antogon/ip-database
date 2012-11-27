@@ -87,4 +87,13 @@ class IpAddress < ActiveRecord::Base
 	def ip_v6
 		IP.new(['v6',read_attribute(:ip_v6)]).to_s
 	end
+
+	def ip_a
+		if ip_v4?
+			ip = IP.new(['v4',read_attribute(:ip_v4)]).to_i
+		else
+			ip = IP.new(['v4',read_attribute(:ip_v6)]).to_i
+		end
+		return ip, 1
+	end
 end

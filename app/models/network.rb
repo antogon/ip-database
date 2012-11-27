@@ -105,4 +105,19 @@ class Network < ActiveRecord::Base
 	def num_ip_free
 		num_ip - num_ip_assigned
 	end
+
+	def order
+		 self.dhcp_ranges.to_a.concat(self.ip_addresses.to_a).sort! {|a,b| a = (a.class.name=="DhcpRange")? a.start_ip: a.ip_str; b = (b.class.name=="DhcpRange")? b.start_ip : b.ip_str; IP.parse( a ) <=> IP.parse( b )}
+	end
+
+	def frag_array
+		data = self.order
+		net_no = (IP.new(self.network_no)).to_i
+		loc = net_no
+		i = 0
+		while i < data.length
+			store = data[i].ip_a
+			i+=1
+		end
+	end
 end

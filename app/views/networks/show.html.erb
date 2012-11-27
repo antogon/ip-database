@@ -10,6 +10,7 @@
                title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
+          document.getElementById("SUB").style.display="none";
           Raphael("TOTALS", 948, 550).pieChart(400, 250, 200, totals, labels, ids, "#fff", "total", title);
           Raphael("ASSIGNED", 948, 550).pieChart(400, 250, 200, assigned, labels, ids, "#fff", "assigned", title);
           Raphael("FREE", 948, 550).pieChart(400, 250, 200, free, labels, ids, "#fff", "free", title);
@@ -17,14 +18,17 @@
       } else {
           var space = [<%= @network.num_static_ip -%>, <%= @network.num_dhcp_ranges -%>, <%= @network.num_ip_free -%>], 
               space_labels = ["Static IPs Assigned", "DHCP Ranges Assigned", "Free Space"],
-               devices = [],
-               device_labels = [],
+               frag = [[1,2],[1,2]],
+               fragval = frag[0],
+               fragtype = frag[1],
+               fraglab = [],
                ids = []
                title = "<%= (@network.ip_v4?)?"IPv4":"IPv6" -%>";
 
         $(function () {
-          document.getElementById("LEFT").style.display="none";
-          Raphael("SUB", 1066, 554).pieChart(533, 250, 200, space, space_labels, ids, "#fff", "", title);
+          document.getElementById("SUPER").style.display="none";
+          Raphael("PIEDIST", 920, 550).pieChart(400, 250, 200, space, space_labels, ids, "#fff", "", title);
+          Raphael("FRAGDIST", 700, 700).fragChart(50, 50, 100, 600, fragval, fragtype, fraglab, "#fff");
         });
       }
 </script>
@@ -109,21 +113,30 @@
 	</table>
 </div>
     <div class="tab-pane" id="tab2">
-      <div id="SUB"></div>
-      <div class="tabbable tabs-left" id="LEFT">
+      <div class="tabbale tabs-left" id="SUB">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#PieDist" data-toggle="tab">Weight</a></li>
+          <li><a href = "#FragDist" data-toggle="tab">Fragmentation</a></li>
+        </ul>
+	<div class="tab-content">
+	  <div class="tab-pane active" id = "PieDist"><div id = "PIEDIST"></div></div>
+          <div class="tab-pane active" id = "FragDist"><div id = "FRAGDIST"></div></div>
+        </div>
+      </div>
+      <div class="tabbable tabs-left" id="SUPER">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#Totals" data-toggle="tab">Totals</a></li>
           <li><a href = "#Assigned" data-toggle="tab">Assigned</a></li>
           <li><a href = "#Free" data-toggle="tab">Free</a></li>
         </ul>
         <div class="tab-content">
-        <div class="tab-pane active" id="Totals"><div id = "TOTALS"></div></div>
-        <div class="tab-pane" id="Assigned"><div id = "ASSIGNED"></div></div>
-        <div class="tab-pane" id="Free"><div id = "FREE"></div></div>
+          <div class="tab-pane active" id="Totals"><div id = "TOTALS"></div></div>
+          <div class="tab-pane" id="Assigned"><div id = "ASSIGNED"></div></div>
+          <div class="tab-pane" id="Free"><div id = "FREE"></div></div>
+        </div>
       </div>
-    </div>
 
-  </div>
+    </div>
 </div>
 </div>
 </div>
