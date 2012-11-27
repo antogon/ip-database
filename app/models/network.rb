@@ -25,16 +25,18 @@ class Network < ActiveRecord::Base
 	has_many :dhcp_ranges, :class_name => 'DhcpRange', :foreign_key => :network_parent
 	has_one :parent, :class_name => 'Network', :primary_key => :network_parent, :foreign_key => :id
 
-	scope :ip_in_range?, lambda { |ip| 
+	scope :ip_in_range?, lambda { |ip, action| 
+		action ||= :create
 		ip = IP.parse(ip)
-		Network.all.delete_if { |x| (!x.assignable? ip) }
+		Network.all.delete_if { |x| (!x.assignable? ip, action) }
 	}
 
-	def assignable? ip
+	def assignable? ip, action = :create
 		mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
 		mask = ((self.ip_v4)?32:128)-mask
 		(((IP.parse(self.network_no))..(IP.new([(self.ip_v4)?"v4":"v6",IP.parse(self.network_no).to_i | [((2**mask)-1).to_s(16).rjust((self.ip_v4)?8:32,'0').scan(/[0-9a-f]{2}/i).reverse.join].pack('H*').unpack('l')[0]]))) === ip) &&
-		!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s) &&
+		(IpAddress.where("ip_v4 = '#{ip.to_hex}' OR ip_v6 = '#{ip.to_hex}'").length == 0 || action == :update) &&
+		!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s || action==:update) &&
 		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
 	end
 	#Protects the private parts	

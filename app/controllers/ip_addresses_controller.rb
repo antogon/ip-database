@@ -127,11 +127,18 @@ class IpAddressesController < ApplicationController
   # PUT /ip_addresses/1.json
   def update
     @ip_address = IpAddress.find(params[:id])
-		comp = @ip_address.dns_devices.collect {|x| x.id}
-		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].collect{|x| comp.delete(x.id); {:id => x.id}}.concat(comp.collect{|x| {:id => x, :_destroy => "1"}})
-		@ip_address.assign_attributes(params[:ip_address])
+		params[:ip_address][:dns_devices].delete ""
+		comp = @ip_address.dns_devices.collect {|x| x.name}
+		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].collect{|x| comp.delete(x); {:name => x}}
+		models =  DnsDeviceAssoc.where('name IN ("'+params[:ip_address][:dns_devices].collect{|x| x[:name]}.join("\", \"")+'")')
+		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].concat(comp.collect{|x| {:name => x, :_destroy => "1"}})
+		DnsIpJoin.transaction do
+			DnsIpJoin.destroy_all(:ip_id => @ip_address.id)
+			models.each {|dns| DnsIpJoin.create({:ip_id => @ip_address.id, :dns_id => dns.id})}
+		end
+		params[:ip_address].delete :dns_devices
     respond_to do |format|
-      if @ip_address.valid_ip? && @ip_address.update_attributes(params[:ip_address])
+      if @ip_address.valid_ip?(:update) && @ip_address.update_attributes(params[:ip_address])
         format.html { redirect_to @ip_address, notice: 'Ip address was successfully updated.' }
         format.json { head :no_content }
       else
