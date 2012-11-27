@@ -107,10 +107,18 @@ class IpAddressesController < ApplicationController
   # POST /ip_addresses
   # POST /ip_addresses.json
   def create
+		params[:ip_address][:dns_devices].delete ""
+		params[:ip_address][:dns_devices] = params[:ip_address][:dns_devices].collect{|x| {:name => x}}
+		models =  DnsDeviceAssoc.where('name IN ("'+params[:ip_address][:dns_devices].collect{|x| x[:name]}.join("\", \"")+'")')
+
+		params[:ip_address].delete :dns_devices
     @ip_address = IpAddress.new(params[:ip_address])
-		validity = @ip_address.valid_ip?
+		validity = @ip_address.valid_ip? :new
     respond_to do |format|
       if validity && @ip_address.save
+				DnsIpJoin.transaction do
+					models.each {|dns| DnsIpJoin.create({:ip_id => @ip_address.id, :dns_id => dns.id})}
+				end
         format.html { redirect_to @ip_address, notice: 'Ip address was successfully created.' }
         format.json { render json: @ip_address, status: :created, location: @ip_address }
 			elsif !validity
