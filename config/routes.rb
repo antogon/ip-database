@@ -15,6 +15,7 @@ IpDatabase::Application.routes.draw do
 	post 'net/dataTable' => 'networks#dataTable'
   resources :networks
 
+	post 'ip/networkParents' => 'ip_addresses#networkParents'
 	post 'ip/dataTable' => 'ip_addresses#dataTable'
 	post 'ip/macCheck' => 'ip_addresses#macCheck'
   resources :ip_addresses

@@ -16,6 +16,13 @@ class IpAddressesController < ApplicationController
     end
   end
 
+	# POST /ip/networkParents
+	def networkParents
+    respond_to do |format|
+      format.json { render json: Network.ip_in_range?(params[:ip]) }
+    end
+	end
+
 	# POST /ip/macCheck.json
 	def macCheck
 		resp_val = IpAddress.where("mac_address = '#{params[:mac]}'").length == 0
