@@ -28,17 +28,38 @@ class Network < ActiveRecord::Base
 	scope :ip_in_range?, lambda { |ip, action| 
 		action ||= :create
 		ip = IP.parse(ip)
-		Network.all.delete_if { |x| (!x.assignable? ip, action) }
+		Network.all.delete_if { |x| (!x.assignable? ip)}#, action) }
 	}
 
-	def assignable? ip, action = :create
-		mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
-		mask = ((self.ip_v4)?32:128)-mask
-		(((IP.parse(self.network_no))..(IP.new([(self.ip_v4)?"v4":"v6",IP.parse(self.network_no).to_i | [((2**mask)-1).to_s(16).rjust((self.ip_v4)?8:32,'0').scan(/[0-9a-f]{2}/i).reverse.join].pack('H*').unpack('l')[0]]))) === ip) &&
-		(IpAddress.where("ip_v4 = '#{ip.to_hex}' OR ip_v6 = '#{ip.to_hex}'").length == 0 || action == :update) &&
-		(!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s) || action==:update) &&
-		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
+	def assignable? ip
+		if(self.child_networks.length != 0)
+			return false;
+		end
+		if(((self.ip_v4?)^(ip.proto=="v4")))
+			return false;
+		end
+		mask = IP.parse(self.netmask);
+		net = IP.parse(self.network_no);
+		if((ip & mask.to_i) == net)
+			return true;
+		else
+			return false;
+		end
+#		mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
+#		mask = ((self.ip_v4)?32:128)-mask
+#		(((IP.parse(self.network_no))..(IP.new([(self.ip_v4)?"v4":"v6",IP.parse(self.network_no).to_i | [((2**mask)-1).to_s(16).rjust((self.ip_v4)?8:32,'0').scan(/[0-9a-f]{2}/i).reverse.join].pack('H*').unpack('l')[0]]))) === ip) &&
+#		!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s) &&
+#		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
 	end
+
+#	def assignable? ip, action = :create
+#		mask = IP.parse(self.netmask).to_i.to_s(2).split(//).inject(0) { |s,i| s + i.to_i }
+#		mask = ((self.ip_v4)?32:128)-mask
+#		(((IP.parse(self.network_no))..(IP.new([(self.ip_v4)?"v4":"v6",IP.parse(self.network_no).to_i | [((2**mask)-1).to_s(16).rjust((self.ip_v4)?8:32,'0').scan(/[0-9a-f]{2}/i).reverse.join].pack('H*').unpack('l')[0]]))) === ip) &&
+#		(IpAddress.where("ip_v4 = '#{ip.to_hex}' OR ip_v6 = '#{ip.to_hex}'").length == 0 || action == :update) &&
+#		(!(self.ip_addresses.collect {|x| x.ip_str}.include? ip.to_s) || action==:update) &&
+#		self.dhcp_ranges.delete_if {|x| !(x.to_range === ip)}.length == 0
+#	end
 	#Protects the private parts	
 	def ip_v4=
 		raise "You can't set this.  It's read-only.  Asshole."
