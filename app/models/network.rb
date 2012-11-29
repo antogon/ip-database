@@ -43,7 +43,7 @@ class Network < ActiveRecord::Base
 
 	def net_assignable? ip, subnet
 
-		if(self.num_ip_assigned != 0)
+		if(self.ip_addresses.length > 0)
 			return false;
 		end
 		if(((self.ip_v4?)^(ip.proto=="v4")))
@@ -51,18 +51,18 @@ class Network < ActiveRecord::Base
 		end
 		mask = IP.parse(self.netmask);
 		net = IP.parse(self.network_no);
-		if((self.netmask).to_i >= subnet.to_i) 
-			return false
-		end
-		if((ip & mask.to_i) == net)
-			return true;
-		else
+
+		if((ip & mask.to_i) != net)
 			return false;
 		end
+		if(mask.to_i < subnet.to_i) 
+			return true
+		end
+		return false;
 	end
 
 	def assignable? ip
-		if(self.child_networks.length != 0)
+		if(self.child_networks.length > 0)
 			return false;
 		end
 		if(((self.ip_v4?)^(ip.proto=="v4")))

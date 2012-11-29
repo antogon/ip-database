@@ -69,6 +69,12 @@ class DhcpRangesController < ApplicationController
     end
 	end
 
+  def dhcp_valid
+    respond_to do |format|
+      format.json { render json: }#Network.net_in_range?(params[:ip],params[:subnet], :create).collect{|x| {:id => x.id, :name => x.name}} }
+    end
+  end
+
   # GET /dhcp_ranges/1
   # GET /dhcp_ranges/1.json
   def show
