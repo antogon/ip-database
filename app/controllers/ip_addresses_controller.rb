@@ -19,7 +19,7 @@ class IpAddressesController < ApplicationController
 	# POST /ip/networkParents
 	def networkParents
     respond_to do |format|
-      format.json { render json: Network.ip_in_range?(params[:ip]) }
+      format.json { render json: Network.ip_in_range?(params[:ip],:create).delete_if{|x| (x.child_networks.length > 0) }.collect{|x| {:id => x.id, :name => x.name}}  }
     end
 	end
 
