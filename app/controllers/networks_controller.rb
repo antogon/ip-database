@@ -69,7 +69,7 @@ class NetworksController < ApplicationController
 
   def net_parents
     respond_to do |format|
-      format.json { render json: Network.net_in_range?(params[:ip],params[:subnet], :create).collect{|x| {:id => x.id, :name => x.name}} }
+      format.json { render json: Network.net_in_range?(params[:ip],params[:mask], :create).collect{|x| {:id => x.id, :name => x.name}} }
     end
   end
 

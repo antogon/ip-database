@@ -69,6 +69,31 @@ class DhcpRangesController < ApplicationController
     end
 	end
 
+# POST /dhcp/valid_dhcp.json
+  def valid_dhcp
+	i=1
+	j=0
+	c = IP.parse(params[:finish])
+	ip = IP.parse(params[:start])
+	net = []
+	if c.nil? || ip.nil?
+		net = []
+	else 
+		c = c.to_i-ip.to_i
+		net = Network.ip_in_range? ip.to_s, :create
+		store = []
+		while i <= c do
+			store = Network.ip_in_range? (ip+i).to_s, :create
+			net = net & store
+			i+=1
+		end
+	end
+
+    respond_to do |format|
+      format.json { render json: net.collect{|x| {:id => x.id, :name => x.name}} }
+    end
+  end
+
   # GET /dhcp_ranges/1
   # GET /dhcp_ranges/1.json
   def show
