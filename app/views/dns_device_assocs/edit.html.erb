@@ -1,0 +1,24 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">Editing <%= @dns_device_assoc.name -%></h3>
+	<div class="subnav-group">
+		<%= link_to 'Show', @dns_device_assoc %> |
+		<%= link_to 'Back', dns_device_assocs_path %>
+	</div>
+	<hr>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('[id^=edit_dns_device_assoc_]').validate({
+				meta: "validate"
+			});
+		});
+	</script>
+	<%= form_for(@dns_device_assoc) do|f| %>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+       	<td><label>Name<em>*</em>:</label></td>
+       	<td><%=f.text_field :name, :class => "{validate: {required: true}}" -%></td>
+			</tr>
+		</table>
+		<%= f.submit "Create Dns Device", :class => "btn btn-primary"-%>
+	<%- end -%>
+</div>

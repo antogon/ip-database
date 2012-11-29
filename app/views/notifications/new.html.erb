@@ -1,0 +1,32 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">New Notification</h3>
+	<div class="subnav-group">
+		<%= link_to 'Back', :controller => "application", :action => "index" %>
+	</div>
+	<hr>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#new_notification').validate({
+				meta: "validate"
+			});
+		});
+	</script>
+	</script><%= form_for(@notification, :html => {:style=>"width:100%;",:class=>"form-inline"}) do |f| -%>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td><label>Name</label></td>
+				<td><%= f.text_field :name, :class => "{validate: {required: true}}" -%></td>
+			</tr>
+			<tr>
+				<td><label>Body</label></td>
+				<td><%= f.text_area :body, :size => "10x5" -%></td>
+			</tr>
+			<tr>
+				<td><label>Note Type</label></td>
+				<td><%= f.select :note_type, options_for_select([["Notification","note"],["Information","info"],["Success","success"],["Error","fail"],["Warning","warn"]]) -%></td>
+			</tr>
+		</table>
+		<%= f.submit "Create Notification", :class => "btn btn-primary"-%>
+	<%- end -%>
+
+</div>

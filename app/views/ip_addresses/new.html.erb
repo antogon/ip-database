@@ -1,0 +1,87 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">New IP Address</h3>
+	<div class="subnav-group"><%= link_to 'Back', ip_addresses_path %></div>
+	<hr>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#new_ip_address').validate({
+				meta: "validate"
+			});
+		});
+	</script>
+	<%= form_for(@ip_address, {:class=>"form-inline"}) do |f| %>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td><label>IP Address<em>*</em>:</label></td>
+        <td><%= f.text_field :ip_str, {:class => "{validate: {required: true, ip: true}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label>Contact Name<em>*</em>:</label></td>
+				<td><%= f.text_field :contact, {:class => "{validate: {required: true, minlength: 6, maxlength: 50}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label><%= f.label :location -%></label></td>
+				<td><%= f.text_field :location -%></td>
+			</tr>
+			<tr>
+				<td><label>Device Type<em>*</em>:</label></td>
+				<td><%= f.select :device_type, options_from_collection_for_select(DeviceType.all, :id, :name) -%></td>
+			</tr>
+			<tr>
+				<td><label>Parent Network:</label></td>
+				<td><%= f.select :network_parent, [] -%></td>
+			</tr>
+			<tr>
+				<td><label>Description:</label></td>
+				<td><%= f.text_area :desc, :size => "30x5" -%></td>
+			</tr>
+			<tr>
+				<td><label>DNS Associations</label></td>
+		<%- devices = @ip_address.dns_devices -%>
+				<td><%= text_field_tag(nil, nil, :id=>'textarea', :class=>"autocomplete") -%><br/>
+				<div style="display:none;">
+<%= f.select(:dns_devices, [], 
+              {}, {:multiple => true}) %>
+				</div>
+				</td>
+			</tr>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			$('#textarea').textext({
+				plugins : 'tags prompt focus autocomplete ajax arrow',
+				tagsItems: ['<%= raw(devices.collect{|x| x.name}.join("', '")) %>'],
+				prompt : 'Add DNS Association',
+				ajax : {
+					url : '/dns/autocomplete.json',
+					dataType : 'json',
+					cacheResults : true
+				},
+				ext: {
+          tags: {
+            addTags: function(tags) {
+							$(tags).each(function(ndx,val)
+								{
+									$('<option value="'+val.replace(/,\d+/,"")+'" selected="selected">'+val.replace(/,\d+/,"")+'</option>').appendTo('#ip_address_dns_devices');
+									return val;
+								});
+              $.fn.textext.TextExtTags.prototype.addTags.apply(this, [tags]);
+              }
+          }
+        }
+
+			});
+			});
+		</script>
+			<tr>
+				<td><label>Static DHCP?</label></td>
+				<td><%= f.select :is_static_dhcp, options_for_select([["Yes",true],["No",false]]) -%></td>
+			</tr>
+			<tr>
+				<td><label>MAC Address:</label></td>
+				<td><%= f.text_field :mac_address, {:class => "{validate: {required: function(element){return $('#ip_address_is_static_dhcp').val()===\"true\";}, mac: true}}"} -%></td>
+			</tr>
+		</table>
+		<%= f.submit :class => "btn btn-primary"-%>
+	<%- end -%>
+
+</div>

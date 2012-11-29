@@ -1,0 +1,32 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">New DHCP_Range</h3>
+	<div class="subnav-group">
+		<%= link_to 'Back', dhcp_ranges_path %>
+	</div>
+	<hr>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#new_dhcp_range').validate({
+				meta: "validate"
+			});
+		});
+	</script>
+		<%= form_for(@dhcp_range) do |f| %>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td><label>Starting IP Address<em>*</em>:</label></td>
+        <td><%= f.text_field :start_ip, {:class => "{validate: {required: true, dhcp_start: true}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label>Ending IP Address<em>*</em>:</label></td>
+        <td><%= f.text_field :end_ip, {:class => "{validate: {required: true, dhcp_end: true}}"} -%></td>
+			</tr>
+			<tr>
+				<td><label>Parent Network:</label></td>
+				<td><%= f.select :network_parent, [] -%></td>
+			</tr>
+		</table>
+		<%= f.submit :class => "btn btn-primary"-%>
+	<%- end -%>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">Showing Range <small>(<%= @dhcp_range.start_ip -%>, <%= @dhcp_range.end_ip -%>)</small></h3>
+	<div class="subnav-group">
+		<%= link_to 'Edit', edit_dhcp_range_path(@dhcp_range) %> |
+		<%= link_to 'Back', dhcp_ranges_path %>
+	</div>
+	<hr>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr>
+			<td>Start IP address:</td>
+			<td><%= @dhcp_range.start_ip -%></td>
+		</tr>
+		<tr>
+			<td>End IP address:</td>
+			<td><%= @dhcp_range.end_ip -%></td>
+		</tr>
+		<tr>
+			<td>Parent Network:</td>
+			<td><%= link_to @dhcp_range.network.name, network_path(@dhcp_range.network) -%></td>
+		</tr>
+	</table>
+</div>
