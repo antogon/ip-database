@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>README_FOR_APP - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="../ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="../DeviceType.html">DeviceType</a>
+  
+    <li><a href="../DeviceTypesController.html">DeviceTypesController</a>
+  
+    <li><a href="../DeviceTypesHelper.html">DeviceTypesHelper</a>
+  
+    <li><a href="../DhcpRange.html">DhcpRange</a>
+  
+    <li><a href="../DhcpRangesController.html">DhcpRangesController</a>
+  
+    <li><a href="../DhcpRangesHelper.html">DhcpRangesHelper</a>
+  
+    <li><a href="../DnsDeviceAssoc.html">DnsDeviceAssoc</a>
+  
+    <li><a href="../DnsDeviceAssocsController.html">DnsDeviceAssocsController</a>
+  
+    <li><a href="../DnsDeviceAssocsHelper.html">DnsDeviceAssocsHelper</a>
+  
+    <li><a href="../DnsIpJoin.html">DnsIpJoin</a>
+  
+    <li><a href="../IpAddress.html">IpAddress</a>
+  
+    <li><a href="../IpAddressesController.html">IpAddressesController</a>
+  
+    <li><a href="../IpAddressesHelper.html">IpAddressesHelper</a>
+  
+    <li><a href="../Network.html">Network</a>
+  
+    <li><a href="../NetworksController.html">NetworksController</a>
+  
+    <li><a href="../NetworksHelper.html">NetworksHelper</a>
+  
+    <li><a href="../Notification.html">Notification</a>
+  
+    <li><a href="../NotificationsController.html">NotificationsController</a>
+  
+    <li><a href="../NotificationsHelper.html">NotificationsHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h6 id="label-"></h6>
+
+<p>IPv6 and IPv4 Database system</p>
+
+<h6 id="label-"></h6>
+
+<p>All of this product’s content was created by:</p>
+
+<pre>Antonio Malvagomes &lt;amalvag@g.clemson.edu&gt;
+Evan Wechsel&lt;ewechsl@clemson.edu&gt; 
+Richard Kelly&lt;rpkelly@clemson.edu&gt;
+Elena Frolova&lt;efrolov@g.clemson.edu&gt;</pre>
+
+<p>:date:</p>
+
+<pre>2012-11-27</pre>
+
+<p>:version:</p>
+
+<pre>1.0</pre>
+
+<h6 id="label-"></h6>
+
+<p>This product consists of 14 documented base classes, 7 modules and 74 base
+methods. Each class, module and method has a brief description and all the
+documentation could be viewed in the index.html file (path:
+ip-database/doc/app/index.html)</p>
+
+<p>The Model-View-Controller (MVC) architecture was used in the project. The
+model consists of application data. The controller converts input into
+commands for the model or view. A view is a UI and creates visual tables
+and charts.</p>
+
+<p>Class <a href="../ApplicationController.html">ApplicationController</a> -
+Class which makes the representation of the IP-Database page. Allows user
+to create New Notifications in the Announcements section. Presents the
+statistics of the Networks,      IP Addresses and DNS Devices. Also it
+shows the Recent Changes made and apdates the most recent date of the
+session.</p>
+
+<pre>It includes methods: index() and session_update(). For more information on methods please see the full documentation.</pre>
+
+<p>Class <a href="../DeviceTypesController.html">DeviceTypesController</a> -
+Class which populates the table for the Device Types using either JSON or
+HTML. It includes options such as Show, Edit, Destroy, Create, New and
+Update. New Device Type button provides an option to add a new device type.
+Shows ID, Names and when entry was created or updated. Users may choose
+their preferences of how many entries would be displayed on the page.
+Search option is provided.</p>
+
+<pre>It includes methods: create(),dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.</pre>
+
+<p>Class <a href="../DhcpRangesController.html">DhcpRangesController</a> -
+Class which using either JSON or HTML populates the table for the DHCP
+Ranges and includes the Options such as Show, Edit, Destroy, New, Create
+and Update.</p>
+
+<pre>It includes methods: create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.</pre>
+
+<p>Class <a
+href="../DnsDeviceAssocsController.html">DnsDeviceAssocsController</a> -
+Class which populates the table for the DNS Device Associations using
+either JSON or HTML.This class includes the Options such as Show, Edit,
+Destroy, New, Create and Update.</p>
+
+<pre>It includes methods: authocomplete(), create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.</pre>
+
+<p>Class <a href="../IpAddressesController.html">IpAddressesController</a> -
+Class which using either JSON or HTML populates the table for the IP
+addresses and includes the Options such as Show, Edit, Destroy, Create, New
+and Update.</p>
+
+<pre>It includes methods: create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.</pre>
+
+<p>Class <a href="../NetworksController.html">NetworksController</a> - Class
+which populates the table for the Networks and includes the Options such as
+Show, New, Edit, Create, Destroy and Update.</p>
+
+<pre>It includes methods: create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.</pre>
+
+<p>Class <a href="../NotificationsController.html">NotificationsController</a>
+- Class which using either JSON or HTML format creates an option for a user
+to create a notification or update.</p>
+
+<pre>It includes methods: create(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.</pre>
+
+<p>DEPENDENCIES: This project depends on the Ruby on Rails (3.2.8) library
+released under the specifications of FOSS (Free and Open Sourced Software)
+and is used appropriately as such.</p>
+
+<p>LICENSE: This application and all of its source is released under the terms
+of the GPL(v3) license. All original source from this project is openly
+available to the public and can be shared, edited, and copied freely.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

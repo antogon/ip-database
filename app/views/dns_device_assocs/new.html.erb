@@ -1,0 +1,27 @@
+<div class="content-blurb shadow">
+	<h3 class="content-header">New DNS Device Association</h3>
+	<div class="subnav-group">
+		<%= link_to 'Back', dns_device_assocs_path %>
+	</div>
+	<hr>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#new_dns_device_assoc').validate({
+				meta: "validate"
+			});
+		});
+	</script>
+	<%= form_for(@dns_device_assoc) do |f| %>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+       	<td><label>Name<em>*</em>:</label></td>
+       	<td><%=f.text_field :name, :class => "{validate: {required: true}}" -%></td>
+			</tr>
+			<tr>
+				<td><label>IP Association<em>*</em>:</label></td>
+				<td></td>
+			</tr>
+		</table>
+		<%= f.submit "Create Dns Device", :class => "btn btn-primary"-%>
+	<%- end -%>
+</div>	

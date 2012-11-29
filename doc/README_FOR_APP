@@ -1,2 +1,50 @@
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+
+==============================
+IPv6 and IPv4 Database system
+==============================
+
+All of this product's content was created by:
+	Antonio Malvagomes <amalvag@g.clemson.edu>
+	Evan Wechsel<ewechsl@clemson.edu> 
+	Richard Kelly<rpkelly@clemson.edu>
+	Elena Frolova<efrolov@g.clemson.edu>
+:date:
+	2012-11-27
+:version:
+	1.0
+==============================
+
+This product consists of 14 documented base classes, 7 modules and 74 base methods. Each class, module and method has a brief description and all the documentation could be viewed in the index.html file (path: ip-database/doc/app/index.html)
+
+The Model-View-Controller (MVC) architecture was used in the project. The model consists of application data. The controller converts input into commands for the model or view. A view is a UI and creates visual tables and charts.
+ 
+Class ApplicationController - Class which makes the representation of the IP-Database page. Allows user to create New Notifications in the Announcements section. Presents the statistics of the Networks,	IP Addresses and DNS Devices. Also it shows the Recent Changes made and apdates the most recent date of the session.
+	It includes methods: index() and session_update(). For more information on methods please see the full documentation.
+
+Class DeviceTypesController - Class which populates the table for the Device Types using either JSON or HTML. It includes options such as Show, Edit, Destroy, Create, New and Update. New Device Type button provides an option to add a new device type. Shows ID, Names and when entry was created or updated. Users may choose their preferences of how many entries would be displayed on the page. Search option is provided.
+	It includes methods: create(),dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+Class DhcpRangesController - Class which using either JSON or HTML populates the table for the DHCP Ranges and includes the Options such as Show, Edit, Destroy, New, Create and Update.
+	It includes methods: create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+Class DnsDeviceAssocsController - Class which populates the table for the DNS Device Associations using either JSON or HTML.This class includes the Options such as Show, Edit, Destroy, New, Create and Update.
+	It includes methods: authocomplete(), create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+Class IpAddressesController - Class which using either JSON or HTML populates the table for the IP addresses and includes the Options such as Show, Edit, Destroy, Create, New and Update. 
+	It includes methods: create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+Class NetworksController - Class which populates the table for the Networks and includes the Options such as Show, New, Edit, Create, Destroy and Update.
+	It includes methods: create(), dataTable(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+Class NotificationsController - Class which using either JSON or HTML format creates an option for a user to create a notification or update.
+	It includes methods: create(), destroy(), edit(), index(), new(), show(), update(). For more information on methods please see the full documentation.
+
+DEPENDENCIES:
+This project depends on the Ruby on Rails library released under the
+specifications of FOSS (Free and Open Sourced Software) and is used
+appropriately as such.
+
+LICENSE:
+This application and all of its source is released under the terms of the
+GPL(v3) license. All original source from this project is openly
+available to the public and can be shared, edited, and copied freely.

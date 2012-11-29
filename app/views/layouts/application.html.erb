@@ -1,14 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IpDatabase</title>
+  <title>IP-Database</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-<%= yield %>
-
+	<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+   			<%= link_to 'IP-Database', url_for(:controller => "application", :action => 'index'), {:class => 'brand'} %>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="<%= (params[:controller]=="ip_addresses")?"active":""-%>">
+  						<%= link_to 'IP Addresses', url_for(:controller => 'ip_addresses', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="device_types")?"active":""-%>">
+  						<%= link_to 'Device Types', url_for(:controller => 'device_types', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="networks")?"active":""-%>">
+  						<%= link_to 'Networks', url_for(:controller => 'networks', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="dhcp_ranges")?"active":""-%>">
+  						<%= link_to 'DHCP Ranges', url_for(:controller => 'dhcp_ranges', :action => 'index')%>
+            </li>
+            <li class="<%= (params[:controller]=="dns_device_assocs")?"active":""-%>">
+  						<%= link_to 'DNS Device Associations', url_for(:controller => 'dns_device_assocs', :action => 'index')%>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			<%- if @note_stream != [] -%>
+				<%- @note_stream.each do |note| -%>
+ 	   			$.pnotify({title: "<%= note.name -%>", text: "<%= note.body[0...75]<<"..." -%>", auto_display: true});
+					<%- if session[:notification_history] -%>
+						<%- session[:notification_history].push note.body[0...75] -%>
+					<%- else -%>
+						<%- session[:notification_history] = Array.new.push note.body[0...75] -%>
+					<%- end -%>
+				<%- end -%>
+			<%- end -%>
+			<%- if flash[:notice] -%>
+ 	   			$.pnotify({text: "<%= notice %>", auto_display: true});
+				<%- if session[:notification_history] -%>
+					<%- session[:notification_history].push notice -%>
+				<%- else -%>
+					<%- session[:notification_history] = Array.new.push notice -%>
+				<%- end -%>
+			<%- end -%>	
+			<%- if session[:notification_history] -%>
+					<%- session[:notification_history].each do |note| -%>
+				$.pnotify({ text: "<%= note -%>", auto_display:false});
+					<%- end -%>
+			<%- end -%>
+			
+		});
+	</script>
+	<div id="wrap">
+	<div id="main" class="container bg">
+		<div class="row-fluid">
+				<br/><br/><br/>
+				<%= yield %>
+		</div>
+	</div>
+	</div>
+	<footer class="footer" style="background-color:#c2c2c2;">
+    <div class="container" style="margin:0 auto;">
+        <div class="row">
+            <div class="span4 offset2">
+                <h4>CCIT Network Operations</h4>
+                <ul>
+                    <li>Contact an <a href="mailto:webmaster@clemson.edu">Administator</a></li>
+                    <li><%= (session[:create_time])?session[:create_time]:"In a land before time..." -%></li>
+                </ul>
+            </div>
+            <div class="span2 offset3">
+                <h4>Account</h4>
+                <ul>
+									<li><a href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	</footer>
 </body>
 </html>
