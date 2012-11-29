@@ -24,7 +24,7 @@
 			</tr>
 			<tr>
 				<td><label>Parent Network:</label></td>
-				<td><%= f.select :network_parent, (@network.parent.nil?)?[]:[[@network.parent.name, @network.network_parent]] -%></td>
+				<td><%= f.select :network_parent, (@dhcp_range.network.nil?)?[]:[[@dhcp_range.network.name, @dhcp_range.network_parent]] -%></td>
 			</tr>
 		</table>
 		<%= f.submit :class => "btn btn-primary"-%>
