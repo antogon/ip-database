@@ -13,6 +13,7 @@ IpDatabase::Application.routes.draw do
   resources :device_types
 
 	post 'net/dataTable' => 'networks#dataTable'
+	post 'net/net_parents' => 'networks#net_parents'
   resources :networks
 
 	post 'ip/networkParents' => 'ip_addresses#networkParents'
