@@ -7,6 +7,7 @@ IpDatabase::Application.routes.draw do
   resources :dns_device_assocs
 
 	post 'dhcp/dataTable' => 'dhcp_ranges#dataTable'
+	post 'dhcp/valid_dhcp' => 'dhcp_ranges#valid_dhcp'
   resources :dhcp_ranges
 
 	post 'dt/dataTable' => 'device_types#dataTable'

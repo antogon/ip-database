@@ -23,6 +23,10 @@ class DhcpRange < ActiveRecord::Base
   attr_accessible :start_ip, :end_ip, :address_count, :id, :created_at, :updated_at, :network_parent
 	belongs_to :network, :foreign_key => 'network_parent'
 
+	scope :list_valid_nets, lambda {|start, finish|
+
+	}
+
 	# returns number of addresses in range
 	def address_count
 		IP.parse(self.end_ip).to_i - IP.parse(self.start_ip).to_i + 1
